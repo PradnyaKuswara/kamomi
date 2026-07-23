@@ -1,0 +1,90 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import '../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kebijakan Privasi - Kamomi.id</title>
+    <script is:inline>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth">
+    <Navbar client:load />
+
+    <main class="flex-1 pt-32 pb-20 px-4 md:px-8">
+      <div class="max-w-3xl mx-auto space-y-8">
+        
+        <div class="space-y-3">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-100 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-400 border border-cyan-200/30 w-fit">
+            Legalitas
+          </span>
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-800 dark:text-white leading-tight">
+            Kebijakan Privasi
+          </h1>
+          <p class="text-xs text-slate-400 dark:text-slate-500">
+            Terakhir diperbarui: 24 Juli 2026
+          </p>
+        </div>
+
+        <hr class="border-slate-200/60 dark:border-slate-800/80" />
+
+        <div class="space-y-6 text-sm sm:text-base leading-relaxed text-slate-600 dark:text-slate-300">
+          <p>
+            Di <strong>Kamomi.id</strong>, privasi pemilik properti dan tamu adalah prioritas utama kami. Kebijakan Privasi ini menjelaskan bagaimana kami mengumpulkan, menggunakan, dan melindungi data pribadi Anda.
+          </p>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">1. Informasi yang Kami Kumpulkan</h2>
+          <p>Kami mengumpulkan informasi minimal untuk menjalankan fungsi asisten digital kamar secara optimal:</p>
+          <ul class="list-disc list-inside space-y-2 pl-2">
+            <li><strong>Data Pemilik Properti:</strong> Nama, alamat email, nama penginapan, dan data konfigurasi kamar yang didapatkan saat Anda mendaftar melalui akun Google.</li>
+            <li><strong>Data Keluhan Tamu:</strong> Isi deskripsi laporan keluhan dan nomor kamar yang dikirimkan oleh tamu Anda melalui portal web digital.</li>
+          </ul>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">2. Penggunaan Informasi</h2>
+          <p>Data yang dikumpulkan digunakan semata-mata untuk tujuan penyediaan layanan:</p>
+          <ul class="list-disc list-inside space-y-2 pl-2">
+            <li>Memproses pembuatan profil properti dan tautan QR Code Anda.</li>
+            <li>Mengirimkan laporan kendala dari tamu langsung ke dashboard admin Anda.</li>
+            <li>Mengoptimalkan kualitas dan performa aplikasi Kamomi.id.</li>
+          </ul>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">3. Perlindungan & Keamanan Data</h2>
+          <p>
+            Kami menerapkan enkripsi standar industri dan protokol keamanan modern untuk melindungi data Anda dari akses, pengungkapan, atau modifikasi yang tidak sah. Kami berkomitmen untuk **tidak pernah menjual atau membagikan** data pribadi Anda atau data tamu Anda kepada pihak ketiga untuk kepentingan iklan komersial.
+          </p>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">4. Hak Pengguna</h2>
+          <p>
+            Anda memiliki hak penuh untuk mengakses, memperbarui, atau meminta penghapusan permanen atas seluruh data akun properti Anda dari server kami dengan menghubungi dukungan kami kapan saja.
+          </p>
+        </div>
+
+      </div>
+    </main>
+
+    {/* Footer */}
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4 border-t border-slate-800 mt-auto">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-extrabold tracking-tight text-white">Kamomi<span class="text-xs text-slate-500 font-semibold">.id</span></span>
+        </div>
+        <p class="text-xs text-slate-500">© 2026 Kamomi.id. All rights reserved. Slogan: "Asisten Pintar Kamar Kamu"</p>
+        <div class="flex gap-4">
+          <a href="/terms" class="text-xs text-slate-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
+          <a href="/privacy" class="text-xs text-slate-500 hover:text-white transition-colors">Kebijakan Privasi</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

@@ -10,6 +10,14 @@ import '../styles/global.css';
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width" />
     <title>Harga - Kamomi.id</title>
+    <script is:inline>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
   </head>
   <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth">
     <Navbar client:load />
@@ -189,8 +197,8 @@ import '../styles/global.css';
         </div>
         <p class="text-xs text-slate-500">© 2026 Kamomi.id. All rights reserved. Slogan: "Asisten Pintar Kamar Kamu"</p>
         <div class="flex gap-4">
-          <a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
-          <a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Kebijakan Privasi</a>
+          <a href="/terms" class="text-xs text-slate-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
+          <a href="/privacy" class="text-xs text-slate-500 hover:text-white transition-colors">Kebijakan Privasi</a>
         </div>
       </div>
     </footer>

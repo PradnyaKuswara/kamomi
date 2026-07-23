@@ -1,0 +1,92 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import '../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Syarat & Ketentuan - Kamomi.id</title>
+    <script is:inline>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth">
+    <Navbar client:load />
+
+    <main class="flex-1 pt-32 pb-20 px-4 md:px-8">
+      <div class="max-w-3xl mx-auto space-y-8">
+        
+        <div class="space-y-3">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider bg-cyan-100 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-400 border border-cyan-200/30 w-fit">
+            Legalitas
+          </span>
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-800 dark:text-white leading-tight">
+            Syarat & Ketentuan Penggunaan
+          </h1>
+          <p class="text-xs text-slate-400 dark:text-slate-500">
+            Terakhir diperbarui: 24 Juli 2026
+          </p>
+        </div>
+
+        <hr class="border-slate-200/60 dark:border-slate-800/80" />
+
+        <div class="space-y-6 text-sm sm:text-base leading-relaxed text-slate-600 dark:text-slate-300">
+          <p>
+            Selamat datang di <strong>Kamomi.id</strong>. Syarat & ketentuan ini mengatur penggunaan Anda terhadap situs web, sistem manajemen QR, dan layanan asisten digital kamar yang kami sediakan.
+          </p>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">1. Penerimaan Ketentuan</h2>
+          <p>
+            Dengan mendaftar, mengakses, atau menggunakan layanan kami, Anda menyatakan bahwa Anda telah membaca, memahami, dan menyetujui untuk terikat oleh Syarat & Ketentuan ini. Jika Anda tidak setuju, harap jangan menggunakan layanan kami.
+          </p>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">2. Penggunaan Layanan</h2>
+          <ul class="list-disc list-inside space-y-2 pl-2">
+            <li>Anda harus memberikan data pendaftaran yang akurat dan sah.</li>
+            <li>Anda bertanggung jawab menjaga kerahasiaan informasi akun dan kredensial akses Anda.</li>
+            <li>Layanan ini ditujukan untuk mempermudah operasional penginapan Anda dan dilarang digunakan untuk aktivitas yang melanggar hukum di Indonesia.</li>
+          </ul>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">3. Kepemilikan Data & Hak Kekayaan Intelektual</h2>
+          <p>
+            Seluruh desain kartu QR, tampilan web app tamu, logo, kode program, dan merek dagang Kamomi adalah hak kekayaan intelektual milik Kamomi.id. Informasi detail kamar, data tata tertib, dan keluhan yang dimasukkan oleh Anda tetap merupakan milik Anda selaku pemilik properti.
+          </p>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">4. Pembatasan Tanggung Jawab</h2>
+          <p>
+            Kamomi.id menyediakan layanan asisten informasi kamar dengan basis "sebagaimana adanya". Kami tidak bertanggung jawab atas kerugian finansial, kegagalan jaringan Wi-Fi lokal, atau perselisihan antara Anda dan tamu Anda yang disebabkan oleh kesalahan informasi atau kendala teknis pihak ketiga.
+          </p>
+
+          <h2 class="text-xl font-bold text-slate-800 dark:text-white mt-8">5. Perubahan Ketentuan</h2>
+          <p>
+            Kami dapat memperbarui Syarat & Ketentuan ini sewaktu-waktu. Perubahan akan diumumkan melalui halaman ini dan penggunaan berkelanjutan atas layanan kami setelah perubahan dianggap sebagai persetujuan Anda terhadap ketentuan baru.
+          </p>
+        </div>
+
+      </div>
+    </main>
+
+    {/* Footer */}
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4 border-t border-slate-800 mt-auto">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-extrabold tracking-tight text-white">Kamomi<span class="text-xs text-slate-500 font-semibold">.id</span></span>
+        </div>
+        <p class="text-xs text-slate-500">© 2026 Kamomi.id. All rights reserved. Slogan: "Asisten Pintar Kamar Kamu"</p>
+        <div class="flex gap-4">
+          <a href="/terms" class="text-xs text-slate-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
+          <a href="/privacy" class="text-xs text-slate-500 hover:text-white transition-colors">Kebijakan Privasi</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
