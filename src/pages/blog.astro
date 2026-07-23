@@ -1,0 +1,118 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import '../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Blog & Edukasi Kost - Kamomi.id</title>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth">
+    <Navbar client:load />
+
+    <main class="flex-1 pt-32 pb-20 px-4">
+      <div class="max-w-7xl mx-auto space-y-12">
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-100 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-400 border border-cyan-200/30">
+            📰 Blog & Edukasi
+          </span>
+          <h1 class="text-4xl font-black text-slate-800 dark:text-white tracking-tight">
+            Tips & Trik Mengelola Kost dan Homestay
+          </h1>
+          <p class="text-sm text-slate-400 dark:text-slate-500">
+            Temukan panduan praktis meningkatkan okupansi dan digitalisasi operasional penginapan Anda
+          </p>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+          {/* Post 1 */}
+          <div class="glassmorphic rounded-3xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 shadow-md group hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="h-48 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1556911220-e15b29be8c8f?auto=format&fit=crop&w=500&q=80" 
+                  alt="Kost Digital" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div class="p-6 space-y-3">
+                <span class="text-[10px] font-black uppercase text-cyan-600 dark:text-cyan-400 tracking-wider">Operasional Kost</span>
+                <h3 class="font-extrabold text-slate-800 dark:text-white text-base leading-snug">Cara Sukses Mengurangi Pertanyaan Berulang dari Tamu Baru</h3>
+                <p class="text-xs text-slate-400 dark:text-slate-500 line-clamp-3 leading-relaxed">
+                  Lelah menjawab password Wi-Fi, cara menyalakan pemanas air, atau letak parkir? Pelajari cara mengotomatiskan panduan kamar dengan stiker kode QR.
+                </p>
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <a href="#" class="text-xs text-cyan-600 dark:text-cyan-400 font-bold hover:underline">Baca Selengkapnya →</a>
+            </div>
+          </div>
+
+          {/* Post 2 */}
+          <div class="glassmorphic rounded-3xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 shadow-md group hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="h-48 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=500&q=80" 
+                  alt="Desain Kamar" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div class="p-6 space-y-3">
+                <span class="text-[10px] font-black uppercase text-cyan-600 dark:text-cyan-400 tracking-wider">Desain Interior</span>
+                <h3 class="font-extrabold text-slate-800 dark:text-white text-base leading-snug">Mengapa Desain Cetak Kartu Pintu A6 Lebih Menarik untuk Homestay</h3>
+                <p class="text-xs text-slate-400 dark:text-slate-500 line-clamp-3 leading-relaxed">
+                  Brosur kertas biasa cepat robek dan kusam. Gunakan dudukan akrilik bergaya minimalis untuk menyematkan asisten digital kamar Anda secara estetis.
+                </p>
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <a href="#" class="text-xs text-cyan-600 dark:text-cyan-400 font-bold hover:underline">Baca Selengkapnya →</a>
+            </div>
+          </div>
+
+          {/* Post 3 */}
+          <div class="glassmorphic rounded-3xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 shadow-md group hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+            <div>
+              <div class="h-48 overflow-hidden">
+                <img 
+                  src="https://images.unsplash.com/photo-1486406146926-c627a92ad1ab?auto=format&fit=crop&w=500&q=80" 
+                  alt="Bisnis Properti" 
+                  class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
+                />
+              </div>
+              <div class="p-6 space-y-3">
+                <span class="text-[10px] font-black uppercase text-cyan-600 dark:text-cyan-400 tracking-wider">Bisnis Kost</span>
+                <h3 class="font-extrabold text-slate-800 dark:text-white text-base leading-snug">Langkah Awal Digitalisasi Penginapan di Tahun 2026</h3>
+                <p class="text-xs text-slate-400 dark:text-slate-500 line-clamp-3 leading-relaxed">
+                  Temukan cara termudah memangkas biaya cetak aturan fisik dan meningkatkan reputasi layanan properti Anda di mata para pelanggan milenial.
+                </p>
+              </div>
+            </div>
+            <div class="p-6 pt-0">
+              <a href="#" class="text-xs text-cyan-600 dark:text-cyan-400 font-bold hover:underline">Baca Selengkapnya →</a>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+
+    {/* Footer */}
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4 border-t border-slate-800 mt-auto">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-extrabold tracking-tight text-white">Kamomi<span class="text-xs text-slate-500 font-semibold">.id</span></span>
+        </div>
+        <p class="text-xs text-slate-500">© 2026 Kamomi.id. All rights reserved. Slogan: "Asisten Pintar Kamar Kamu"</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
+          <a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Kebijakan Privasi</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

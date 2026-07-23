@@ -1,0 +1,28 @@
+---
+import DashboardLayout from '../../components/dashboard/DashboardLayout.jsx';
+import RoomsList from '../../components/dashboard/RoomsList.jsx';
+import '../../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Kelola Kamar - Kamomi.id</title>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
+    
+    <script is:inline>
+      if (localStorage.getItem('user_logged_in') !== 'true') {
+        window.location.href = '/login';
+      }
+    </script>
+
+    <DashboardLayout client:only="react" activeMenu="rooms">
+      <RoomsList client:only="react" />
+    </DashboardLayout>
+
+  </body>
+</html>

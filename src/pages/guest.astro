@@ -1,0 +1,45 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import GuestRoom from '../components/GuestRoom.jsx';
+import '../styles/global.css';
+---
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Digital Guestbook - Kamomi.id</title>
+    <style>
+      .phone-frame::-webkit-scrollbar {
+        width: 3px;
+      }
+      .phone-frame::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      .phone-frame::-webkit-scrollbar-thumb {
+        background: rgba(156, 163, 175, 0.3);
+        border-radius: 99px;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
+    <Navbar client:load />
+
+    <main class="flex-1 flex items-center justify-center p-4 pt-24 pb-16">
+      {/* Phone container on desktop, clean layout on mobile */}
+      <div class="phone-frame w-full max-w-md md:border-10 md:border-slate-900 md:dark:border-slate-800 md:rounded-[48px] md:shadow-2xl md:bg-white md:dark:bg-slate-900/60 md:h-195 md:overflow-y-auto relative md:p-6 md:pb-12 md:backdrop-blur-md">
+        
+        {/* Mock Speaker/Camera Notch on Desktop */}
+        <div class="hidden md:block absolute top-3 left-1/2 -translate-x-1/2 w-32 h-5 bg-slate-900 dark:bg-slate-800 rounded-full z-30"></div>
+
+        <div class="md:pt-6">
+          <GuestRoom client:only="react" />
+        </div>
+        
+        {/* Mock Home Indicator Bar on Desktop */}
+        <div class="hidden md:block absolute bottom-2.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-400 dark:bg-slate-700 rounded-full z-30"></div>
+      </div>
+    </main>
+  </body>
+</html>

@@ -1,0 +1,262 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import '../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Kamomi.id - Asisten Pintar Kamar Kamu</title>
+    <script is:inline>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth">
+    <Navbar client:load />
+
+    {/* Hero Section */}
+    <header class="relative pt-36 pb-24 overflow-hidden px-4 md:px-8">
+      {/* Subtle warm glow background element */}
+      <div class="absolute top-20 left-1/4 w-96 h-96 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="max-w-7xl mx-auto grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
+        
+        {/* Left Text Presentation */}
+        <div class="lg:col-span-7 space-y-8 text-left">
+          <span class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full text-xs font-semibold bg-cyan-100 dark:bg-cyan-950/40 text-cyan-700 dark:text-cyan-400 border border-cyan-200/30">
+            🌿 Modern Smart Room Assistant
+          </span>
+          
+          <h1 class="text-4xl sm:text-6xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Asisten Pintar Kamar Kost, <br />
+            Homestay & Villa Anda.
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-500 dark:text-slate-400 leading-relaxed max-w-2xl">
+            Tinggalkan buku panduan fisik kusam. Tempel stiker QR premium di pintu kamar Anda. Tamu cukup memindai untuk mengakses Wi-Fi secara instan, membaca tata tertib, dan melaporkan kendala dalam hitungan detik.
+          </p>
+
+          <div class="flex flex-col sm:flex-row gap-4 pt-2">
+            <a 
+              href="/register" 
+              class="px-8 py-4 rounded-2xl font-bold text-sm bg-cyan-600 text-white hover:bg-cyan-700 transition-all text-center shadow-lg shadow-cyan-500/10"
+            >
+              Mulai Secara Gratis
+            </a>
+            <a 
+              href="/guest" 
+              class="px-8 py-4 rounded-2xl font-bold text-sm border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-700 dark:text-slate-300 hover:bg-slate-100 dark:hover:bg-slate-900 transition-all text-center flex items-center justify-center gap-2"
+            >
+              Lihat Tampilan Demo Tamu
+            </a>
+          </div>
+
+          <div class="grid grid-cols-3 gap-6 pt-6 border-t border-slate-200/50 dark:border-slate-800/50">
+            <div>
+              <div class="text-2xl font-black text-slate-800 dark:text-white">100%</div>
+              <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider mt-1">Tanpa Aplikasi</div>
+            </div>
+            <div>
+              <div class="text-2xl font-black text-slate-800 dark:text-white">3 Detik</div>
+              <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider mt-1">Setup Kamar</div>
+            </div>
+            <div>
+              <div class="text-2xl font-black text-slate-800 dark:text-white">0 Kertas</div>
+              <div class="text-[10px] text-slate-400 uppercase font-bold tracking-wider mt-1">Ramah Lingkungan</div>
+            </div>
+          </div>
+        </div>
+
+        {/* Right High-Fidelity UI Presentation */}
+        <div class="lg:col-span-5 relative">
+          <div class="absolute inset-0 bg-amber-500/5 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div class="relative rounded-3xl border border-slate-200/50 dark:border-slate-800/50 bg-white dark:bg-slate-900/40 p-5 shadow-2xl backdrop-blur-md">
+            {/* Visual Header */}
+            <div class="flex justify-between items-center pb-4 border-b border-slate-200/50 dark:border-slate-800/50">
+              <span class="text-xs font-bold text-slate-400 uppercase tracking-widest">Kombinasi Kartu & Web App</span>
+              <div class="flex gap-1.5">
+                <span class="h-2.5 w-2.5 rounded-full bg-slate-200 dark:bg-slate-800"></span>
+                <span class="h-2.5 w-2.5 rounded-full bg-slate-200 dark:bg-slate-800"></span>
+              </div>
+            </div>
+
+            {/* Smart Card Mockup */}
+            <div class="mt-4 p-6 bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 space-y-4 flex flex-col items-center">
+              <div class="text-center">
+                <span class="text-[9px] uppercase font-black text-cyan-600 tracking-wider">GUESTBOOK CARD</span>
+                <h4 class="text-3xl font-black text-slate-800 dark:text-white mt-1">Kamar 102</h4>
+              </div>
+              
+              {/* Minimal QR Code Box */}
+              <div class="h-32 w-32 bg-white rounded-2xl border border-slate-200/80 shadow-xs flex items-center justify-center p-3">
+                <div class="grid grid-cols-4 gap-1.5 w-full h-full opacity-70">
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-300 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-300 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-300 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-300 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                  <div class="bg-slate-800 rounded-sm"></div>
+                </div>
+              </div>
+              
+              <p class="text-[10px] text-center text-slate-400 font-bold max-w-45">
+                Scan QR Code pintu kamar untuk hubungkan Wi-Fi & info tertib kamar.
+              </p>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </header>
+
+    {/* Section: Showcase By Property Types */}
+    <section class="py-24 bg-slate-100/50 dark:bg-slate-900/20 border-y border-slate-200/30 dark:border-slate-800/20 px-4">
+      <div class="max-w-7xl mx-auto space-y-16">
+        
+        <div class="text-center max-w-2xl mx-auto space-y-3">
+          <h2 class="text-3xl font-extrabold text-slate-800 dark:text-white tracking-tight">
+            Didesain Khusus untuk Bisnis Properti Anda
+          </h2>
+          <p class="text-sm text-slate-400 dark:text-slate-500">
+            Satu platform cerdas dengan gaya kustom yang pas untuk berbagai model hospitality
+          </p>
+        </div>
+
+        {/* Asymmetric Grid */}
+        <div class="grid grid-cols-1 md:grid-cols-12 gap-6">
+          
+          {/* Card 1: Kost & Guesthouse */}
+          <div class="md:col-span-8 group relative rounded-3xl overflow-hidden border border-slate-200/40 dark:border-slate-800/40 shadow-lg h-64 flex flex-col justify-end p-6 hover:-translate-y-1 transition-all duration-300">
+            <div class="absolute inset-0 z-0">
+              <img 
+                src="https://images.unsplash.com/photo-1522771739844-6a9f6d5f14af?auto=format&fit=crop&w=1200&q=80" 
+                alt="Kost Eksklusif" 
+                class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+            </div>
+            
+            <div class="relative z-10 flex justify-between items-end gap-4">
+              <div class="space-y-1.5">
+                <span class="inline-block bg-cyan-600 text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider">
+                  Kost & Guesthouse
+                </span>
+                <h3 class="font-extrabold text-lg text-white tracking-tight">Kamar Tertata & Wi-Fi Siap Pakai</h3>
+                <p class="text-[11px] text-slate-300 leading-relaxed max-w-md">
+                  Mengurangi beban menjawab pertanyaan yang sama berulang-ulang dari anak kost baru secara otomatis.
+                </p>
+              </div>
+              <span class="hidden sm:inline-block text-[9px] bg-white/15 text-white font-bold px-2.5 py-1.5 rounded-lg backdrop-blur-md">🔑 Mandiri</span>
+            </div>
+          </div>
+
+          {/* Card 2: Homestay & Airbnb */}
+          <div class="md:col-span-4 group relative rounded-3xl overflow-hidden border border-slate-200/40 dark:border-slate-800/40 shadow-lg h-64 flex flex-col justify-end p-6 hover:-translate-y-1 transition-all duration-300">
+            <div class="absolute inset-0 z-0">
+              <img 
+                src="https://images.unsplash.com/photo-1554995207-c18c203602cb?auto=format&fit=crop&w=700&q=80" 
+                alt="Homestay Cozy" 
+                class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+            </div>
+            
+            <div class="relative z-10 flex justify-between items-end gap-4">
+              <div class="space-y-1.5">
+                <span class="inline-block bg-cyan-600 text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider">
+                  Homestay & Airbnb
+                </span>
+                <h3 class="font-extrabold text-lg text-white tracking-tight">Aturan Ramah Tamu</h3>
+                <p class="text-[11px] text-slate-300 leading-relaxed">
+                  Permudah tamu luar kota beradaptasi dengan lingkungan baru homestay Anda.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          {/* Card 3: Villa & Resort */}
+          <div class="md:col-span-12 group relative rounded-3xl overflow-hidden border border-slate-200/40 dark:border-slate-800/40 shadow-lg h-64 flex flex-col justify-end p-6 hover:-translate-y-1 transition-all duration-300">
+            <div class="absolute inset-0 z-0">
+              <img 
+                src="https://images.unsplash.com/photo-1580587771525-78b9dba3b914?auto=format&fit=crop&w=1600&q=80" 
+                alt="Villa Mewah" 
+                class="w-full h-full object-cover group-hover:scale-102 transition-transform duration-700"
+              />
+              <div class="absolute inset-0 bg-linear-to-t from-slate-950 via-slate-950/60 to-transparent"></div>
+            </div>
+            
+            <div class="relative z-10 flex justify-between items-end gap-4">
+              <div class="space-y-1.5">
+                <span class="inline-block bg-cyan-600 text-white text-[9px] font-black uppercase px-2.5 py-1 rounded-full tracking-wider">
+                  Villa & Resort
+                </span>
+                <h3 class="font-extrabold text-lg text-white tracking-tight">Layanan Premium & Laporan Keluhan</h3>
+                <p class="text-[11px] text-slate-300 leading-relaxed max-w-xl">
+                  Tamu dapat melaporkan kendala teknis (AC mati, TV eror) secara langsung melalui sistem tiket keluhan terintegrasi.
+                </p>
+              </div>
+              <span class="hidden sm:inline-block text-[9px] bg-white/15 text-white font-bold px-2.5 py-1.5 rounded-lg backdrop-blur-md">🛠️ Lapor Kendala</span>
+            </div>
+          </div>
+
+        </div>
+
+      </div>
+    </section>
+
+    {/* Section: Simple CTA */}
+    <section class="py-24 px-4 text-center space-y-8 relative overflow-hidden">
+      <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-96 h-96 bg-cyan-600/5 rounded-full blur-3xl pointer-events-none"></div>
+      
+      <div class="max-w-4xl mx-auto space-y-6 relative">
+        <h2 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-800 dark:text-white">
+          Siap Meningkatkan Layanan Kamar Anda?
+        </h2>
+        <p class="text-sm sm:text-base text-slate-400 dark:text-slate-500 max-w-xl mx-auto">
+          Daftar sekarang gratis untuk 3 kamar pertama Anda. Rasakan kemudahan manajemen tamu berbasis digital tanpa repot.
+        </p>
+        <div class="flex justify-center pt-2">
+          <a
+            href="/register"
+            class="px-8 py-4 bg-cyan-600 hover:bg-cyan-700 text-white rounded-2xl font-bold text-xs shadow-lg shadow-cyan-500/10 transition-all"
+          >
+            Mulai Secara Gratis
+          </a>
+        </div>
+      </div>
+    </section>
+
+    {/* Footer */}
+    <footer class="bg-slate-900 text-slate-400 py-12 px-4 border-t border-slate-800 mt-auto">
+      <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-6">
+        <div class="flex items-center gap-2">
+          <span class="text-lg font-extrabold tracking-tight text-white">Kamomi<span class="text-xs text-slate-500 font-semibold">.id</span></span>
+        </div>
+        <p class="text-xs text-slate-500">© 2026 Kamomi.id. All rights reserved. Slogan: "Asisten Pintar Kamar Kamu"</p>
+        <div class="flex gap-4">
+          <a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Syarat & Ketentuan</a>
+          <a href="#" class="text-xs text-slate-500 hover:text-white transition-colors">Kebijakan Privasi</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>

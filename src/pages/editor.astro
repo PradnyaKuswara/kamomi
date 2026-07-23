@@ -1,0 +1,22 @@
+---
+import Navbar from '../components/Navbar.jsx';
+import RoomEditor from '../components/RoomEditor.jsx';
+import '../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Edit Kamar & Exporter - Kamomi.id</title>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
+    <Navbar client:load />
+
+    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+      <RoomEditor client:only="react" />
+    </main>
+  </body>
+</html>
