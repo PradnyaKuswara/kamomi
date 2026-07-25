@@ -1,5 +1,5 @@
 ---
-import Navbar from '../components/Navbar.jsx';
+import Navbar from '../components/Navbar';
 import '../styles/global.css';
 ---
 
@@ -63,14 +63,11 @@ import '../styles/global.css';
       </div>
     </main>
 
-    <script is:inline>
-      const btn = document.getElementById('google-register-btn');
+    <script>
+      const btn = document.getElementById('google-register-btn') as HTMLButtonElement;
       btn.addEventListener('click', () => {
-        // Simulate local registration via Google
-        localStorage.setItem('user_logged_in', 'true');
-        localStorage.setItem('owner_name', 'Budiono Siregar');
-        localStorage.setItem('property_name', 'Kost Kamomi Sejahtera');
-        window.location.href = '/dashboard';
+        const backendUrl = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+        window.location.href = `${backendUrl}/oauth2/authorization/google`;
       });
     </script>
   </body>

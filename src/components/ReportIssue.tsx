@@ -15,12 +15,18 @@ import {
 } from '@mui/material';
 import { Send, CheckCircle2 } from 'lucide-react';
 
-export default function ReportIssue({ open, onClose, roomNumber = "102" }) {
+interface ReportIssueProps {
+  open: boolean;
+  onClose: () => void;
+  roomNumber?: string;
+}
+
+export default function ReportIssue({ open, onClose, roomNumber = "102" }: ReportIssueProps) {
   const [category, setCategory] = useState('');
   const [description, setDescription] = useState('');
   const [successOpen, setSuccessOpen] = useState(false);
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!category || !description) return;
     
@@ -39,14 +45,16 @@ export default function ReportIssue({ open, onClose, roomNumber = "102" }) {
         onClose={onClose}
         fullWidth
         maxWidth="xs"
-        PaperProps={{
-          sx: {
-            borderRadius: '16px',
-            padding: '8px',
-            bgcolor: 'var(--color-slate-900, #0f172a)',
-            color: '#fff',
-            border: '1px solid rgba(255, 255, 255, 0.08)',
-            backgroundImage: 'none',
+        slotProps={{
+          paper: {
+            sx: {
+              borderRadius: '16px',
+              padding: '8px',
+              bgcolor: 'var(--color-slate-900, #0f172a)',
+              color: '#fff',
+              border: '1px solid rgba(255, 255, 255, 0.08)',
+              backgroundImage: 'none',
+            }
           }
         }}
       >

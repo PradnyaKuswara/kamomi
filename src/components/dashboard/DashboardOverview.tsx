@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
+import { useUserData } from '../../hooks/useUserData';
 
 export default function DashboardOverview() {
-  const [ownerName, setOwnerName] = useState('Budi Santoso');
+  const { user } = useUserData();
+  const ownerName = user.name || 'User';
   const [propertyName, setPropertyName] = useState('Kost Adem Tentrem');
-  
+
   const [stats, setStats] = useState({
     totalRooms: 12,
     activeQrs: 8,
@@ -20,9 +22,7 @@ export default function DashboardOverview() {
 
   useEffect(() => {
     if (typeof window !== 'undefined') {
-      const storedName = localStorage.getItem('owner_name');
       const storedProperty = localStorage.getItem('property_name');
-      if (storedName) setOwnerName(storedName);
       if (storedProperty) setPropertyName(storedProperty);
     }
   }, []);

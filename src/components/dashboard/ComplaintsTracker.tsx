@@ -6,7 +6,7 @@ export default function ComplaintsTracker() {
     { id: 2, room: '101', issue: 'Air Kamar Mandi Mampet', date: '1 Hari yang lalu', status: 'Selesai', category: 'Plumbing' },
   ]);
 
-  const handleResolveComplaint = (id) => {
+  const handleResolveComplaint = (id: number) => {
     setComplaints(complaints.map(c => c.id === id ? { ...c, status: 'Selesai' } : c));
   };
 

@@ -36,7 +36,7 @@ export default function RulesTemplate() {
     }
   }, []);
 
-  const handleApplyPreset = (type) => {
+  const handleApplyPreset = (type: keyof typeof PRESETS) => {
     setSelectedType(type);
     setRules(PRESETS[type]);
   };
@@ -47,7 +47,7 @@ export default function RulesTemplate() {
     setTimeout(() => setSavedSuccess(false), 3000);
   };
 
-  const removeRule = (id) => {
+  const removeRule = (id: number) => {
     setRules(rules.filter(r => r.id !== id));
   };
 

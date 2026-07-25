@@ -1,6 +1,5 @@
 import React, { useState, useEffect } from 'react';
 import { 
-  Sparkles, 
   LayoutDashboard, 
   DoorClosed, 
   FileText, 
@@ -11,26 +10,108 @@ import {
   MessageSquare,
   QrCode
 } from 'lucide-react';
+import { useUserData } from '../../hooks/useUserData';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useCheckMeMutation, useLogoutMutation } from '../../rest/useCheckMe';
+import ToastContainer from '../ToastContainer';
 
-export default function DashboardLayout({ children, activeMenu }) {
-  const [ownerName, setOwnerName] = useState('Budi Santoso');
-  const [propertyName, setPropertyName] = useState('Kost Adem Tentrem');
-  const [ownerEmail] = useState('budisantoso@gmail.com');
+interface DashboardLayoutProps {
+  children: React.ReactNode;
+  activeMenu: string;
+}
+
+const queryClient = new QueryClient();
+
+export default function DashboardLayout(props: DashboardLayoutProps) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <DashboardLayoutContent {...props} />
+      <ToastContainer />
+    </QueryClientProvider>
+  );
+}
+
+function DashboardLayoutContent({ children, activeMenu }: DashboardLayoutProps) {
+  const { user, setUserData, clearUserData } = useUserData();
+  const ownerName = user.name || 'System';
+  const ownerEmail = user.email || 'system@gmail.com';
+  const [propertyName, setPropertyName] = useState('');
   const [activeNotification, setActiveNotification] = useState(true);
+  const [isVerifying, setIsVerifying] = useState(true);
+  const [showPropertyModal, setShowPropertyModal] = useState(false);
+  const [propertyInput, setPropertyInput] = useState('');
+
+  const { mutateAsync: checkMe } = useCheckMeMutation();
+  const { mutateAsync: logout } = useLogoutMutation();
 
   useEffect(() => {
-    if (typeof window !== 'undefined') {
-      const storedName = localStorage.getItem('owner_name');
-      const storedProperty = localStorage.getItem('property_name');
-      if (storedName) setOwnerName(storedName);
-      if (storedProperty) setPropertyName(storedProperty);
-    }
+    const initUser = async () => {
+      if (typeof window === 'undefined') return;
+
+      const token = localStorage.getItem('AUTH_TOKEN');
+      if (!token) {
+        localStorage.removeItem('user_logged_in');
+        window.location.href = '/login';
+        return;
+      }
+
+      try {
+        const res = await checkMe();
+        if (res.success && res.data) {
+          setUserData({
+            name: res.data.name,
+            email: res.data.email,
+            isLoggedIn: true
+          });
+          const storedProperty = localStorage.getItem('property_name');
+          if (storedProperty) {
+            setPropertyName(storedProperty);
+            setShowPropertyModal(false);
+          } else {
+            setPropertyName('');
+            setShowPropertyModal(true);
+          }
+          setIsVerifying(false);
+        } else {
+          throw new Error('Invalid session');
+        }
+      } catch {
+        clearUserData();
+        localStorage.removeItem('AUTH_TOKEN');
+        localStorage.removeItem('user_logged_in');
+        window.location.href = '/login?error=session_expired';
+      }
+    };
+
+    initUser();
   }, []);
 
-  const handleLogout = () => {
-    localStorage.removeItem('user_logged_in');
-    window.location.href = '/';
+  const handleLogout = async () => {
+    if (typeof window !== 'undefined') {
+      try {
+        await logout();
+      } catch (error) {
+        console.error('Logout error:', error);
+      } finally {
+        clearUserData();
+        localStorage.removeItem('AUTH_TOKEN');
+        localStorage.removeItem('user_logged_in');
+        window.location.href = '/';
+      }
+    }
   };
+
+  if (isVerifying) {
+    return (
+      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center font-sans">
+        <div className="relative w-12 h-12 mb-4">
+          <div className="absolute inset-0 rounded-full border-4 border-slate-200 dark:border-slate-800"></div>
+          <div className="absolute inset-0 rounded-full border-4 border-t-cyan-500 animate-spin"></div>
+        </div>
+        <p className="text-sm text-slate-500 dark:text-slate-400">Memeriksa autentikasi...</p>
+      </div>
+    );
+  }
 
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-300">
@@ -245,6 +326,55 @@ export default function DashboardLayout({ children, activeMenu }) {
       >
         <MessageSquare className="h-6 w-6" />
       </a>
+
+      {showPropertyModal && (
+        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
+          <div className="w-full max-w-md p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden text-center">
+            {/* Decorative blurs */}
+            <div className="absolute -top-12 -left-12 h-24 w-24 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none"></div>
+            <div className="absolute -bottom-12 -right-12 h-24 w-24 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+            <h3 className="text-2xl font-extrabold text-cyan-600 dark:text-cyan-400 mb-2">
+              Setup Nama Properti Anda
+            </h3>
+            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
+              Sebelum melanjutkan ke dashboard, harap isi nama properti/hunian Anda (kost, homestay, atau kontrakan) terlebih dahulu.
+            </p>
+
+            <form
+              onSubmit={(e) => {
+                e.preventDefault();
+                if (!propertyInput.trim()) return;
+                localStorage.setItem('property_name', propertyInput.trim());
+                setPropertyName(propertyInput.trim());
+                setShowPropertyModal(false);
+              }}
+              className="space-y-4"
+            >
+              <div className="text-left space-y-1.5">
+                <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
+                  Nama Properti / Hunian
+                </label>
+                <input
+                  type="text"
+                  required
+                  value={propertyInput}
+                  onChange={(e) => setPropertyInput(e.target.value)}
+                  placeholder="Contoh: Kost Adem Tentrem"
+                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all text-sm font-semibold"
+                />
+              </div>
+
+              <button
+                type="submit"
+                className="w-full py-3.5 rounded-xl bg-cyan-600 text-white font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-cyan-500/10 cursor-pointer"
+              >
+                Simpan & Lanjutkan
+              </button>
+            </form>
+          </div>
+        </div>
+      )}
       
     </div>
   );

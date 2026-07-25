@@ -1,0 +1,97 @@
+---
+import '../../styles/global.css';
+---
+
+<html lang="id">
+  <head>
+    <meta charset="utf-8" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" href="/favicon.ico" />
+    <meta name="viewport" content="width=device-width" />
+    <title>Mengautentikasi... - Kamomi.id</title>
+    <script is:inline>
+      const theme = localStorage.getItem('theme');
+      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+        document.documentElement.classList.add('dark');
+      } else {
+        document.documentElement.classList.remove('dark');
+      }
+    </script>
+  </head>
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col items-center justify-center font-sans transition-colors duration-300">
+    <main class="w-full max-w-md p-8 rounded-3xl glassmorphic border border-slate-200/50 dark:border-slate-800/50 shadow-2xl relative overflow-hidden text-center">
+      {/* Decorative elements */}
+      <div class="absolute -top-12 -left-12 h-24 w-24 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none"></div>
+      <div class="absolute -bottom-12 -right-12 h-24 w-24 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
+
+      <div class="relative py-8 flex flex-col items-center justify-center">
+        <!-- Modern Spinner -->
+        <div class="relative w-16 h-16 mb-6">
+          <div class="absolute inset-0 rounded-full border-4 border-slate-200 dark:border-slate-800"></div>
+          <div class="absolute inset-0 rounded-full border-4 border-t-cyan-500 animate-spin animate-duration-1000"></div>
+        </div>
+
+        <h1 class="text-2xl font-extrabold text-cyan-600 dark:text-cyan-400 mb-2">
+          Menghubungkan Akun...
+        </h1>
+        <p class="text-sm text-slate-500 dark:text-slate-400 max-w-xs">
+          Harap tunggu sebentar selagi kami menyiapkan dashboard Anda.
+        </p>
+      </div>
+    </main>
+
+    <script>
+      import ApiService, { type ApiResponse } from '../../services/api';
+      import { toast } from '../../hooks/useToast';
+
+      interface UserResponse {
+        id: number;
+        name: string;
+        email: string;
+        avatarUrl: string;
+        roleName: string;
+      }
+
+      async function handleRedirect() {
+        const params = new URLSearchParams(window.location.search);
+        const token = params.get('token');
+
+        if (!token) {
+          toast.error('Token autentikasi tidak ditemukan. Silakan login kembali.');
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 1500);
+          return;
+        }
+
+        try {
+          // Store token first so ApiService can use it in request headers
+          localStorage.setItem('AUTH_TOKEN', token);
+
+          // Fetch user details to verify session
+          const res = await ApiService.get<ApiResponse<UserResponse>>('/api/auth/me');
+
+          if (res.success && res.data) {
+            localStorage.setItem('user_logged_in', 'true');
+            toast.success('Autentikasi berhasil! Selamat datang.');
+            setTimeout(() => {
+              window.location.href = '/dashboard';
+            }, 1000);
+          } else {
+            throw new Error(res.message || 'Gagal mendapatkan profil pengguna');
+          }
+        } catch (error) {
+          console.error('Authentication error:', error);
+          localStorage.removeItem('AUTH_TOKEN');
+          toast.error('Autentikasi gagal. Silakan coba lagi.');
+          setTimeout(() => {
+            window.location.href = '/login';
+          }, 1500);
+        }
+      }
+
+      // Execute redirect handler
+      handleRedirect();
+    </script>
+  </body>
+</html>

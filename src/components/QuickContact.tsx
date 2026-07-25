@@ -1,10 +1,22 @@
 import React from 'react';
 import { MessageCircle, Shield, Sparkles, Phone, MessageSquarePlus } from 'lucide-react';
 
+interface QuickContactProps {
+  contacts?: {
+    role: string;
+    name: string;
+    actionText: string;
+    color: string;
+    icon?: React.ComponentType<{ className?: string }>;
+    link: string;
+  }[] | null;
+  onOpenReport?: (() => void) | null;
+}
+
 export default function QuickContact({ 
   contacts = null,
   onOpenReport = null
-}) {
+}: QuickContactProps) {
   const defaultContacts = [
     {
       role: "Pengelola / Host",

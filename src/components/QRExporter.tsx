@@ -16,7 +16,7 @@ export default function QRExporter({
 }) {
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
   const [cardColor, setCardColor] = useState('cyan'); // cyan, indigo, emerald, amber
-  const printRef = useRef(null);
+  const printRef = useRef<HTMLDivElement | null>(null);
 
   useEffect(() => {
     // Generate QR code

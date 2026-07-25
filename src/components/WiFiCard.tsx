@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Wifi, Copy, Check, Info } from 'lucide-react';
+import { toast } from '../hooks/useToast';
 
 export default function WiFiCard({ ssid = "AdemTentrem_102", password = "supersecurepass" }) {
   const [copied, setCopied] = useState(false);
@@ -7,6 +8,7 @@ export default function WiFiCard({ ssid = "AdemTentrem_102", password = "superse
   const handleCopy = () => {
     navigator.clipboard.writeText(password);
     setCopied(true);
+    toast.success('Password Wi-Fi berhasil disalin!');
     setTimeout(() => setCopied(false), 2000);
   };
 

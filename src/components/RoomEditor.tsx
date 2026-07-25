@@ -1,9 +1,9 @@
 import { useState, useEffect } from 'react';
-import WiFiCard from './WiFiCard.jsx';
-import HouseRules from './HouseRules.jsx';
-import FacilityGuides from './FacilityGuides.jsx';
-import QuickContact from './QuickContact.jsx';
-import QRExporter from './QRExporter.jsx';
+import WiFiCard from './WiFiCard.tsx';
+import HouseRules from './HouseRules.tsx';
+import FacilityGuides from './FacilityGuides.tsx';
+import QuickContact from './QuickContact.tsx';
+import QRExporter from './QRExporter.tsx';
 import {
   Eye,
   Edit,
@@ -78,7 +78,7 @@ export default function RoomEditor() {
     setNewRuleDesc('');
   };
 
-  const removeRule = (id) => {
+  const removeRule = (id: number) => {
     setRules(rules.filter((r) => r.id !== id));
   };
 

@@ -12,12 +12,30 @@ import {
   Tag,
   Smartphone,
 } from 'lucide-react';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
+import { useCheckMeMutation, useLogoutMutation } from '../rest/useCheckMe';
+import ToastContainer from './ToastContainer';
+
+const queryClient = new QueryClient();
 
 export default function Navbar() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <NavbarContent />
+      <ToastContainer />
+    </QueryClientProvider>
+  );
+}
+
+function NavbarContent() {
   const [darkMode, setDarkMode] = useState(false);
   const [isLoggedIn, setIsLoggedIn] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  const dropdownRef = useRef(null);
+  const dropdownRef = useRef<HTMLDivElement | null>(null);
+
+  const checkMeMutation = useCheckMeMutation();
+  const logoutMutation = useLogoutMutation();
 
   useEffect(() => {
     // Check local storage or document class list for theme
@@ -31,12 +49,41 @@ export default function Navbar() {
       document.documentElement.classList.remove('dark');
     }
 
-    // Check login state from localStorage
-    setIsLoggedIn(localStorage.getItem('user_logged_in') === 'true');
+    const checkAuth = async () => {
+      const token = localStorage.getItem('AUTH_TOKEN');
+      if (!token) {
+        setIsLoggedIn(false);
+        localStorage.removeItem('user_logged_in');
+        setIsLoading(false);
+        return;
+      }
+
+      setIsLoggedIn(localStorage.getItem('user_logged_in') === 'true');
+
+      try {
+        const res = await checkMeMutation.mutateAsync();
+        if (res.success && res.data) {
+          setIsLoggedIn(true);
+          localStorage.setItem('user_logged_in', 'true');
+        } else {
+          setIsLoggedIn(false);
+          localStorage.removeItem('AUTH_TOKEN');
+          localStorage.removeItem('user_logged_in');
+        }
+      } catch (err) {
+        setIsLoggedIn(false);
+        localStorage.removeItem('AUTH_TOKEN');
+        localStorage.removeItem('user_logged_in');
+      } finally {
+        setIsLoading(false);
+      }
+    };
+
+    checkAuth();
 
     // Close dropdown on click outside
-    const handleClickOutside = (event) => {
-      if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+    const handleClickOutside = (event: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(event.target as Node)) {
         setDropdownOpen(false);
       }
     };
@@ -56,10 +103,17 @@ export default function Navbar() {
     }
   };
 
-  const handleLogout = () => {
-    localStorage.removeItem('user_logged_in');
-    setIsLoggedIn(false);
-    window.location.href = '/';
+  const handleLogout = async () => {
+    try {
+      await logoutMutation.mutateAsync();
+    } catch (err) {
+      console.error('Logout error:', err);
+    } finally {
+      localStorage.removeItem('AUTH_TOKEN');
+      localStorage.removeItem('user_logged_in');
+      setIsLoggedIn(false);
+      window.location.href = '/';
+    }
   };
 
   return (
@@ -178,7 +232,9 @@ export default function Navbar() {
               )}
             </button>
 
-            {isLoggedIn ? (
+            {isLoading ? (
+              <div className="h-9 w-24 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 animate-pulse"></div>
+            ) : isLoggedIn ? (
               <div className="flex items-center gap-3">
                 <a
                   href="/dashboard"

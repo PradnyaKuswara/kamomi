@@ -1,8 +1,20 @@
 import React, { useState } from 'react';
 import { ShieldCheck, ChevronDown, ChevronUp, AlertCircle, Ban, Users, Clock, Coffee } from 'lucide-react';
 
-export default function HouseRules({ rules = null }) {
-  const defaultRules = [
+interface Rule {
+  id: number;
+  title: string;
+  desc: string;
+  icon?: React.ComponentType<{ className?: string }>;
+  category?: string;
+}
+
+interface HouseRulesProps {
+  rules?: Rule[] | null;
+}
+
+export default function HouseRules({ rules = null }: HouseRulesProps) {
+  const defaultRules: Rule[] = [
     {
       id: 1,
       title: "Waktu Tenang (Quiet Hours)",
@@ -34,13 +46,13 @@ export default function HouseRules({ rules = null }) {
   ];
 
   const activeRules = rules || defaultRules;
-  const [expandedId, setExpandedId] = useState(null);
+  const [expandedId, setExpandedId] = useState<number | null>(null);
 
-  const toggleRule = (id) => {
+  const toggleRule = (id: number) => {
     setExpandedId(expandedId === id ? null : id);
   };
 
-  const getCategoryColor = (cat) => {
+  const getCategoryColor = (cat: string) => {
     switch (cat.toLowerCase()) {
       case 'larangan':
         return 'bg-red-100 dark:bg-red-950/40 text-red-700 dark:text-red-400';
