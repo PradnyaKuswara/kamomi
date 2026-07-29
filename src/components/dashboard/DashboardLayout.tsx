@@ -8,12 +8,16 @@ import {
   LogOut, 
   Bell, 
   MessageSquare,
-  QrCode
+  QrCode,
+  ChevronLeft,
+  ChevronRight,
+  Settings
 } from 'lucide-react';
 import { useUserData } from '../../hooks/useUserData';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useCheckMeMutation, useLogoutMutation } from '../../rest/useCheckMe';
 import ToastContainer from '../ToastContainer';
+import PropertyWizardModal from './PropertyWizardModal';
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -32,24 +36,22 @@ export default function DashboardLayout(props: DashboardLayoutProps) {
 }
 
 function DashboardLayoutContent({ children, activeMenu }: DashboardLayoutProps) {
-  const { user, setUserData, clearUserData } = useUserData();
+  const { user, subscriptionInfo, setUserData, clearUserData } = useUserData();
   const ownerName = user.name || 'System';
   const ownerEmail = user.email || 'system@gmail.com';
-  const [propertyName, setPropertyName] = useState('');
   const [activeNotification, setActiveNotification] = useState(true);
   const [isVerifying, setIsVerifying] = useState(true);
   const [showPropertyModal, setShowPropertyModal] = useState(false);
-  const [propertyInput, setPropertyInput] = useState('');
+  const [isCollapsed, setIsCollapsed] = useState(false);
 
   const { mutateAsync: checkMe } = useCheckMeMutation();
   const { mutateAsync: logout } = useLogoutMutation();
 
   useEffect(() => {
-    const initUser = async () => {
-      if (typeof window === 'undefined') return;
-
+    async function verifyAuth() {
       const token = localStorage.getItem('AUTH_TOKEN');
       if (!token) {
+        clearUserData();
         localStorage.removeItem('user_logged_in');
         window.location.href = '/login';
         return;
@@ -58,17 +60,24 @@ function DashboardLayoutContent({ children, activeMenu }: DashboardLayoutProps) 
       try {
         const res = await checkMe();
         if (res.success && res.data) {
+          const userProperties = res.data.properties || [];
           setUserData({
+            id: res.data.id,
             name: res.data.name,
             email: res.data.email,
+            avatarUrl: res.data.avatarUrl,
+            roleName: res.data.roleName,
+            isEmailVerified: res.data.isEmailVerified ?? false,
+            isActive: res.data.isActive ?? true,
+            subscription: res.data.subscription,
+            properties: userProperties,
             isLoggedIn: true
           });
-          const storedProperty = localStorage.getItem('property_name');
-          if (storedProperty) {
-            setPropertyName(storedProperty);
+
+          const hasProperty = userProperties.length > 0;
+          if (hasProperty) {
             setShowPropertyModal(false);
           } else {
-            setPropertyName('');
             setShowPropertyModal(true);
           }
           setIsVerifying(false);
@@ -79,156 +88,171 @@ function DashboardLayoutContent({ children, activeMenu }: DashboardLayoutProps) 
         clearUserData();
         localStorage.removeItem('AUTH_TOKEN');
         localStorage.removeItem('user_logged_in');
-        window.location.href = '/login?error=session_expired';
+        window.location.href = '/login';
       }
-    };
+    }
 
-    initUser();
+    verifyAuth();
   }, []);
 
   const handleLogout = async () => {
-    if (typeof window !== 'undefined') {
-      try {
-        await logout();
-      } catch (error) {
-        console.error('Logout error:', error);
-      } finally {
-        clearUserData();
-        localStorage.removeItem('AUTH_TOKEN');
-        localStorage.removeItem('user_logged_in');
-        window.location.href = '/';
-      }
+    try {
+      await logout();
+    } finally {
+      clearUserData();
+      localStorage.removeItem('AUTH_TOKEN');
+      localStorage.removeItem('user_logged_in');
+      window.location.href = '/login';
     }
   };
 
   if (isVerifying) {
     return (
       <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center font-sans">
-        <div className="relative w-12 h-12 mb-4">
-          <div className="absolute inset-0 rounded-full border-4 border-slate-200 dark:border-slate-800"></div>
-          <div className="absolute inset-0 rounded-full border-4 border-t-cyan-500 animate-spin"></div>
+        <div className="relative mb-4 flex items-center justify-center">
+          {/* Efek radar luar */}
+          <div className="absolute h-16 w-16 rounded-2xl bg-cyan-500/20 animate-ping"></div>
+          
+          {/* Logo Vektor SVG Kamomi (Langsung ter-render instan) */}
+          <div className="h-16 w-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-lg relative z-10 animate-bounce">
+            <img 
+              src="/logo.png" 
+              alt="Kamomi Logo" 
+              className="h-12 w-12 object-contain" 
+            />
+          </div>
         </div>
-        <p className="text-sm text-slate-500 dark:text-slate-400">Memeriksa autentikasi...</p>
+        <p className="text-xs font-black text-cyan-600 dark:text-cyan-400 tracking-widest uppercase animate-pulse">Menghubungkan ke Hunian Anda...</p>
       </div>
     );
   }
 
+  const currentPlanName = subscriptionInfo.planName;
+
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-300">
       
-      {/* Top Banner Alert */}
-      <div className="bg-orange-600 px-4 py-2.5 text-center text-xs font-bold text-white relative flex items-center justify-center gap-2">
-        <span>💡 Tips Cetak: Gunakan kertas stiker tebal (Art Paper 260gsm) ukuran A6 untuk kualitas stiker pintu terbaik!</span>
-        <a href="/dashboard/faq" className="hidden md:inline-block bg-white/20 hover:bg-white/30 px-3 py-1 rounded-lg transition-all ml-4 text-white hover:text-white">
-          Pelajari Selengkapnya
-        </a>
-      </div>
+      {!subscriptionInfo.isActive && subscriptionInfo.planName !== 'Free' ? (
+        <div className="bg-amber-600 px-4 py-2.5 text-center text-xs font-bold text-white relative flex items-center justify-center gap-2 shadow-sm">
+          <span>⚠️ Masa aktif langganan **Paket {subscriptionInfo.planName}** Anda telah berakhir {subscriptionInfo.endDate ? `pada ${new Date(subscriptionInfo.endDate).toLocaleDateString('id-ID', { day: 'numeric', month: 'long', year: 'numeric' })}` : ''}. Layanan diturunkan ke paket Free sementara.</span>
+          <a href="/pricing" className="inline-flex items-center gap-1 bg-white text-amber-900 hover:bg-slate-50 px-3 py-1 rounded-lg transition-all ml-3 font-extrabold text-[11px] shadow-sm">
+            Perpanjang Sekarang →
+          </a>
+        </div>
+      ) : (
+        currentPlanName === 'Free' && (
+          <div className="bg-gradient-to-r from-cyan-700 via-cyan-600 to-blue-700 px-4 py-2.5 text-center text-xs font-bold text-white relative flex items-center justify-center gap-2 shadow-sm">
+            <span>🚀 Anda saat ini menggunakan <strong>Paket Free</strong>. Upgrade ke <strong>Starter</strong> atau <strong>Pro</strong> untuk buka fitur kustomisasi QR, WhatsApp notification & kuota kamar lebih besar!</span>
+            <a href="/pricing" className="hidden md:inline-flex items-center gap-1 bg-white text-cyan-800 hover:bg-cyan-50 px-3 py-1 rounded-lg transition-all ml-3 font-extrabold text-[11px] shadow-sm">
+              Upgrade Sekarang →
+            </a>
+          </div>
+        )
+      )}
 
-      <div className="flex-1 flex flex-col md:flex-row max-w-[1600px] w-full mx-auto">
+      <div className="flex-1 flex flex-col md:flex-row  w-full mx-auto">
         
-        {/* LEFT SIDEBAR */}
-        <aside className="w-full md:w-64 border-r border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-5 flex flex-col justify-between shrink-0">
+        <aside className={`relative transition-all duration-300 border-r border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-4 flex flex-col justify-between shrink-0 ${
+          isCollapsed ? 'w-full md:w-20' : 'w-full md:w-64'
+        }`}>
+          <button
+            onClick={() => setIsCollapsed(!isCollapsed)}
+            className="hidden md:flex absolute -right-3.5 top-7 z-30 h-7 w-7 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 hover:text-cyan-500 shadow-md transition-all cursor-pointer"
+            title={isCollapsed ? 'Perlebar Sidebar' : 'Kecilkan Sidebar'}
+          >
+            {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
+          </button>
+
           <div className="space-y-6">
             
             {/* Brand Logo */}
-            <div className="flex items-center gap-2">
+            <div className={`flex items-center gap-3 ${isCollapsed ? 'justify-center' : ''}`}>
               <img 
                 src="/logo.png" 
                 alt="Kamomi Logo" 
-                className="h-9 w-9 object-contain rounded-xl shadow-md"
+                className="h-9 w-9 object-contain rounded-xl shadow-md shrink-0"
               />
-              <div>
-                <span className="text-lg font-black tracking-tight text-cyan-600 dark:text-cyan-400 block">
-                  Kamomi<span className="text-xs font-semibold text-slate-400 dark:text-slate-500 ml-0.5">.id</span>
-                </span>
-                <span className="text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold block">
-                  Guestbook Manager
-                </span>
-              </div>
+              {!isCollapsed && (
+                <div className="min-w-0">
+                  <span className="text-lg font-black tracking-tight text-cyan-600 dark:text-cyan-400 block truncate">
+                    Kamomi<span className="text-xs font-semibold text-slate-400 dark:text-slate-500 ml-0.5">.id</span>
+                  </span>
+                  <span className="text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold block truncate">
+                    Guestbook Manager
+                  </span>
+                </div>
+              )}
             </div>
 
             {/* Profile Info */}
-            <div className="p-3 bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 flex items-center gap-3">
-              <div className="h-10 w-10 rounded-full bg-cyan-600 flex items-center justify-center text-white font-extrabold text-sm shadow-md">
-                {ownerName.charAt(0)}
+            <div className={`p-2.5 bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 transition-all ${
+              isCollapsed ? 'flex justify-center' : 'space-y-2'
+            }`}>
+              <div className="flex items-center gap-3">
+                <div className="h-10 w-10 rounded-full bg-cyan-600 flex items-center justify-center text-white font-extrabold text-sm shadow-md shrink-0" title={ownerName}>
+                  {ownerName.charAt(0)}
+                </div>
+                {!isCollapsed && (
+                  <div className="min-w-0 flex-1">
+                    <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 truncate">{ownerName}</h4>
+                    <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{ownerEmail}</p>
+                  </div>
+                )}
               </div>
-              <div className="min-w-0 flex-1">
-                <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 truncate">{ownerName}</h4>
-                <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">{ownerEmail}</p>
-              </div>
+
+              {!isCollapsed && (
+                <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between">
+                  <span className="text-[10px] text-slate-400 font-semibold">Paket Aktif:</span>
+                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 uppercase tracking-wider">
+                    {currentPlanName}
+                  </span>
+                </div>
+              )}
             </div>
 
-            {/* Menus */}
-            <nav className="space-y-1">
-              <a 
-                href="/dashboard"
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                  activeMenu === 'dashboard'
-                    ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/15'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/40 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <LayoutDashboard className="h-4 w-4" />
-                Dashboard
-              </a>
-
-              <a 
-                href="/dashboard/rooms"
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                  activeMenu === 'rooms'
-                    ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/15'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/40 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <DoorClosed className="h-4 w-4" />
-                Daftar Kamar & QR
-              </a>
-
-              <a 
-                href="/dashboard/rules"
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                  activeMenu === 'rules'
-                    ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/15'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/40 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <FileText className="h-4 w-4" />
-                Tata Tertib (Rules)
-              </a>
-
-              <a 
-                href="/dashboard/complaints"
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                  activeMenu === 'complaints'
-                    ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/15'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/40 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <AlertTriangle className="h-4 w-4" />
-                Laporan Keluhan
-              </a>
-
-              <a 
-                href="/dashboard/faq"
-                className={`w-full flex items-center gap-3 px-4 py-3 rounded-xl text-xs font-bold transition-all ${
-                  activeMenu === 'faq'
-                    ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/15'
-                    : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/40 hover:text-slate-900 dark:hover:text-white'
-                }`}
-              >
-                <HelpCircle className="h-4 w-4" />
-                Bantuan & FAQ
-              </a>
+            {/* Navigation Menus */}
+            <nav className="space-y-1.5">
+              {[
+                { id: 'dashboard', label: 'Dashboard', icon: LayoutDashboard, href: '/dashboard' },
+                { id: 'rooms', label: 'Daftar Kamar & QR', icon: DoorClosed, href: '/dashboard/rooms' },
+                { id: 'rules', label: 'Tata Tertib (Rules)', icon: FileText, href: '/dashboard/rules' },
+                { id: 'complaints', label: 'Laporan Keluhan', icon: AlertTriangle, href: '/dashboard/complaints' },
+                { id: 'settings', label: 'Pengaturan Akun', icon: Settings, href: '/dashboard/settings' },
+                { id: 'faq', label: 'Bantuan & FAQ', icon: HelpCircle, href: '/dashboard/faq' },
+              ].map((item) => {
+                const Icon = item.icon;
+                const isActive = activeMenu === item.id;
+                return (
+                  <a
+                    key={item.id}
+                    href={item.href}
+                    title={isCollapsed ? item.label : undefined}
+                    className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all ${
+                      isCollapsed ? 'justify-center' : ''
+                    } ${
+                      isActive
+                        ? 'bg-cyan-600 text-white shadow-lg shadow-cyan-500/15'
+                        : 'text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/40 hover:text-slate-900 dark:hover:text-white'
+                    }`}
+                  >
+                    <Icon className="h-4 w-4 shrink-0" />
+                    {!isCollapsed && <span className="truncate">{item.label}</span>}
+                  </a>
+                );
+              })}
             </nav>
           </div>
 
           {/* Logout Button */}
           <button 
             onClick={handleLogout}
-            className="flex items-center gap-3 px-4 py-3 text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/10 rounded-xl transition-all w-full mt-6"
+            title={isCollapsed ? 'Keluar Akun' : undefined}
+            className={`flex items-center gap-3 px-3.5 py-3 text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/10 rounded-xl transition-all w-full mt-6 ${
+              isCollapsed ? 'justify-center' : ''
+            }`}
           >
-            <LogOut className="h-4 w-4" />
-            Keluar Akun
+            <LogOut className="h-4 w-4 shrink-0" />
+            {!isCollapsed && <span>Keluar Akun</span>}
           </button>
         </aside>
 
@@ -328,52 +352,11 @@ function DashboardLayoutContent({ children, activeMenu }: DashboardLayoutProps) 
       </a>
 
       {showPropertyModal && (
-        <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-slate-950/80 backdrop-blur-md p-4">
-          <div className="w-full max-w-md p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden text-center">
-            {/* Decorative blurs */}
-            <div className="absolute -top-12 -left-12 h-24 w-24 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none"></div>
-            <div className="absolute -bottom-12 -right-12 h-24 w-24 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"></div>
-
-            <h3 className="text-2xl font-extrabold text-cyan-600 dark:text-cyan-400 mb-2">
-              Setup Nama Properti Anda
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 mb-6">
-              Sebelum melanjutkan ke dashboard, harap isi nama properti/hunian Anda (kost, homestay, atau kontrakan) terlebih dahulu.
-            </p>
-
-            <form
-              onSubmit={(e) => {
-                e.preventDefault();
-                if (!propertyInput.trim()) return;
-                localStorage.setItem('property_name', propertyInput.trim());
-                setPropertyName(propertyInput.trim());
-                setShowPropertyModal(false);
-              }}
-              className="space-y-4"
-            >
-              <div className="text-left space-y-1.5">
-                <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase tracking-widest">
-                  Nama Properti / Hunian
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={propertyInput}
-                  onChange={(e) => setPropertyInput(e.target.value)}
-                  placeholder="Contoh: Kost Adem Tentrem"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all text-sm font-semibold"
-                />
-              </div>
-
-              <button
-                type="submit"
-                className="w-full py-3.5 rounded-xl bg-cyan-600 text-white font-bold text-sm hover:opacity-90 transition-all shadow-lg shadow-cyan-500/10 cursor-pointer"
-              >
-                Simpan & Lanjutkan
-              </button>
-            </form>
-          </div>
-        </div>
+        <PropertyWizardModal
+          onComplete={() => {
+            setShowPropertyModal(false);
+          }}
+        />
       )}
       
     </div>

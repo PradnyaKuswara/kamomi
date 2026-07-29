@@ -1,24 +1,22 @@
 import { useSyncExternalStore } from 'react';
+import type { UserData, UserSubscription } from '../types/user';
+import type { SubscriptionPlan } from '../types/subscription-plan';
 
-export interface UserData {
-  name: string;
-  email: string;
-  avatarUrl?: string;
-  roleName?: string;
-  isEmailVerified: boolean;
-  isActive: boolean;
-  isLoggedIn: boolean;
-}
+export type { UserData, UserSubscription, SubscriptionPlan };
 
-let store: UserData = {
+const initialStore: UserData = {
+  id: undefined,
   name: '',
   email: '',
   avatarUrl: '',
   roleName: '',
   isEmailVerified: false,
   isActive: false,
+  subscription: undefined,
   isLoggedIn: false
 };
+
+let store: UserData = { ...initialStore };
 
 const listeners = new Set<() => void>();
 
@@ -37,19 +35,40 @@ export const userStore = {
     listeners.forEach((l) => l());
   },
   clearUserData() {
-    store = { name: '', email: '', avatarUrl: '', roleName: '', isEmailVerified: false, isActive: false, isLoggedIn: false };
+    store = { ...initialStore };
     listeners.forEach((l) => l());
   }
 };
+
+const getServerSnapshot = () => initialStore;
 
 export function useUserData() {
   const user = useSyncExternalStore(
     userStore.subscribe,
     userStore.getSnapshot,
-    () => ({ name: '', email: '', avatarUrl: '', roleName: '', isEmailVerified: false, isActive: false, isLoggedIn: false })
+    getServerSnapshot
   );
+
+  const subscription = user.subscription;
+  const plan = subscription?.plan || null;
+  const planName = plan?.name || 'Free';
+  const maxRooms = plan?.maxRooms ?? 3;
+  const isUnlimited = maxRooms === -1;
+
   return {
     user,
+    subscriptionInfo: {
+      plan,
+      planName,
+      maxRooms,
+      isUnlimited,
+      isFreePlan: planName === 'Free',
+      isStarterPlan: planName === 'Starter',
+      isProPlan: planName === 'Pro',
+      startDate: subscription?.startDate || null,
+      endDate: subscription?.endDate || null,
+      isActive: subscription?.status === 'ACTIVE' || subscription?.status === 'active' || !subscription,
+    },
     setUserData: userStore.setUserData,
     clearUserData: userStore.clearUserData
   };

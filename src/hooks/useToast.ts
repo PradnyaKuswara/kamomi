@@ -57,10 +57,13 @@ export const toast = {
   }
 };
 
+const emptyToasts: ToastMessage[] = [];
+const getServerSnapshot = () => emptyToasts;
+
 export function useToasts() {
   return useSyncExternalStore(
     toastStore.subscribe,
     toastStore.getSnapshot,
-    () => []
+    getServerSnapshot
   );
 }

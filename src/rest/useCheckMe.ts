@@ -1,26 +1,20 @@
 import { useMutation, useQuery } from '@tanstack/react-query';
 import ApiService, { type ApiResponse } from '../services/api';
 
-export interface UserProfileData {
-  name: string;
-  email: string;
-}
+import type { UserData, UserSubscription } from '../types/user';
 
-// Fetcher function
-export const checkMe = async (): Promise<ApiResponse<UserProfileData>> => {
-  return ApiService.get<ApiResponse<UserProfileData>>('/api/auth/me');
+
+export const checkMe = async (): Promise<ApiResponse<UserData>> => {
+  return ApiService.get<ApiResponse<UserData>>('/api/auth/me');
 };
-
-// Hook using useMutation (as requested for mutateAsync mechanism)
 export function useCheckMeMutation() {
-  return useMutation<ApiResponse<UserProfileData>, Error, void>({
+  return useMutation<ApiResponse<UserData>, Error, void>({
     mutationFn: checkMe
-  });
+  }); 
 }
 
-// Hook using useQuery (standard React Query fetch mechanism)
 export function useCheckMeQuery(options = {}) {
-  return useQuery<ApiResponse<UserProfileData>, Error>({
+  return useQuery<ApiResponse<UserData>, Error>({
     queryKey: ['currentUser'],
     queryFn: checkMe,
     ...options
