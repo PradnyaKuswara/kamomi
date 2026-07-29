@@ -1,5 +1,5 @@
 ---
-import Navbar from '../components/Navbar.tsx';
+import DashboardLayout from '../components/dashboard/DashboardLayout.tsx';
 import RoomEditor from '../components/RoomEditor.tsx';
 import '../styles/global.css';
 ---
@@ -10,7 +10,7 @@ import '../styles/global.css';
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
     <meta name="viewport" content="width=device-width" />
-    <title>Edit Kamar & Exporter - Kamomi.id</title>
+    <title>Edit Kamar & Desain QR - Kamomi.id</title>
     <script is:inline>
       const theme = localStorage.getItem('theme');
       if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -21,10 +21,16 @@ import '../styles/global.css';
     </script>
   </head>
   <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
-    <Navbar client:load />
+    
+    <script is:inline>
+      if (localStorage.getItem('user_logged_in') !== 'true') {
+        window.location.href = '/login';
+      }
+    </script>
 
-    <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 pt-24 pb-16">
+    <DashboardLayout client:only="react" activeMenu="rooms">
       <RoomEditor client:only="react" />
-    </main>
+    </DashboardLayout>
   </body>
 </html>
+
