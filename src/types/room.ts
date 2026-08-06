@@ -6,6 +6,7 @@ export interface Room {
   roomNumber: string;
   wifiSsid: string;
   wifiPassword?: string;
+  code?: string;
   rules?: Rule[];
   createdAt: string;
 }

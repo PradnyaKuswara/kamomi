@@ -1,6 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import {
-  LayoutDashboard,
   DoorClosed,
   FileText,
   AlertTriangle,
@@ -12,7 +11,6 @@ import {
   ChevronLeft,
   ChevronRight,
   Settings,
-  Users,
 } from "lucide-react";
 import * as LucideIcons from "lucide-react";
 import { useUserData } from "../../hooks/useUserData";
@@ -22,6 +20,15 @@ import { useUserSidebarMenusQuery } from "../../rest/useMenu";
 import ToastContainer from "../ToastContainer";
 import PropertyWizardModal from "./PropertyWizardModal";
 import { ROLES } from "../../types/role";
+import ConfirmationModal from "../ui/ConfirmationModal";
+import type { MenuSection } from "../../types/menu";
+import LoadingState from "./LoadingState";
+import AccessBlockedScreen from "./AccessBlockedScreen";
+import SubscriptionBanner from "./SubscriptionBanner";
+import Sidebar from "./Sidebar";
+import Topbar from "./Topbar";
+import RightSidebar from "./RightSidebar";
+import CommandPaletteModal from "./CommandPaletteModal";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -43,18 +50,77 @@ function DashboardLayoutContent({
   children,
   activeMenu,
 }: DashboardLayoutProps) {
+  const [isVerifying, setIsVerifying] = useState(true);
+
   const { user, subscriptionInfo, setUserData, clearUserData } = useUserData();
   const ownerName = user.name || "System";
   const ownerEmail = user.email || "system@gmail.com";
+  const ownerRole = user.roleName || "System";
   const ownerAvatarLink = user.avatarUrl;
   const [activeNotification, setActiveNotification] = useState(true);
-  const { data: menuResponse } = useUserSidebarMenusQuery(user?.id);
-  const [isVerifying, setIsVerifying] = useState(true);
+
+  const hasCachedMenus = typeof window !== "undefined" && !!sessionStorage.getItem("cached_sidebar_menus");
+  const { data: menuResponse } = useUserSidebarMenusQuery(hasCachedMenus ? undefined : user?.id);
+
+  const [menus, setMenus] = useState<MenuSection[]>(() => {
+    if (typeof window !== "undefined") {
+      const cached = sessionStorage.getItem("cached_sidebar_menus");
+      if (cached) {
+        try {
+          return JSON.parse(cached);
+        } catch (e) {
+          return [];
+        }
+      }
+    }
+    return [];
+  });
+
+  useEffect(() => {
+    if (menuResponse?.success && menuResponse.data) {
+      setMenus(menuResponse.data);
+      sessionStorage.setItem("cached_sidebar_menus", JSON.stringify(menuResponse.data));
+    }
+  }, [menuResponse]);
+
   const [showPropertyModal, setShowPropertyModal] = useState(false);
   const [isCollapsed, setIsCollapsed] = useState(false);
 
   const { mutateAsync: checkMe } = useCheckMeMutation();
   const { mutateAsync: logout } = useLogoutMutation();
+
+  const [showLogoutModal, setShowLogoutModal] = useState(false);
+  const [isLoggingOut, setIsLoggingOut] = useState(false);
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(0);
+  const searchInputRef = useRef<HTMLInputElement>(null);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
+        e.preventDefault();
+        setIsCommandPaletteOpen((prev) => !prev);
+      }
+      if (e.key === "Escape") {
+        setIsCommandPaletteOpen(false);
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+    return () => window.removeEventListener("keydown", handleKeyDown);
+  }, []);
+
+  useEffect(() => {
+    if (isCommandPaletteOpen) {
+      setTimeout(() => {
+        searchInputRef.current?.focus();
+      }, 50);
+      setSelectedIndex(0);
+    } else {
+      setSearchQuery("");
+    }
+  }, [isCommandPaletteOpen]);
 
   useEffect(() => {
     async function verifyAuth() {
@@ -70,7 +136,7 @@ function DashboardLayoutContent({
         const res = await checkMe();
         if (res.success && res.data) {
           const userProperties = res.data.properties || [];
-          setUserData({
+          const userData = {
             id: res.data.id,
             name: res.data.name,
             email: res.data.email,
@@ -81,7 +147,9 @@ function DashboardLayoutContent({
             subscription: res.data.subscription,
             properties: userProperties,
             isLoggedIn: true,
-          });
+          };
+          setUserData(userData);
+          sessionStorage.setItem("cached_user_data", JSON.stringify(userData));
 
           const hasProperty = userProperties.length > 0;
           const userRole = res.data.roleName;
@@ -102,6 +170,8 @@ function DashboardLayoutContent({
         }
       } catch {
         clearUserData();
+        sessionStorage.removeItem("cached_user_data");
+        sessionStorage.removeItem("cached_sidebar_menus");
         localStorage.removeItem("AUTH_TOKEN");
         localStorage.removeItem("user_logged_in");
         window.location.href = "/login";
@@ -111,38 +181,28 @@ function DashboardLayoutContent({
     verifyAuth();
   }, []);
 
-  const handleLogout = async () => {
+  const confirmLogout = async () => {
+    setIsLoggingOut(true);
     try {
       await logout();
+    } catch (e) {
+      console.error(e);
     } finally {
       clearUserData();
+      sessionStorage.removeItem("cached_user_data");
+      sessionStorage.removeItem("cached_sidebar_menus");
       localStorage.removeItem("AUTH_TOKEN");
       localStorage.removeItem("user_logged_in");
       window.location.href = "/login";
     }
   };
 
-  if (isVerifying) {
-    return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center font-sans">
-        <div className="relative mb-4 flex items-center justify-center">
-          {/* Efek radar luar */}
-          <div className="absolute h-16 w-16 rounded-2xl bg-cyan-500/20 animate-ping"></div>
+  const handleLogoutTrigger = () => {
+    setShowLogoutModal(true);
+  };
 
-          {/* Logo Vektor SVG Kamomi (Langsung ter-render instan) */}
-          <div className="h-16 w-16 rounded-2xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 flex items-center justify-center shadow-lg relative z-10 animate-bounce">
-            <img
-              src="/logo.png"
-              alt="Kamomi Logo"
-              className="h-12 w-12 object-contain"
-            />
-          </div>
-        </div>
-        <p className="text-xs font-black text-cyan-600 dark:text-cyan-400 tracking-widest uppercase animate-pulse">
-          Menghubungkan ke Hunian Anda...
-        </p>
-      </div>
-    );
+  if (isVerifying) {
+    return <LoadingState />;
   }
 
   const userIsAdmin =
@@ -150,43 +210,12 @@ function DashboardLayoutContent({
   const hasNoProperty = !user?.properties || user.properties.length === 0;
 
   if (hasNoProperty && !userIsAdmin) {
-    return (
-      <div className="min-h-screen bg-slate-50 dark:bg-slate-950 flex flex-col items-center justify-center font-sans p-4">
-        <div className="w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-8 shadow-2xl space-y-6 text-center relative overflow-hidden">
-          <div className="absolute top-0 left-0 right-0 h-1.5 bg-gradient-to-r from-amber-500 to-rose-500" />
-
-          <div className="mx-auto h-16 w-16 rounded-2xl bg-amber-500/10 dark:bg-amber-500/5 border border-amber-500/20 flex items-center justify-center text-amber-500">
-            <LucideIcons.ShieldAlert className="h-8 w-8" />
-          </div>
-
-          <div className="space-y-2">
-            <h3 className="text-lg font-black text-slate-800 dark:text-white">
-              Akses Belum Aktif
-            </h3>
-            <p className="text-xs text-slate-500 dark:text-slate-400 leading-relaxed">
-              Akun Anda belum terhubung ke properti manapun. Harap hubungi Admin
-              atau Pengelola properti Anda untuk mendaftarkan email Anda ke
-              hunian dan kamar yang sesuai.
-            </p>
-          </div>
-
-          <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
-            <button
-              onClick={handleLogout}
-              className="w-full inline-flex items-center justify-center gap-2 px-5 py-3 rounded-xl bg-slate-100 hover:bg-slate-200 dark:bg-slate-800 dark:hover:bg-slate-700 text-slate-700 dark:text-slate-200 font-bold text-xs transition-all shadow-sm cursor-pointer"
-            >
-              <LucideIcons.LogOut className="h-4 w-4" />
-              Keluar Akun
-            </button>
-          </div>
-        </div>
-      </div>
-    );
+    return <AccessBlockedScreen handleLogout={handleLogoutTrigger} />;
   }
 
   const currentPlanName = subscriptionInfo.planName;
 
-  const fetchedMenus = menuResponse?.success ? menuResponse.data : [];
+  const fetchedMenus = menus;
 
   const getIconComponent = (iconName: string) => {
     const normalized = iconName.toLowerCase().replace(/[^a-z0-9]/g, "");
@@ -220,283 +249,48 @@ function DashboardLayoutContent({
     })),
   }));
 
+  const allMenuItems = menuSections.flatMap((section) => section.items);
+  const filteredMenuItems = allMenuItems.filter((item) =>
+    item.label.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
+  const activePageItem = allMenuItems.find((item) => item.id === activeMenu);
+  const pageTitle = activePageItem ? activePageItem.label : "Dashboard";
+
   return (
     <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-300">
-      {!subscriptionInfo.isActive && subscriptionInfo.planName !== "Free" ? (
-        <div className="bg-amber-600 px-4 py-2.5 text-center text-xs font-bold text-white relative flex items-center justify-center gap-2 shadow-sm">
-          <span>
-            ⚠️ Masa aktif langganan **Paket {subscriptionInfo.planName}** Anda
-            telah berakhir{" "}
-            {subscriptionInfo.endDate
-              ? `pada ${new Date(subscriptionInfo.endDate).toLocaleDateString("id-ID", { day: "numeric", month: "long", year: "numeric" })}`
-              : ""}
-            . Layanan diturunkan ke paket Free sementara.
-          </span>
-          <a
-            href="/pricing"
-            className="inline-flex items-center gap-1 bg-white text-amber-900 hover:bg-slate-50 px-3 py-1 rounded-lg transition-all ml-3 font-extrabold text-[11px] shadow-sm"
-          >
-            Perpanjang Sekarang →
-          </a>
+      <SubscriptionBanner subscriptionInfo={subscriptionInfo} currentPlanName={currentPlanName} />
+
+      <div className="flex-1 flex flex-col md:flex-row w-full mx-auto">
+        <Sidebar
+          isCollapsed={isCollapsed}
+          setIsCollapsed={setIsCollapsed}
+          ownerAvatarLink={ownerAvatarLink}
+          ownerName={ownerName}
+          ownerEmail={ownerEmail}
+          ownerRole={ownerRole}
+          currentPlanName={currentPlanName}
+          menuSections={menuSections}
+          activeMenu={activeMenu}
+          handleLogout={handleLogoutTrigger}
+        />
+
+        {/* MAIN BODY AREA WITH TOPBAR */}
+        <div className="flex-1 flex flex-col min-w-0">
+          <Topbar pageTitle={pageTitle} setIsCommandPaletteOpen={setIsCommandPaletteOpen} />
+
+          {/* MAIN CENTER CONTENT AREA */}
+          <main className="flex-1 p-6 md:p-8 space-y-8 overflow-y-auto">
+            {children}
+          </main>
         </div>
-      ) : (
-        currentPlanName === "Free" && (
-          <div className="bg-gradient-to-r from-cyan-700 via-cyan-600 to-blue-700 px-4 py-2.5 text-center text-xs font-bold text-white relative flex items-center justify-center gap-2 shadow-sm">
-            <span>
-              🚀 Anda saat ini menggunakan <strong>Paket Free</strong>. Upgrade
-              ke <strong>Starter</strong> atau <strong>Pro</strong> untuk buka
-              fitur kustomisasi QR, WhatsApp notification & kuota kamar lebih
-              besar!
-            </span>
-            <a
-              href="/pricing"
-              className="hidden md:inline-flex items-center gap-1 bg-white text-cyan-800 hover:bg-cyan-50 px-3 py-1 rounded-lg transition-all ml-3 font-extrabold text-[11px] shadow-sm"
-            >
-              Upgrade Sekarang →
-            </a>
-          </div>
-        )
-      )}
-
-      <div className="flex-1 flex flex-col md:flex-row  w-full mx-auto">
-        <aside
-          className={`relative transition-all duration-300 border-r border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-4 flex flex-col justify-between shrink-0 ${
-            isCollapsed ? "w-full md:w-20" : "w-full md:w-64"
-          }`}
-        >
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="hidden md:flex absolute -right-3.5 top-7 z-30 h-7 w-7 items-center justify-center rounded-full border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 text-slate-500 hover:text-cyan-500 shadow-md transition-all cursor-pointer"
-            title={isCollapsed ? "Perlebar Sidebar" : "Kecilkan Sidebar"}
-          >
-            {isCollapsed ? (
-              <ChevronRight className="h-4 w-4" />
-            ) : (
-              <ChevronLeft className="h-4 w-4" />
-            )}
-          </button>
-
-          <div className="space-y-6">
-            {/* Brand Logo */}
-            <div
-              className={`flex items-center gap-3 ${isCollapsed ? "justify-center" : ""}`}
-            >
-              <img
-                src="/logo.png"
-                alt="Kamomi Logo"
-                className="h-9 w-9 object-contain rounded-xl shadow-md shrink-0"
-              />
-              {!isCollapsed && (
-                <div className="min-w-0">
-                  <span className="text-lg font-black tracking-tight text-cyan-600 dark:text-cyan-400 block truncate">
-                    Kamomi
-                    <span className="text-xs font-semibold text-slate-400 dark:text-slate-500 ml-0.5">
-                      .id
-                    </span>
-                  </span>
-                  <span className="text-[9px] uppercase tracking-wider text-slate-400 dark:text-slate-500 font-bold block truncate">
-                    Guestbook Manager
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Profile Info */}
-            <div
-              className={`p-2.5 bg-slate-50 dark:bg-slate-900/80 rounded-2xl border border-slate-200/50 dark:border-slate-800/50 transition-all ${
-                isCollapsed ? "flex justify-center" : "space-y-2"
-              }`}
-            >
-              <div className="flex items-center gap-3">
-                <a href="/dashboard/settings" className="block shrink-0">
-                  {ownerAvatarLink ? (
-                    <img
-                      src={ownerAvatarLink}
-                      alt={ownerName || "Avatar"}
-                      className="h-8 w-8 aspect-square rounded-full object-cover object-center bg-cyan-600 shadow-md"
-                      title={ownerName}
-                      loading="lazy"
-                      onError={(e) => {
-                        e.currentTarget.style.display = "none";
-                      }}
-                    />
-                  ) : (
-                    <div
-                      className="h-8 w-8 aspect-square rounded-full bg-cyan-600 flex items-center justify-center text-white font-extrabold text-sm shadow-md"
-                      title={ownerName}
-                    >
-                      {ownerName?.charAt(0)?.toUpperCase()}
-                    </div>
-                  )}
-                </a>
-
-                {!isCollapsed && (
-                  <div className="min-w-0 flex-1">
-                    <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 truncate">
-                      {ownerName}
-                    </h4>
-                    <p className="text-[10px] text-slate-400 dark:text-slate-500 truncate">
-                      {ownerEmail}
-                    </p>
-                  </div>
-                )}
-              </div>
-
-              {!isCollapsed && (
-                <div className="pt-2 border-t border-slate-200/40 dark:border-slate-800/40 flex items-center justify-between">
-                  <span className="text-[10px] text-slate-400 font-semibold">
-                    Paket Aktif:
-                  </span>
-                  <span className="px-2 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 uppercase tracking-wider">
-                    {currentPlanName}
-                  </span>
-                </div>
-              )}
-            </div>
-
-            {/* Navigation Menus */}
-            <nav className="space-y-4">
-              {menuSections.map((section) => (
-                <div key={section.title} className="space-y-1">
-                  {/* Section Title Header */}
-                  {!isCollapsed && section.items.length > 0 && (
-                    <span className="px-3.5 text-[9px] font-black uppercase tracking-widest text-slate-400 dark:text-slate-500 block mb-1">
-                      {section.title}
-                    </span>
-                  )}
-                  {/* Section Items */}
-                  <div className="space-y-1">
-                    {section.items.map((item) => {
-                      const Icon = item.icon;
-                      const isActive = activeMenu === item.id;
-                      return (
-                        <a
-                          key={item.id}
-                          href={item.href}
-                          title={isCollapsed ? item.label : undefined}
-                          className={`w-full flex items-center gap-3 px-3.5 py-3 rounded-xl text-xs font-bold transition-all ${
-                            isCollapsed ? "justify-center" : ""
-                          } ${
-                            isActive
-                              ? "bg-cyan-600 text-white shadow-lg shadow-cyan-500/15"
-                              : "text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/40 hover:text-slate-900 dark:hover:text-white"
-                          }`}
-                        >
-                          <Icon className="h-4 w-4 shrink-0" />
-                          {!isCollapsed && (
-                            <span className="truncate">{item.label}</span>
-                          )}
-                        </a>
-                      );
-                    })}
-                  </div>
-                </div>
-              ))}
-            </nav>
-          </div>
-
-          {/* Logout Button */}
-          <button
-            onClick={handleLogout}
-            title={isCollapsed ? "Keluar Akun" : undefined}
-            className={`flex items-center gap-3 px-3.5 py-3 text-xs font-bold text-rose-500 hover:bg-rose-50 dark:hover:bg-rose-950/10 rounded-xl transition-all w-full mt-6 ${
-              isCollapsed ? "justify-center" : ""
-            }`}
-          >
-            <LogOut className="h-4 w-4 shrink-0" />
-            {!isCollapsed && <span>Keluar Akun</span>}
-          </button>
-        </aside>
-
-        {/* MAIN CENTER CONTENT AREA */}
-        <main className="flex-1 p-6 md:p-8 space-y-8 overflow-y-auto">
-          {children}
-        </main>
 
         {/* RIGHT SIDEBAR - NOTIFICATIONS & TIPS */}
         {activeMenu === "dashboard" && (
-          <aside className="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-5 space-y-6 shrink-0">
-            {/* Smart Recommendation Card */}
-            <div className="p-5 rounded-2xl bg-cyan-600 text-white shadow-lg space-y-4 relative overflow-hidden">
-              <div className="absolute top-0 right-0 p-3 opacity-15">
-                <QrCode className="h-16 w-16" />
-              </div>
-
-              <span className="text-[9px] font-black uppercase bg-white/20 px-2 py-0.5 rounded-full inline-block">
-                Rekomendasi Pintar
-              </span>
-              <div className="space-y-1.5 relative">
-                <h4 className="font-extrabold text-sm">
-                  Cetak Tag Akrilik Pintu
-                </h4>
-                <p className="text-[11px] text-cyan-50/80 leading-relaxed">
-                  Pasang dudukan akrilik A6 di pintu kamar agar terlihat mewah
-                  dan profesional seperti hotel berbintang.
-                </p>
-              </div>
-              <a
-                href="/dashboard/faq"
-                className="w-full py-2 bg-white text-cyan-600 rounded-xl font-bold text-xs hover:bg-slate-50 transition-all text-center block"
-              >
-                Lihat Panduan Cetak
-              </a>
-            </div>
-
-            {/* Notifications List */}
-            <div className="space-y-4">
-              <div className="flex justify-between items-center">
-                <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-                  <Bell className="h-4 w-4 text-cyan-500" />
-                  Notifikasi Terbaru
-                </h4>
-                {activeNotification && (
-                  <span className="h-2 w-2 rounded-full bg-rose-500" />
-                )}
-              </div>
-
-              <div className="space-y-3">
-                {activeNotification && (
-                  <div className="p-3 bg-cyan-500/5 border border-cyan-500/10 rounded-xl space-y-1 relative">
-                    <button
-                      onClick={() => setActiveNotification(false)}
-                      className="absolute top-2 right-2 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 text-xs font-bold"
-                    >
-                      ×
-                    </button>
-                    <span className="text-[9px] font-bold text-cyan-600 dark:text-cyan-400 block uppercase">
-                      Keluhan Baru
-                    </span>
-                    <p className="text-[11px] text-slate-600 dark:text-slate-300 font-bold">
-                      Kamar 102 melaporkan keluhan: "AC Tidak Dingin"
-                    </p>
-                    <span className="text-[9px] text-slate-400 block">
-                      2 jam yang lalu
-                    </span>
-                  </div>
-                )}
-
-                <div className="p-3 bg-slate-50 dark:bg-slate-900/40 border border-slate-200/50 dark:border-slate-800/50 rounded-xl space-y-1">
-                  <span className="text-[9px] font-bold text-emerald-600 dark:text-emerald-400 block uppercase">
-                    Aktivitas QR
-                  </span>
-                  <p className="text-[11px] text-slate-600 dark:text-slate-300">
-                    Scan QR terdeteksi di <strong>Kamar 101</strong> oleh tamu
-                    baru.
-                  </p>
-                  <span className="text-[9px] text-slate-400 block">
-                    Kemarin
-                  </span>
-                </div>
-              </div>
-
-              <a
-                href="/dashboard/complaints"
-                className="w-full text-center text-xs text-cyan-600 dark:text-cyan-400 font-bold hover:underline py-1 block"
-              >
-                Lihat Semua Notifikasi
-              </a>
-            </div>
-          </aside>
+          <RightSidebar
+            activeNotification={activeNotification}
+            setActiveNotification={setActiveNotification}
+          />
         )}
       </div>
 
@@ -518,6 +312,31 @@ function DashboardLayoutContent({
           }}
         />
       )}
+
+      {/* COMMAND PALETTE MODAL (Blur Backdrop & Centered) */}
+      <CommandPaletteModal
+        isOpen={isCommandPaletteOpen}
+        onClose={() => setIsCommandPaletteOpen(false)}
+        searchQuery={searchQuery}
+        setSearchQuery={setSearchQuery}
+        filteredMenuItems={filteredMenuItems}
+        selectedIndex={selectedIndex}
+        setSelectedIndex={setSelectedIndex}
+        searchInputRef={searchInputRef}
+      />
+
+      {/* LOGOUT CONFIRMATION MODAL */}
+      <ConfirmationModal
+        isOpen={showLogoutModal}
+        onClose={() => !isLoggingOut && setShowLogoutModal(false)}
+        onConfirm={confirmLogout}
+        title="Konfirmasi Keluar Akun"
+        message="Apakah Anda yakin ingin keluar dari akun Anda? Sesi Anda pada perangkat ini akan segera berakhir."
+        confirmText="Keluar"
+        cancelText="Batal"
+        isDanger={true}
+        isLoading={isLoggingOut}
+      />
     </div>
   );
 }

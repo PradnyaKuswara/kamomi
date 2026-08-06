@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
 import { Loader2 } from 'lucide-react';
 import { FormInput } from '../ui/FormInput';
+import { InputEmail } from '../ui/InputEmail';
+import { InputPassword } from '../ui/InputPassword';
+import { InputPhone } from '../ui/InputPhone';
+import SelectRole from '../select/SelectRole';
 
 interface AddStaffModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: { name: string; email: string; password?: string; phoneNumber?: string }) => Promise<void>;
+  onSubmit: (data: { name: string; email: string; password?: string; phoneNumber?: string; roleName: 'ADMIN' | 'USER' }) => Promise<void>;
   isLoading: boolean;
 }
 
@@ -14,18 +18,19 @@ export default function AddStaffModal({ isOpen, onClose, onSubmit, isLoading }: 
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [roleName, setRoleName] = useState<'ADMIN' | 'USER'>('USER');
 
   if (!isOpen) return null;
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit({ name, email, password, phoneNumber });
+    await onSubmit({ name, email, password, phoneNumber, roleName });
   };
 
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
       <div onClick={onClose} className="fixed inset-0 bg-slate-950/50 backdrop-blur-sm" />
-      <div className="relative w-full max-w-md bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl z-10 space-y-6">
+      <div className="relative w-full max-w-lg bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl z-10 space-y-6">
         <div>
           <h3 className="text-base font-extrabold text-slate-800 dark:text-white">
             Tambah Staff / Pengelola Baru
@@ -43,27 +48,32 @@ export default function AddStaffModal({ isOpen, onClose, onSubmit, isLoading }: 
             onChange={(e) => setName(e.target.value)}
             required
           />
-          <FormInput
+          <InputEmail
             label="Alamat Email"
             placeholder="staff@gmail.com"
-            type="email"
             value={email}
             onChange={(e) => setEmail(e.target.value)}
             required
           />
-          <FormInput
+          <InputPassword
             label="Password Akun"
             placeholder="Masukkan password staff..."
-            type="password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
             required
           />
-          <FormInput
+          <InputPhone
             label="Nomor Telepon (Opsional)"
-            placeholder="Contoh: 081234567890"
+            placeholder="81234567890"
             value={phoneNumber}
             onChange={(e) => setPhoneNumber(e.target.value)}
+          />
+
+          <SelectRole
+            label="Pilih Role Akses"
+            value={roleName}
+            onChange={setRoleName}
+            required
           />
 
           <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">

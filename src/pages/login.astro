@@ -1,5 +1,7 @@
 ---
 import Navbar from "../components/Navbar";
+import { InputEmail } from "../components/ui/InputEmail";
+import { InputPassword } from "../components/ui/InputPassword";
 import "../styles/global.css";
 ---
 
@@ -52,40 +54,28 @@ import "../styles/global.css";
         </div>
 
         <form id="login-form" class="space-y-5 relative">
-          <div class="space-y-2">
-            <label
-              for="email"
-              class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider"
-              >Email</label
-            >
-            <input
-              type="email"
-              id="email"
-              required
-              placeholder="nama@email.com"
-              class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all text-sm"
-            />
-          </div>
+          <InputEmail
+            client:load
+            label="Email"
+            id="email"
+            required
+            placeholder="nama@email.com"
+          />
 
-          <div class="space-y-2">
+          <div class="space-y-1">
             <div class="flex justify-between items-center">
-              <label
-                for="password"
-                class="text-xs font-bold text-slate-500 dark:text-slate-400 uppercase tracking-wider"
-                >Password</label
-              >
+              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password <span class="text-rose-500">*</span></span>
               <a
                 href="#"
                 class="text-xs text-cyan-600 dark:text-cyan-400 hover:underline"
                 >Lupa Password?</a
               >
             </div>
-            <input
-              type="password"
+            <InputPassword
+              client:load
               id="password"
               required
               placeholder="••••••••"
-              class="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all text-sm"
             />
           </div>
 

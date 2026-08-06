@@ -319,10 +319,14 @@ function RoomEditorContent() {
     }
   };
 
-  const simulatedGuestUrl =
-    typeof window !== 'undefined'
+  const roomCode = roomData?.data?.code;
+  const simulatedGuestUrl = roomCode
+    ? (typeof window !== 'undefined'
+      ? `${window.location.origin}/r/${roomCode}`
+      : `https://kamomi.id/r/${roomCode}`)
+    : (typeof window !== 'undefined'
       ? `${window.location.origin}/guest?room=${roomId}`
-      : `https://kamomi.id/guest?room=${roomId}`;
+      : `https://kamomi.id/guest?room=${roomId}`);
 
   return (
     <div className="space-y-6">

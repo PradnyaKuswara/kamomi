@@ -90,7 +90,7 @@ export default function RoomCard({ room, onEdit, onDelete }: RoomCardProps) {
           </a>
 
           <a
-            href={`/guest?room=${room.id}`}
+            href={room.code ? `/r/${room.code}` : `/guest?room=${room.id}`}
             target="_blank"
             rel="noopener noreferrer"
             className="flex items-center justify-center gap-1 py-1 rounded-lg bg-indigo-500/10 hover:bg-indigo-500/20 text-indigo-600 dark:text-indigo-400 font-bold text-[9px] transition-all"

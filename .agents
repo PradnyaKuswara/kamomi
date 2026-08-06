@@ -1,0 +1,51 @@
+# Kamomi Coding Flow & Development Guidelines
+
+This file defines the coding flow conventions, repository structure, and workflow rules for developers and AI agents working on the Kamomi frontend.
+
+---
+
+## 1. Directory Structure Conventions
+
+Always place code files in their designated directories to keep the project clean:
+- **Pages / Routes**: Place Astro pages in [src/pages/](file:///home/pradnyakuswara/Dokumen/Coding/kamomi/src/pages/) (defines the URL routing).
+- **UI Components**: Place reusable React components in [src/components/](file:///home/pradnyakuswara/Dokumen/Coding/kamomi/src/components/).
+- **Data Types**: Place shared TypeScript definitions and interfaces in [src/types/](file:///home/pradnyakuswara/Dokumen/Coding/kamomi/src/types/).
+- **Hooks**: Place custom React hooks in [src/hooks/](file:///home/pradnyakuswara/Dokumen/Coding/kamomi/src/hooks/).
+- **API Services**: Place API fetchers and HTTP clients in [src/services/](file:///home/pradnyakuswara/Dokumen/Coding/kamomi/src/services/) or [src/rest/](file:///home/pradnyakuswara/Dokumen/Coding/kamomi/src/rest/).
+
+---
+
+## 2. Standard Coding Workflow for New Features
+
+When adding or modifying a feature, always follow this step-by-step coding flow:
+
+```mermaid
+graph TD
+    A[1. Define/Update Types] --> B[2. Build UI Components]
+    B --> C[3. Setup Astro Routes]
+    C --> D[4. Connect to API/State]
+```
+
+1. **Step 1: Define Data Types**
+   - Create or update the relevant TypeScript model file in `src/types/` (e.g. `public-room.ts`). Ensure all properties coming from or sent to the backend are fully typed.
+
+2. **Step 2: Build UI Components**
+   - Create or modify React components in `src/components/` (e.g. `MyComponent.tsx`).
+   - Keep layout components and specialized components (like forms, cards, modals) modular.
+
+3. **Step 3: Setup Astro Page Routes**
+   - Create or update the route file under `src/pages/` (e.g. `src/pages/my-feature.astro`).
+   - Use Astro pages primarily as the entry point wrapper (HTML skeleton, SEO meta tags, layout styling).
+   - Mount React components inside Astro pages with the appropriate hydration directives (e.g. `client:load` or `client:only="react"`).
+
+4. **Step 4: Connect to API / State**
+   - Implement data fetching inside the React components or custom hooks using the configured environment variables (like `import.meta.env.PUBLIC_API_URL`).
+
+---
+
+## 3. Clean Code Rules & Best Practices
+
+- **Astro/React Separation**: Do not write heavy client-side logic or interactivity inside Astro script tags. Move complex client logic to React components in `src/components/`.
+- **Typing Integrity**: Always import and use the interfaces defined in `src/types/`. Avoid using `any`.
+- **Styling Consistency**: Utilize Tailwind CSS classes in React components. Keep responsive designs in mind (e.g. using mobile-first styles).
+- **Environment Variables**: Always use `PUBLIC_` prefixed environment variables for values that need to be accessible in client-side React components (e.g., `import.meta.env.PUBLIC_API_URL`).

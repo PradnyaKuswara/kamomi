@@ -21,6 +21,7 @@ import ErrorState from '../ui/ErrorState';
 import EmptyState from '../ui/EmptyState';
 import RoomFormModal from '../modal/RoomFormModal';
 import RoomCard from '../card/RoomCard';
+import TooltipButton from '../button/TooltipButton';
 
 const defaultQueryClient = new QueryClient();
 
@@ -51,6 +52,10 @@ function RoomsListContent() {
   const [editingRoom, setEditingRoom] = useState<Room | null>(null);
   const [deleteRoomId, setDeleteRoomId] = useState<number | null>(null);
 
+  const canAddRoom = useMemo(() => {
+    return user.roleName === 'ADMIN' || user.roleName === 'SUPER ADMIN';
+  }, [user])
+
   const isMaxRoom = useMemo(() => {
     return rooms.length >= (subscriptionInfo?.plan?.maxRooms || 1);
   }, [rooms, subscriptionInfo])
@@ -68,6 +73,10 @@ function RoomsListContent() {
   }
 
   const handleOpenCreate = () => {
+    if (!canAddRoom) {
+      toast.error('Anda tidak memiliki izin untuk menambah kamar.');
+      return;
+    }
     if(isMaxRoom) {
       toast.error('Anda telah mencapai batas maksimum kamar. Silakan upgrade paket Anda.');
       return;
@@ -145,13 +154,22 @@ function RoomsListContent() {
           </p>
         </div>
 
-        <button
+        <TooltipButton
+          disabled={!canAddRoom || isMaxRoom}
+          tooltipMessage={
+            !canAddRoom
+              ? "Anda tidak memiliki izin untuk menambah kamar."
+              : isMaxRoom
+              ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
+              : undefined
+          }
+          position='bottom'
           onClick={handleOpenCreate}
           className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 hover:opacity-90 transition-all self-start sm:self-center cursor-pointer"
         >
           <Plus className="h-4 w-4" />
           Tambah Kamar Baru
-        </button>
+        </TooltipButton>
       </div>
 
       {/* Loading */}
@@ -168,6 +186,15 @@ function RoomsListContent() {
           description="Tambahkan kamar pertama Anda untuk mulai membuat QR code tamu yang interaktif."
           actionLabel="Tambah Kamar Pertama"
           onAction={handleOpenCreate}
+          disabled={!canAddRoom || isMaxRoom}
+          tooltipMessage={
+            !canAddRoom
+              ? "Anda tidak memiliki izin untuk menambah kamar."
+              : isMaxRoom
+              ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
+              : undefined
+          }
+          tooltipPosition="top"
         />
       )}
 
