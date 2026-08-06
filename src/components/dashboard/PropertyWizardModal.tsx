@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Home, Building2, Briefcase, MapPin, CheckCircle2, ChevronRight, ChevronLeft, Sparkles, Loader2 } from 'lucide-react';
+import { Home, Building2, Briefcase, MapPin, CheckCircle2, ChevronRight, ChevronLeft, Sparkles, Loader2, Hotel } from 'lucide-react';
 import { useCreatePropertyMutation } from '../../rest/useProperty';
 import { useUserData } from '../../hooks/useUserData';
 import { toast } from '../../hooks/useToast';
@@ -34,6 +34,12 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
       title: 'Apartemen / Homestay',
       desc: 'Unit apartemen atau penginapan homestay',
       icon: Building2,
+    },
+    {
+      id: 'HOTEL',
+      title: 'Hotel / Villa',
+      desc: 'Hotel atau penginapan villa',
+      icon: Hotel,
     },
     {
       id: 'OFFICE',

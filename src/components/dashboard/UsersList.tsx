@@ -439,19 +439,21 @@ function UsersListContent() {
                   </button>
 
                   {/* Remove User from property button */}
-                  <button
-                    onClick={() => setDeleteUserId(item.userId)}
-                    className="
-                      h-9 w-9 inline-flex items-center justify-center rounded-xl
-                      border border-slate-200 dark:border-slate-700
-                      bg-white dark:bg-slate-900 text-slate-400
-                      hover:text-rose-500 hover:border-rose-250 hover:bg-rose-50 dark:hover:bg-rose-950/20
-                      transition-all cursor-pointer
-                    "
-                    title="Cabut Akses Properti"
-                  >
-                    <Trash2 className="h-4 w-4" />
-                  </button>
+                  {item.userId !== user.id && (
+                    <button
+                      onClick={() => setDeleteUserId(item.userId)}
+                      className="
+                        h-9 w-9 inline-flex items-center justify-center rounded-xl
+                        border border-slate-200 dark:border-slate-700
+                        bg-white dark:bg-slate-900 text-slate-400
+                        hover:text-rose-500 hover:border-rose-250 hover:bg-rose-50 dark:hover:bg-rose-950/20
+                        transition-all cursor-pointer
+                      "
+                      title="Cabut Akses Properti"
+                    >
+                      <Trash2 className="h-4 w-4" />
+                    </button>
+                  )}
                 </div>
               </div>
             );

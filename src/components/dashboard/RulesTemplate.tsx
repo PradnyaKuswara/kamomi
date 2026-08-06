@@ -141,15 +141,15 @@ function RulesTemplateContent() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
-            Master Template Tata Tertib
+            Master Template Aturan Properti
           </h1>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-            Kelola tata tertib hunian Anda. Perubahan akan disinkronisasikan ke guestbook kamar secara real-time.
+            Kelola aturan properti Anda. Perubahan akan disinkronisasikan ke guestbook kamar secara real-time.
           </p>
         </div>
 
         <button
-          onClick={handleOpenCreate}
+          onClick={handleOpenCreate}  
           className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/10 hover:opacity-90 transition-all self-start sm:self-center cursor-pointer"
         >
           <Plus className="h-4 w-4" />

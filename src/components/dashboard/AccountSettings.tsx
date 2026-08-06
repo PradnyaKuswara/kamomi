@@ -7,7 +7,7 @@ import { FormInput } from '../ui/FormInput';
 
 export default function AccountSettings() {
   return (
-    <DashboardLayout activeMenu="settings">
+    <DashboardLayout activeMenu="settingsaccount">
       <AccountSettingsContent />
     </DashboardLayout>
   );

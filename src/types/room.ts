@@ -1,4 +1,5 @@
 import type { Rule } from './rule';
+import type { QrDesign } from './qr';
 
 export interface Room {
   id: number;
@@ -9,6 +10,8 @@ export interface Room {
   code?: string;
   rules?: Rule[];
   createdAt: string;
+  isActive?: boolean;
+  qrDesign?: QrDesign;
 }
 
 export interface RoomRequest {
@@ -16,4 +19,18 @@ export interface RoomRequest {
   wifiSsid: string;
   wifiPassword?: string;
   ruleIds?: number[];
+  isActive?: boolean;
+  qrDesign?: QrDesign;
+}
+
+export interface RoomLog {
+  id: number;
+  roomId: number;
+  roomNumber: string;
+  action: string;
+  oldData?: string;
+  newData?: string;
+  createdAt: string;
+  createdByEmail?: string;
+  createdByName?: string;
 }

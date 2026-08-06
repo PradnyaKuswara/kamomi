@@ -85,6 +85,14 @@ function RoomEditorContent() {
   const [newRuleDesc, setNewRuleDesc] = useState('');
   const [newRuleCat, setNewRuleCat] = useState('Wajib');
 
+  // QR Design visual states
+  const [customTitle, setCustomTitle] = useState('');
+  const [customInstruction, setCustomInstruction] = useState('');
+  const [showLogo, setShowLogo] = useState(true);
+  const [cardColor, setCardColor] = useState('cyan');
+  const [template, setTemplate] = useState<'modern' | 'minimal' | 'luxury' | 'glass' | 'neon' | 'retro'>('modern');
+  const [labelRoom, setLabelRoom] = useState('NOMOR KAMAR');
+
   // Populate local states when Room queries load
   useEffect(() => {
     if (roomData?.data) {
@@ -104,6 +112,16 @@ function RoomEditorContent() {
         );
       }
 
+      // Populate visual design states from DB
+      if (rm.qrDesign) {
+        const qd = rm.qrDesign;
+        if (qd.customTitle) setCustomTitle(qd.customTitle);
+        if (qd.customInstruction) setCustomInstruction(qd.customInstruction);
+        if (qd.showLogo !== undefined && qd.showLogo !== null) setShowLogo(qd.showLogo);
+        if (qd.cardColor) setCardColor(qd.cardColor);
+        if (qd.template) setTemplate(qd.template as any);
+        if (qd.labelRoom) setLabelRoom(qd.labelRoom);
+      }
     }
   }, [roomData]);
 
@@ -162,27 +180,10 @@ function RoomEditorContent() {
     }
   };
 
-  const removeRule = async (ruleId: number) => {
-    try {
-      // 1. Filter out from room rules association first
-      const updatedRules = rules.filter((r) => r.id !== ruleId);
-      await updateRoomMutation.mutateAsync({
-        roomId,
-        data: {
-          roomNumber,
-          wifiSsid,
-          wifiPassword: wifiPass || undefined,
-          ruleIds: updatedRules.map((r) => r.id),
-        },
-      });
-
-      // 2. Direct delete from database
-      await deleteRuleMutation.mutateAsync(ruleId);
-      setRules(updatedRules);
-      toast.success('Aturan berhasil dihapus!');
-    } catch (err: any) {
-      toast.error(err.message || 'Gagal menghapus aturan.');
-    }
+  const removeRule = (ruleId: number) => {
+    const updatedRules = rules.filter((r) => r.id !== ruleId);
+    setRules(updatedRules);
+    toast.success('Aturan dilepas dari kamar di editor. Klik "Simpan Info Kamar" untuk menyimpan.');
   };
 
   const startEditRule = (rule: any) => {
@@ -235,64 +236,36 @@ function RoomEditorContent() {
     }
   };
 
-  const applyMasterTemplate = async () => {
+  const applyMasterTemplate = () => {
     const list = masterRulesData?.data?.content;
     if (list && list.length > 0) {
-      const ruleIds = list.map((r) => r.id);
-      try {
-        await updateRoomMutation.mutateAsync({
-          roomId,
-          data: {
-            roomNumber,
-            wifiSsid,
-            wifiPassword: wifiPass || undefined,
-            ruleIds,
-          },
-        });
-        setRules(
-          list.map((r) => ({
-            id: r.id,
-            title: r.title,
-            desc: r.description || '',
-            category: r.category,
-            sequence: r.sequence,
-          }))
-        );
-        toast.success('Master template berhasil diterapkan ke kamar!');
-      } catch (err: any) {
-        toast.error('Gagal menerapkan master template.');
-      }
+      setRules(
+        list.map((r) => ({
+          id: r.id,
+          title: r.title,
+          desc: r.description || '',
+          category: r.category,
+          sequence: r.sequence,
+        }))
+      );
+      toast.success('Master template diterapkan di editor. Klik "Simpan Info Kamar" untuk menyimpan.');
     } else {
       toast.error('Belum ada master template tata tertib.');
     }
   };
 
-  const resetToOriginalRules = async () => {
+  const resetToOriginalRules = () => {
     if (roomData?.data?.rules) {
-      const ruleIds = roomData.data.rules.map((r) => r.id);
-      try {
-        await updateRoomMutation.mutateAsync({
-          roomId,
-          data: {
-            roomNumber,
-            wifiSsid,
-            wifiPassword: wifiPass || undefined,
-            ruleIds,
-          },
-        });
-        setRules(
-          roomData.data.rules.map((r) => ({
-            id: r.id,
-            title: r.title,
-            desc: r.description || '',
-            category: r.category,
-            sequence: r.sequence,
-          }))
-        );
-        toast.success('Tata tertib kamar dikembalikan ke konfigurasi tersimpan.');
-      } catch (err: any) {
-        toast.error('Gagal mengembalikan perubahan.');
-      }
+      setRules(
+        roomData.data.rules.map((r) => ({
+          id: r.id,
+          title: r.title,
+          desc: r.description || '',
+          category: r.category,
+          sequence: r.sequence,
+        }))
+      );
+      toast.success('Konfigurasi tata tertib dikembalikan. Klik "Simpan Info Kamar" jika ingin menyimpan.');
     }
   };
 
@@ -311,9 +284,18 @@ function RoomEditorContent() {
           wifiSsid,
           wifiPassword: wifiPass || undefined,
           ruleIds: rules.map((r) => r.id),
+          isActive: roomData?.data?.isActive,
+          qrDesign: {
+            customTitle,
+            customInstruction,
+            showLogo,
+            cardColor,
+            template,
+            labelRoom,
+          },
         },
       });
-      toast.success('Informasi Wi-Fi & Kamar berhasil disimpan!');
+      toast.success('Informasi Wi-Fi & Kamar serta Desain QR berhasil disimpan!');
     } catch (err: any) {
       toast.error(err.message || 'Gagal menyimpan data kamar.');
     }
@@ -657,6 +639,19 @@ function RoomEditorContent() {
           propertyName={propertyName}
           roomNumber={roomNumber}
           guestUrl={simulatedGuestUrl}
+          roomId={roomId}
+          cardColor={cardColor}
+          setCardColor={setCardColor}
+          template={template}
+          setTemplate={setTemplate}
+          customTitle={customTitle}
+          setCustomTitle={setCustomTitle}
+          labelRoom={labelRoom}
+          setLabelRoom={setLabelRoom}
+          customInstruction={customInstruction}
+          setCustomInstruction={setCustomInstruction}
+          showLogo={showLogo}
+          setShowLogo={setShowLogo}
         />
       )}
 

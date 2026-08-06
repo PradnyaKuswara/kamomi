@@ -1,5 +1,25 @@
 import React from 'react';
-import { MessageCircle, Shield, Sparkles, Phone, MessageSquarePlus } from 'lucide-react';
+import { 
+  MessageCircle, 
+  Shield, 
+  Sparkles, 
+  Phone, 
+  MessageSquarePlus,
+  Mail,
+  Link,
+  MessageSquare
+} from 'lucide-react';
+
+const iconMap: Record<string, React.ComponentType<{ className?: string }>> = {
+  MessageCircle,
+  Shield,
+  Sparkles,
+  Phone,
+  MessageSquarePlus,
+  Mail,
+  Link,
+  MessageSquare
+};
 
 interface QuickContactProps {
   contacts?: {
@@ -7,7 +27,7 @@ interface QuickContactProps {
     name: string;
     actionText: string;
     color: string;
-    icon?: React.ComponentType<{ className?: string }>;
+    icon?: string | React.ComponentType<{ className?: string }>;
     link: string;
   }[] | null;
   onOpenReport?: (() => void) | null;
@@ -17,34 +37,8 @@ export default function QuickContact({
   contacts = null,
   onOpenReport = null
 }: QuickContactProps) {
-  const defaultContacts = [
-    {
-      role: "Pengelola / Host",
-      name: "Ibu Indah",
-      actionText: "Chat WhatsApp",
-      color: "bg-emerald-500 hover:bg-emerald-400 text-white shadow-emerald-500/10",
-      icon: MessageCircle,
-      link: "https://wa.me/6281234567890?text=Halo%20Ibu%20Indah%2C%20saya%20tamu%20kamar%20102..."
-    },
-    {
-      role: "Keamanan / Security",
-      name: "Pak Budi",
-      actionText: "Telepon Darurat",
-      color: "bg-slate-900 hover:bg-slate-800 dark:bg-white dark:text-slate-950 dark:hover:bg-slate-100 text-white shadow-slate-900/10",
-      icon: Phone,
-      link: "tel:+6281234567891"
-    },
-    {
-      role: "Layanan Laundry",
-      name: "Klin Laundry",
-      actionText: "Order Laundry",
-      color: "bg-blue-500 hover:bg-blue-400 text-white shadow-blue-500/10",
-      icon: Sparkles,
-      link: "https://wa.me/6281234567892?text=Halo%20Klin%20Laundry%2C%20mau%20ambil%20laundry%20di%20kamar%20102..."
-    }
-  ];
 
-  const activeContacts = contacts || defaultContacts;
+  const activeContacts = contacts || [];
 
   return (
     <div className="glassmorphic rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-800/50">
@@ -53,7 +47,17 @@ export default function QuickContact({
 
       <div className="space-y-4">
         {activeContacts.map((contact, idx) => {
-          const Icon = contact.icon || MessageCircle;
+          let Icon: React.ComponentType<{ className?: string }> = MessageCircle;
+          if (contact.icon) {
+            if (typeof contact.icon === 'string') {
+              const matchedIcon = iconMap[contact.icon] || iconMap[contact.icon.charAt(0).toUpperCase() + contact.icon.slice(1)];
+              if (matchedIcon) {
+                Icon = matchedIcon;
+              }
+            } else {
+              Icon = contact.icon;
+            }
+          }
           return (
             <div 
               key={idx} 

@@ -112,7 +112,7 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
       <div className="glassmorphic rounded-3xl p-6 border border-slate-200/50 dark:border-slate-800/50 text-center relative overflow-hidden shadow-xl">
         <div className="absolute -top-12 -right-12 h-24 w-24 bg-cyan-600/15 rounded-full blur-2xl pointer-events-none"></div>
         <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-600 dark:text-cyan-400">
-          {data.customTitle || 'Selamat Datang di'}
+          {data.qrDesign?.customTitle || 'Selamat Datang di'}
         </span>
         <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-1">
           {data.propertyName}
@@ -120,9 +120,9 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
         <div className="inline-flex mt-4 px-4 py-1.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-extrabold text-xs tracking-wider uppercase">
           Kamar {data.roomNumber}
         </div>
-        {data.customInstruction && (
+        {data.qrDesign?.customInstruction && (
           <p className="text-[10px] text-slate-400 mt-3 italic">
-            "{data.customInstruction}"
+            "{data.qrDesign?.customInstruction}"
           </p>
         )}
       </div>
@@ -134,10 +134,10 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
       <HouseRules rules={mappedRules} />
 
       {/* Facility Instructions */}
-      <FacilityGuides />
+      <FacilityGuides guides={data.facilityGuides} />
 
       {/* Support & Quick Contact */}
-      <QuickContact onOpenReport={() => setReportOpen(true)} />
+      <QuickContact contacts={data.contacts} onOpenReport={() => setReportOpen(true)} />
 
       {/* Issue Report Modal */}
       <ReportIssue

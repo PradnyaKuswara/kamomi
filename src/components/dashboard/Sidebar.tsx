@@ -28,13 +28,13 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <aside
-      className={`relative transition-all duration-300 border-r border-slate-200/40 dark:border-slate-800/40 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-4 flex flex-col justify-between shrink-0 ${
+      className={`relative z-50 transition-all duration-300 border-r border-slate-200/40 dark:border-slate-800/40 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-4 flex flex-col justify-between shrink-0 ${
         isCollapsed ? "w-full md:w-20" : "w-full md:w-64"
       }`}
     >
       <button
         onClick={() => setIsCollapsed(!isCollapsed)}
-        className="hidden md:flex absolute -right-3.5 top-7 z-30 h-7 w-7 items-center justify-center rounded-full border border-slate-200/60 dark:border-slate-800/60 bg-white/90 dark:bg-slate-900/90 text-slate-500 hover:text-cyan-500 shadow-md hover:scale-105 transition-all cursor-pointer"
+        className="hidden md:flex absolute -right-3.5 top-7 z-[999999] h-7 w-7 items-center justify-center rounded-full border border-slate-200/60 dark:border-slate-800/60 bg-white/90 dark:bg-slate-900/90 text-slate-500 hover:text-cyan-500 shadow-md hover:scale-105 transition-all cursor-pointer"
         title={isCollapsed ? "Perlebar Sidebar" : "Kecilkan Sidebar"}
       >
         {isCollapsed ? <ChevronRight className="h-4 w-4" /> : <ChevronLeft className="h-4 w-4" />}
@@ -67,19 +67,16 @@ export default function Sidebar({
         </div>
 
         {/* Profile Info Card */}
-        <div
-          className={`p-3 bg-white/40 dark:bg-slate-900/20 backdrop-blur-sm rounded-2xl border border-slate-200/30 dark:border-slate-800/30 transition-all ${
-            isCollapsed ? "flex justify-center" : "space-y-2.5"
-          }`}
-        >
-          <div className="flex items-center gap-3">
+        {isCollapsed ? (
+          <div className="flex justify-center py-1">
             <a href="/dashboard/settings" className="block shrink-0 relative group">
-              <div className="absolute -inset-0.5 bg-gradient-to-tr from-cyan-500 to-blue-500 rounded-full blur opacity-40 group-hover:opacity-75 transition duration-300"></div>
+              <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-950 z-20 shadow-sm animate-pulse" />
+              <div className="absolute -inset-1 bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-300"></div>
               {ownerAvatarLink ? (
                 <img
                   src={ownerAvatarLink}
                   alt={ownerName}
-                  className="h-9 w-9 aspect-square rounded-full object-cover object-center bg-cyan-600 shadow-md relative z-10"
+                  className="h-10 w-10 aspect-square rounded-full object-cover object-center bg-cyan-600 shadow-md relative z-10 border border-white/50 dark:border-slate-800/50"
                   title={ownerName}
                   loading="lazy"
                   onError={(e) => {
@@ -88,38 +85,70 @@ export default function Sidebar({
                 />
               ) : (
                 <div
-                  className="h-9 w-9 aspect-square rounded-full bg-cyan-600 flex items-center justify-center text-white font-extrabold text-sm shadow-md relative z-10"
+                  className="h-10 w-10 aspect-square rounded-full bg-gradient-to-br from-cyan-500 to-indigo-650 flex items-center justify-center text-white font-extrabold text-sm shadow-md relative z-10 border border-white/50 dark:border-slate-800/50"
                   title={ownerName}
                 >
                   {ownerName?.charAt(0)?.toUpperCase()}
                 </div>
               )}
             </a>
+          </div>
+        ) : (
+          <div
+            className="p-3.5 bg-gradient-to-b from-white/85 to-white/45 dark:from-slate-900/90 dark:to-slate-900/40 backdrop-blur-md rounded-2xl border border-slate-200/50 dark:border-slate-800/50 shadow-[0_4px_20px_rgba(0,0,0,0.02)] dark:shadow-none transition-all duration-300 hover:border-cyan-500/20 hover:shadow-[0_8px_30px_rgba(6,182,212,0.04)] space-y-3"
+          >
+            <div className="flex items-center gap-3">
+              <a href="/dashboard/settings" className="block shrink-0 relative group">
+                <span className="absolute -bottom-0.5 -right-0.5 h-3 w-3 rounded-full bg-emerald-500 border-2 border-white dark:border-slate-950 z-20 shadow-sm animate-pulse" />
+                <div className="absolute -inset-1 bg-gradient-to-tr from-cyan-500 via-indigo-500 to-purple-500 rounded-full blur opacity-25 group-hover:opacity-75 transition duration-300"></div>
+                {ownerAvatarLink ? (
+                  <img
+                    src={ownerAvatarLink}
+                    alt={ownerName}
+                    className="h-10 w-10 aspect-square rounded-full object-cover object-center bg-cyan-600 shadow-md relative z-10 border border-white/50 dark:border-slate-800/50"
+                    title={ownerName}
+                    loading="lazy"
+                    onError={(e) => {
+                      e.currentTarget.style.display = "none";
+                    }}
+                  />
+                ) : (
+                  <div
+                    className="h-10 w-10 aspect-square rounded-full bg-gradient-to-br from-cyan-500 to-indigo-650 flex items-center justify-center text-white font-extrabold text-sm shadow-md relative z-10 border border-white/50 dark:border-slate-800/50"
+                    title={ownerName}
+                  >
+                    {ownerName?.charAt(0)?.toUpperCase()}
+                  </div>
+                )}
+              </a>
 
-            {!isCollapsed && (
-              <div className="min-w-0 flex-1">
-                <h4 className="font-bold text-sm text-slate-800 dark:text-slate-200 truncate">
+              <div className="min-w-0 flex-1 space-y-0.5">
+                <h4 className="font-extrabold text-sm text-slate-800 dark:text-white tracking-tight leading-none truncate">
                   {ownerName}
                 </h4>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate">
+                <p className="text-[10px] font-medium text-slate-400 dark:text-slate-500 truncate leading-none">
                   {ownerEmail}
                 </p>
-                <p className="text-[11px] text-slate-500 dark:text-slate-400 truncate font-semibold uppercase tracking-wider">
-                  {ownerRole}
-                </p>
+                <div className="pt-1">
+                  <span className="inline-flex px-1.5 py-0.5 rounded-md text-[8px] font-extrabold bg-indigo-50 dark:bg-indigo-950/40 text-indigo-600 dark:text-indigo-400 border border-indigo-500/10 uppercase tracking-widest leading-none">
+                    {ownerRole}
+                  </span>
+                </div>
               </div>
-            )}
-          </div>
+            </div>
 
-          {!isCollapsed && (
-            <div className="pt-2 border-t border-slate-200/20 dark:border-slate-800/20 flex items-center justify-between">
-              <span className="text-[11px] text-slate-400 font-semibold">Paket Aktif:</span>
-              <span className="px-2.5 py-0.5 rounded-full text-[10px] font-black bg-cyan-500/10 text-cyan-600 dark:text-cyan-400 border border-cyan-500/20 uppercase tracking-wider">
+            <div className="pt-2.5 border-t border-slate-100 dark:border-slate-800/60 flex items-center justify-between">
+              <span className="text-[10px] text-slate-400 dark:text-slate-500 font-bold uppercase tracking-wider">Paket Aktif</span>
+              <span className={`px-2.5 py-0.5 rounded-full text-[9px] font-black border uppercase tracking-wider transition-all duration-300 ${
+                currentPlanName?.toUpperCase() === 'FREE' 
+                  ? 'bg-slate-50 text-slate-500 dark:bg-slate-800/50 dark:text-slate-400 border-slate-200/50 dark:border-slate-700/50'
+                  : 'bg-cyan-50 text-cyan-600 dark:bg-cyan-950/20 dark:text-cyan-400 border-cyan-500/20 dark:border-cyan-400/20 shadow-xs shadow-cyan-500/10'
+              }`}>
                 {currentPlanName}
               </span>
             </div>
-          )}
-        </div>
+          </div>
+        )}
 
         {/* Navigation Menus */}
         <nav className="space-y-4">

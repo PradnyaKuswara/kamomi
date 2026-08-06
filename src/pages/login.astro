@@ -1,5 +1,4 @@
 ---
-import Navbar from "../components/Navbar";
 import { InputEmail } from "../components/ui/InputEmail";
 import { InputPassword } from "../components/ui/InputPassword";
 import "../styles/global.css";
@@ -10,6 +9,7 @@ import "../styles/global.css";
     <meta charset="utf-8" />
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <link rel="icon" href="/favicon.ico" />
+    <link rel="preload" href="/logo.png" as="image" />
     <meta name="viewport" content="width=device-width" />
     <title>Masuk - Kamomi.id</title>
     <script is:inline>
@@ -24,121 +24,161 @@ import "../styles/global.css";
       }
     </script>
   </head>
-  <body
-    class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300"
-  >
-    <Navbar client:load />
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen font-sans transition-colors duration-300">
 
-    <main class="flex-1 flex items-center justify-center p-4 pt-24">
-      <div
-        class="w-full max-w-md p-8 rounded-3xl glassmorphic border border-slate-200/50 dark:border-slate-800/50 shadow-2xl relative overflow-hidden"
-      >
-        {/* Decorative elements */}
-        <div
-          class="absolute -top-12 -left-12 h-24 w-24 bg-cyan-500/20 rounded-full blur-2xl pointer-events-none"
-        >
-        </div>
-        <div
-          class="absolute -bottom-12 -right-12 h-24 w-24 bg-blue-500/20 rounded-full blur-2xl pointer-events-none"
-        >
+    <div class="min-h-screen flex">
+      <!-- Left Brand Panel -->
+      <div class="hidden lg:flex lg:w-[52%] relative overflow-hidden bg-gradient-to-br from-cyan-600 via-cyan-700 to-slate-900">
+        <!-- Background decorative shapes -->
+        <div class="absolute inset-0">
+          <div class="absolute top-[-8%] left-[-5%] h-72 w-72 bg-white/5 rounded-full blur-3xl"></div>
+          <div class="absolute bottom-[-10%] right-[-5%] h-80 w-80 bg-cyan-400/10 rounded-full blur-3xl"></div>
+          <div class="absolute top-1/2 left-1/3 h-40 w-40 bg-white/[0.03] rounded-full blur-2xl"></div>
+          <!-- Subtle grid pattern -->
+          <div class="absolute inset-0 opacity-[0.04]" style="background-image: radial-gradient(circle, white 1px, transparent 1px); background-size: 32px 32px;"></div>
         </div>
 
-        <div class="text-center mb-8 relative">
-          <h1 class="text-3xl font-extrabold text-cyan-600 dark:text-cyan-400">
-            Selamat Datang Kembali
-          </h1>
-          <p class="text-sm text-slate-500 dark:text-slate-400 mt-2">
-            Masuk untuk mengelola digital guestbook & cetak kartu QR pintu kamar
-            Anda
+        <!-- Content -->
+        <div class="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
+          <!-- Top: Logo -->
+          <div class="flex items-center gap-3">
+            <img src="/logo.png" alt="Kamomi" class="h-10 w-10 rounded-xl shadow-lg" />
+            <span class="text-white font-black text-xl tracking-tight">Kamomi<span class="text-cyan-300">.id</span></span>
+          </div>
+
+          <!-- Center: Hero content -->
+          <div class="flex-1 flex flex-col justify-center max-w-lg">
+            <h2 class="text-4xl xl:text-5xl font-black text-white leading-[1.1] tracking-tight mb-6">
+              Kelola hunian Anda secara
+              <span class="text-cyan-300"> digital & instan</span>
+            </h2>
+            <p class="text-base text-cyan-100/80 leading-relaxed mb-10 font-medium">
+              Platform manajemen kost & homestay berbasis QR Code. Cetak kartu pintu kamar premium, kelola tata tertib, dan komunikasi tamu dalam satu dashboard.
+            </p>
+
+            <!-- Feature pills -->
+            <div class="flex flex-wrap gap-2.5">
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 text-sm text-white font-semibold">
+                <svg class="h-4 w-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+                QR Card Pintu
+              </span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 text-sm text-white font-semibold">
+                <svg class="h-4 w-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+                Dashboard Realtime
+              </span>
+              <span class="inline-flex items-center gap-2 px-4 py-2 rounded-xl bg-white/10 backdrop-blur-sm border border-white/10 text-sm text-white font-semibold">
+                <svg class="h-4 w-4 text-cyan-300" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M5 13l4 4L19 7"/></svg>
+                Kelola Staff
+              </span>
+            </div>
+          </div>
+
+          <!-- Bottom: Testimonial quote -->
+          <div class="border-t border-white/10 pt-6">
+            <p class="text-sm text-cyan-100/60 italic leading-relaxed">
+              "Setelah pakai Kamomi, operasional kost 30 kamar saya jadi jauh lebih rapi. Tamu juga senang karena bisa scan QR untuk lihat info kamar."
+            </p>
+            <div class="mt-3 flex items-center gap-3">
+              <div class="h-8 w-8 rounded-full bg-cyan-500/30 flex items-center justify-center text-white text-xs font-bold">IA</div>
+              <div>
+                <p class="text-xs font-bold text-white">Ibu Anita</p>
+                <p class="text-[10px] text-cyan-200/50">Pengelola Kost Mawar Residence</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right Form Panel -->
+      <div class="flex-1 flex flex-col justify-center items-center px-6 py-12 lg:px-16 xl:px-24 relative">
+        <!-- Background decorative -->
+        <div class="absolute top-12 right-12 h-48 w-48 bg-cyan-500/5 rounded-full blur-3xl pointer-events-none"></div>
+        <div class="absolute bottom-12 left-12 h-32 w-32 bg-slate-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+        <!-- Mobile logo (shown on small screens only) -->
+        <div class="flex lg:hidden items-center gap-3 mb-10">
+          <img src="/logo.png" alt="Kamomi" class="h-9 w-9 rounded-xl shadow-md" />
+          <span class="font-black text-lg text-slate-800 dark:text-white tracking-tight">Kamomi<span class="text-cyan-600 dark:text-cyan-400">.id</span></span>
+        </div>
+
+        <div class="w-full max-w-sm relative">
+          <div class="mb-8">
+            <h1 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">
+              Selamat Datang Kembali
+            </h1>
+            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
+              Masuk untuk mengelola dashboard & cetak QR kamar Anda
+            </p>
+          </div>
+
+          <!-- Google Login -->
+          <button
+            id="google-login-btn"
+            type="button"
+            class="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl font-bold text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all cursor-pointer shadow-sm active:scale-[0.98]"
+          >
+            <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
+              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
+              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
+              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
+            </svg>
+            Masuk dengan Google
+          </button>
+
+          <!-- Divider -->
+          <div class="relative my-6">
+            <div class="absolute inset-0 flex items-center">
+              <span class="w-full border-t border-slate-200/60 dark:border-slate-800/60"></span>
+            </div>
+            <div class="relative flex justify-center text-[10px] uppercase">
+              <span class="bg-slate-50 dark:bg-slate-950 px-3 text-slate-400 font-bold tracking-widest">atau</span>
+            </div>
+          </div>
+
+          <!-- Login Form -->
+          <form id="login-form" class="space-y-4">
+            <InputEmail
+              client:load
+              label="Email"
+              id="email"
+              required
+              placeholder="nama@email.com"
+            />
+
+            <div class="space-y-1">
+              <div class="flex justify-between items-center">
+                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password <span class="text-rose-500">*</span></span>
+                <a href="#" class="text-[10px] text-cyan-600 dark:text-cyan-400 hover:underline font-bold">Lupa Password?</a>
+              </div>
+              <InputPassword
+                client:load
+                id="password"
+                required
+                placeholder="••••••••"
+              />
+            </div>
+
+            <button
+              type="submit"
+              class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-cyan-600 text-white hover:bg-cyan-500 transition-all shadow-lg shadow-cyan-600/15 cursor-pointer active:scale-[0.98]"
+            >
+              Masuk Akun
+            </button>
+          </form>
+
+          <p class="mt-8 text-center text-xs text-slate-500 dark:text-slate-400">
+            Belum punya akun?
+            <a href="/register" class="text-cyan-600 dark:text-cyan-400 font-bold hover:underline ml-1">Daftar Sekarang</a>
           </p>
         </div>
 
-        <form id="login-form" class="space-y-5 relative">
-          <InputEmail
-            client:load
-            label="Email"
-            id="email"
-            required
-            placeholder="nama@email.com"
-          />
-
-          <div class="space-y-1">
-            <div class="flex justify-between items-center">
-              <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password <span class="text-rose-500">*</span></span>
-              <a
-                href="#"
-                class="text-xs text-cyan-600 dark:text-cyan-400 hover:underline"
-                >Lupa Password?</a
-              >
-            </div>
-            <InputPassword
-              client:load
-              id="password"
-              required
-              placeholder="••••••••"
-            />
-          </div>
-
-          <button
-            type="submit"
-            class="w-full py-3.5 px-4 rounded-xl font-bold text-sm bg-cyan-600 text-white hover:opacity-90 transition-all shadow-md shadow-cyan-500/10 cursor-pointer"
-          >
-            Masuk Akun
-          </button>
-        </form>
-
-        <div class="relative my-5">
-          <div class="absolute inset-0 flex items-center">
-            <span
-              class="w-full border-t border-slate-200/50 dark:border-slate-800/50"
-            ></span>
-          </div>
-          <div class="relative flex justify-center text-[10px] uppercase">
-            <span
-              class="bg-white/80 dark:bg-slate-900/80 backdrop-blur-md px-2.5 text-slate-400 font-semibold tracking-wider"
-              >Atau masuk dengan</span
-            >
-          </div>
-        </div>
-
-        <button
-          id="google-login-btn"
-          type="button"
-          class="w-full flex items-center justify-center gap-3 py-3.5 px-4 rounded-xl font-bold text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all cursor-pointer shadow-sm active:scale-98"
-        >
-          <svg
-            class="h-5 w-5 shrink-0"
-            viewBox="0 0 24 24"
-            fill="none"
-            xmlns="http://www.w3.org/2000/svg"
-          >
-            <path
-              d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"
-              fill="#4285F4"></path>
-            <path
-              d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"
-              fill="#34A853"></path>
-            <path
-              d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"
-              fill="#FBBC05"></path>
-            <path
-              d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"
-              fill="#EA4335"></path>
-          </svg>
-          Masuk dengan Google
-        </button>
-
-        <div
-          class="mt-6 text-center text-xs text-slate-500 dark:text-slate-400"
-        >
-          Belum punya akun? <a
-            href="/register"
-            class="text-cyan-600 dark:text-cyan-400 font-semibold hover:underline"
-            >Daftar Sekarang</a
-          >
-        </div>
+        <!-- Footer -->
+        <p class="absolute bottom-6 text-[10px] text-slate-400/60 font-medium">
+          &copy; 2026 Kamomi.id &mdash; Platform Manajemen Hunian Digital
+        </p>
       </div>
-    </main>
+    </div>
 
     <script>
       import ApiService, { type ApiResponse } from "../services/api";

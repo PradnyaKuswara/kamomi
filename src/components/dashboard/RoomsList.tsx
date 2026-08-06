@@ -3,6 +3,7 @@ import {
   Plus,
   HelpCircle,
   DoorOpen,
+  History,
 } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useUserData } from '../../hooks/useUserData';
@@ -22,6 +23,7 @@ import EmptyState from '../ui/EmptyState';
 import RoomFormModal from '../modal/RoomFormModal';
 import RoomCard from '../card/RoomCard';
 import TooltipButton from '../button/TooltipButton';
+import RoomLogsSidebar from './RoomLogsSidebar';
 
 const defaultQueryClient = new QueryClient();
 
@@ -51,6 +53,7 @@ function RoomsListContent() {
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [editingRoom, setEditingRoom] = useState<Room | null>(null);
   const [deleteRoomId, setDeleteRoomId] = useState<number | null>(null);
+  const [logRoom, setLogRoom] = useState<{ id: number; roomNumber: string } | null>(null);
 
   const canAddRoom = useMemo(() => {
     return user.roleName === 'ADMIN' || user.roleName === 'SUPER ADMIN';
@@ -90,7 +93,7 @@ function RoomsListContent() {
     setIsFormOpen(true);
   };
 
-  const handleSubmit = async (data: { roomNumber: string; wifiSsid: string; wifiPassword?: string }) => {
+  const handleSubmit = async (data: { roomNumber: string; wifiSsid: string; wifiPassword?: string; isActive?: boolean }) => {
     if (!data.roomNumber.trim() || !data.wifiSsid.trim()) {
       toast.error('Nomor Kamar dan SSID Wi-Fi wajib diisi.');
       return;
@@ -100,6 +103,7 @@ function RoomsListContent() {
       roomNumber: data.roomNumber,
       wifiSsid: data.wifiSsid,
       wifiPassword: data.wifiPassword || undefined,
+      isActive: data.isActive,
     };
 
     try {
@@ -147,29 +151,31 @@ function RoomsListContent() {
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
-            Daftar Kamar &amp; Link QR
+            Daftar Ruangan &amp; Link QR
           </h1>
           <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
-            Kelola informasi Wi-Fi, tata tertib, dan ekspor stiker QR untuk setiap kamar.
+            Kelola informasi Wi-Fi, aturan, dan ekspor stiker QR untuk setiap kamar.
           </p>
         </div>
 
-        <TooltipButton
-          disabled={!canAddRoom || isMaxRoom}
-          tooltipMessage={
-            !canAddRoom
-              ? "Anda tidak memiliki izin untuk menambah kamar."
-              : isMaxRoom
-              ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
-              : undefined
-          }
-          position='bottom'
-          onClick={handleOpenCreate}
-          className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 hover:opacity-90 transition-all self-start sm:self-center cursor-pointer"
-        >
-          <Plus className="h-4 w-4" />
-          Tambah Kamar Baru
-        </TooltipButton>
+        <div className="flex items-center gap-2 self-start sm:self-center">
+          <TooltipButton
+            disabled={!canAddRoom || isMaxRoom}
+            tooltipMessage={
+              !canAddRoom
+                ? "Anda tidak memiliki izin untuk menambah kamar."
+                : isMaxRoom
+                ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
+                : undefined
+            }
+            position='bottom'
+            onClick={handleOpenCreate}
+            className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 hover:opacity-90 transition-all cursor-pointer"
+          >
+            <Plus className="h-4 w-4" />
+            Tambah Kamar Baru
+          </TooltipButton>
+        </div>
       </div>
 
       {/* Loading */}
@@ -201,13 +207,15 @@ function RoomsListContent() {
       {/* Card Grid */}
       {!isLoadingRooms && !isError && rooms.length > 0 && (
         <>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-3">
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 xl:grid-cols-5 gap-4">
             {rooms.map((room) => (
               <RoomCard
                 key={room.id}
                 room={room}
+                propertyId={propertyId}
                 onEdit={() => handleOpenEdit(room)}
                 onDelete={() => setDeleteRoomId(room.id)}
+                onViewLogs={() => setLogRoom({ id: room.id, roomNumber: room.roomNumber })}
                 formatDate={formatDate}
               />
             ))}
@@ -246,6 +254,15 @@ function RoomsListContent() {
         cancelText="Batal"
         isDanger={true}
         isLoading={deleteMutation.isPending}
+      />
+
+      {/* Logs Sidebar */}
+      <RoomLogsSidebar
+        isOpen={logRoom !== null}
+        onClose={() => setLogRoom(null)}
+        propertyId={propertyId}
+        roomId={logRoom ? logRoom.id : null}
+        roomNumber={logRoom ? logRoom.roomNumber : null}
       />
     </div>
   );

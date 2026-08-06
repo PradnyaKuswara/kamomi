@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import ApiService, { type ApiResponse } from '../services/api';
-import type { Room, RoomRequest } from '../types/room';
+import type { Room, RoomRequest, RoomLog } from '../types/room';
 import type { Page } from '../types/rule';
 
 // Fetch all rooms paginated
@@ -100,5 +100,30 @@ export function useDeleteRoomMutation(propertyId: number | undefined) {
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['rooms', propertyId] });
     },
+  });
+}
+
+// Fetch logs
+export const getRoomLogs = async (propertyId: number): Promise<ApiResponse<RoomLog[]>> => {
+  return ApiService.get<ApiResponse<RoomLog[]>>(`/api/properties/${propertyId}/rooms/logs`);
+};
+
+export function useRoomLogsQuery(propertyId: number | undefined, enabled = false) {
+  return useQuery<ApiResponse<RoomLog[]>, Error>({
+    queryKey: ['room-logs', propertyId],
+    queryFn: () => getRoomLogs(propertyId!),
+    enabled: !!propertyId && enabled,
+  });
+}
+
+export const getRoomLogsByRoom = async (propertyId: number, roomId: number): Promise<ApiResponse<RoomLog[]>> => {
+  return ApiService.get<ApiResponse<RoomLog[]>>(`/api/properties/${propertyId}/rooms/${roomId}/logs`);
+};
+
+export function useRoomLogsByRoomQuery(propertyId: number | undefined, roomId: number | undefined, enabled = false) {
+  return useQuery<ApiResponse<RoomLog[]>, Error>({
+    queryKey: ['room-logs', propertyId, roomId],
+    queryFn: () => getRoomLogsByRoom(propertyId!, roomId!),
+    enabled: !!propertyId && !!roomId && enabled,
   });
 }

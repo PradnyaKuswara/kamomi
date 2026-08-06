@@ -6,7 +6,7 @@ import type { Room } from '../../types/room';
 interface RoomFormModalProps {
   isOpen: boolean;
   onClose: () => void;
-  onSubmit: (data: { roomNumber: string; wifiSsid: string; wifiPassword?: string }) => Promise<void>;
+  onSubmit: (data: { roomNumber: string; wifiSsid: string; wifiPassword?: string; isActive?: boolean }) => Promise<void>;
   editingRoom: Room | null;
   isLoading: boolean;
 }
@@ -21,16 +21,19 @@ export default function RoomFormModal({
   const [roomNumber, setRoomNumber] = useState('');
   const [wifiSsid, setWifiSsid] = useState('');
   const [wifiPassword, setWifiPassword] = useState('');
+  const [isActive, setIsActive] = useState(true);
 
   useEffect(() => {
     if (editingRoom) {
       setRoomNumber(editingRoom.roomNumber);
       setWifiSsid(editingRoom.wifiSsid);
       setWifiPassword(editingRoom.wifiPassword || '');
+      setIsActive(editingRoom.isActive !== false);
     } else {
       setRoomNumber('');
       setWifiSsid('');
       setWifiPassword('');
+      setIsActive(true);
     }
   }, [editingRoom, isOpen]);
 
@@ -38,7 +41,7 @@ export default function RoomFormModal({
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    await onSubmit({ roomNumber, wifiSsid, wifiPassword });
+    await onSubmit({ roomNumber, wifiSsid, wifiPassword, isActive });
   };
 
   return (
@@ -64,7 +67,7 @@ export default function RoomFormModal({
           />
           <FormInput
             label="Wi-Fi SSID"
-            placeholder="Contoh: Kost_Adem_101"
+            placeholder="Contoh: Prompt_Indo_101"
             value={wifiSsid}
             onChange={(e) => setWifiSsid(e.target.value)}
             required
@@ -76,6 +79,29 @@ export default function RoomFormModal({
             value={wifiPassword}
             onChange={(e) => setWifiPassword(e.target.value)}
           />
+
+          {editingRoom && (
+            <div className="flex items-center justify-between p-3 rounded-2xl bg-slate-50 dark:bg-slate-950/40 border border-slate-200/55 dark:border-slate-800/50">
+              <div className="space-y-0.5">
+                <span className="text-xs font-bold text-slate-700 dark:text-slate-200">Status Aktif Kamar</span>
+                <p className="text-[9px] text-slate-450 dark:text-slate-500">Sembunyikan informasi dari halaman tamu</p>
+              </div>
+              <button
+                type="button"
+                onClick={() => setIsActive(!isActive)}
+                className={`relative inline-flex h-5 w-9 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${
+                  isActive ? 'bg-cyan-600' : 'bg-slate-300 dark:bg-slate-700'
+                }`}
+              >
+                <span
+                  className={`pointer-events-none inline-block h-4 w-4 transform rounded-full bg-white shadow-sm ring-0 transition duration-205 ease-in-out ${
+                    isActive ? 'translate-x-4' : 'translate-x-0'
+                  }`}
+                />
+              </button>
+            </div>
+          )}
+
           <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
             <button
               type="button"

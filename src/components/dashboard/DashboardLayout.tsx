@@ -217,13 +217,14 @@ function DashboardLayoutContent({
 
   const fetchedMenus = menus;
 
-  const getIconComponent = (iconName: string) => {
+    const getIconComponent = (iconName: string) => {
     const normalized = iconName.toLowerCase().replace(/[^a-z0-9]/g, "");
     if (normalized === "dooropen" || normalized === "room") return DoorClosed;
     if (normalized === "rules") return FileText;
     if (normalized === "settingsaccount") return Settings;
     if (normalized === "faq") return HelpCircle;
     if (normalized === "complaints") return AlertTriangle;
+    if (normalized === "bookopen" || normalized === "guides") return LucideIcons.BookOpen;
 
     const foundKey = Object.keys(LucideIcons).find(
       (key) => key.toLowerCase() === normalized,

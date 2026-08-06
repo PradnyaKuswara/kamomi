@@ -7,28 +7,81 @@ interface RightSidebarProps {
 }
 
 export default function RightSidebar({ activeNotification, setActiveNotification }: RightSidebarProps) {
+  const banners = [
+    {
+      id: 1,
+      tag: "Rekomendasi Pintar",
+      title: "Cetak Tag Akrilik Pintu",
+      desc: "Pasang dudukan akrilik A6 di pintu kamar agar terlihat mewah dan profesional seperti hotel berbintang.",
+      bgClass: "bg-emerald-600 dark:bg-emerald-700",
+      buttonText: "Lihat Panduan Cetak",
+      buttonHref: "/dashboard/faq",
+    },
+    {
+      id: 2,
+      tag: "Tips Efisiensi",
+      title: "Kelola Tamu Realtime",
+      desc: "Update tata tertib & Wi-Fi kamar kapan saja. Tamu dapat langsung memindai QR untuk info terbaru.",
+      bgClass: "bg-cyan-600 dark:bg-cyan-700",
+      buttonText: "Pelajari Fitur",
+      buttonHref: "/dashboard/faq",
+    },
+    {
+      id: 3,
+      tag: "Info Upgrade",
+      title: "Upgrade Premium",
+      desc: "Nikmati cetak QR tak terbatas, kustomisasi desain QR, dan kelola banyak properti dalam satu akun.",
+      bgClass: "bg-indigo-600 dark:bg-indigo-700",
+      buttonText: "Upgrade Akun",
+      buttonHref: "/dashboard/settings",
+    }
+  ];
+
+  const [currentBanner, setCurrentBanner] = React.useState(0);
+
+  React.useEffect(() => {
+    const timer = setInterval(() => {
+      setCurrentBanner((prev) => (prev + 1) % banners.length);
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+
+  const activeBanner = banners[currentBanner];
+
   return (
     <aside className="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-5 space-y-6 shrink-0">
-      {/* Smart Recommendation Card */}
-      <div className="p-5 rounded-2xl bg-cyan-600 text-white shadow-lg space-y-4 relative overflow-hidden">
+      {/* Banner Carousel Container */}
+      <div className={`p-5 rounded-2xl ${activeBanner.bgClass} text-white shadow-lg space-y-4 relative overflow-hidden transition-all duration-550 ease-in-out`}>
         <div className="absolute top-0 right-0 p-3 opacity-15">
           <QrCode className="h-16 w-16" />
         </div>
-        <span className="text-[9px] font-black uppercase bg-white/20 px-2 py-0.5 rounded-full inline-block">
-          Rekomendasi Pintar
-        </span>
-        <div className="space-y-1.5 relative">
-          <h4 className="font-extrabold text-sm">Cetak Tag Akrilik Pintu</h4>
-          <p className="text-[11px] text-cyan-50/80 leading-relaxed">
-            Pasang dudukan akrilik A6 di pintu kamar agar terlihat mewah dan profesional seperti
-            hotel berbintang.
+        <div className="flex justify-between items-center relative z-10">
+          <span className="text-[8px] font-black uppercase bg-white/20 px-2 py-0.5 rounded-md tracking-wider">
+            {activeBanner.tag}
+          </span>
+          <div className="flex gap-1">
+            {banners.map((_, idx) => (
+              <button
+                key={idx}
+                onClick={() => setCurrentBanner(idx)}
+                className={`h-1 w-1.5 rounded-full transition-all duration-300 ${
+                  idx === currentBanner ? "bg-white w-3" : "bg-white/40"
+                }`}
+              />
+            ))}
+          </div>
+        </div>
+        <div className="space-y-1.5 relative z-10 min-h-[64px]">
+          <h4 className="font-extrabold text-sm tracking-tight">{activeBanner.title}</h4>
+          <p className="text-[11px] text-white/90 leading-relaxed font-medium">
+            {activeBanner.desc}
           </p>
         </div>
         <a
-          href="/dashboard/faq"
-          className="w-full py-2 bg-white text-cyan-600 rounded-xl font-bold text-xs hover:bg-slate-50 transition-all text-center block"
+          href={activeBanner.buttonHref}
+          className="w-full py-2 bg-white text-slate-800 dark:bg-slate-950 dark:text-white rounded-xl font-bold text-xs hover:opacity-90 transition-all text-center block relative z-10 shadow-xs"
         >
-          Lihat Panduan Cetak
+          {activeBanner.buttonText}
         </a>
       </div>
 
