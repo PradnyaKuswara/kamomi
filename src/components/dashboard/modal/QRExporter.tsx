@@ -9,7 +9,7 @@ import {
   Type,
   Eye,
 } from 'lucide-react';
-import { useUserData } from '../hooks/useUserData';
+import { useUserData } from '../../../hooks/useUserData';
 
 interface QRExporterProps {
   propertyName?: string;
@@ -52,7 +52,7 @@ export default function QRExporter({
   const isFreePlan = subscriptionInfo?.isFreePlan ?? true;
 
   const [qrCodeDataUrl, setQrCodeDataUrl] = useState('');
-  
+
   // Local fallbacks if props are not provided
   const [localCardColor, setLocalCardColor] = useState('cyan');
   const [localTemplate, setLocalTemplate] = useState<'modern' | 'minimal' | 'luxury' | 'glass' | 'neon' | 'retro'>('modern');
@@ -64,22 +64,22 @@ export default function QRExporter({
   // Active state choices (prop || local fallback)
   const cardColor = propCardColor || localCardColor;
   const setCardColor = propSetCardColor || setLocalCardColor;
-  
+
   const template = propTemplate || localTemplate;
   const setTemplate = propSetTemplate || setLocalTemplate;
-  
+
   const customTitle = propCustomTitle || localCustomTitle;
   const setCustomTitle = propSetCustomTitle || setLocalCustomTitle;
-  
+
   const labelRoom = propLabelRoom || localLabelRoom;
   const setLabelRoom = propSetLabelRoom || setLocalLabelRoom;
-  
+
   const customInstruction = propCustomInstruction || localCustomInstruction;
   const setCustomInstruction = propSetCustomInstruction || setLocalCustomInstruction;
-  
+
   const showLogo = propShowLogo !== undefined ? propShowLogo : localShowLogo;
   const setShowLogo = propSetShowLogo || setLocalShowLogo;
-  
+
   const printRef = useRef<HTMLDivElement | null>(null);
 
   // Set watermark defaults based on subscription plan
@@ -183,15 +183,15 @@ export default function QRExporter({
       darkColor = '#fbbf24'; // gold
       lightColor = '#0f172a'; // dark background for luxury
     } else if (template === 'neon') {
-      darkColor = 
-        cardColor === 'cyan' ? '#22d3ee' : 
-        cardColor === 'indigo' ? '#818cf8' : 
-        cardColor === 'emerald' ? '#34d399' : 
-        cardColor === 'amber' ? '#fbbf24' : 
-        cardColor === 'rose' ? '#fda4af' : 
-        cardColor === 'violet' ? '#c084fc' : 
-        cardColor === 'teal' ? '#2dd4bf' : 
-        '#cbd5e1'; // slate
+      darkColor =
+        cardColor === 'cyan' ? '#22d3ee' :
+          cardColor === 'indigo' ? '#818cf8' :
+            cardColor === 'emerald' ? '#34d399' :
+              cardColor === 'amber' ? '#fbbf24' :
+                cardColor === 'rose' ? '#fda4af' :
+                  cardColor === 'violet' ? '#c084fc' :
+                    cardColor === 'teal' ? '#2dd4bf' :
+                      '#cbd5e1'; // slate
       lightColor = '#0f172a'; // dark background for neon
     } else if (template === 'retro') {
       darkColor = '#1c1917'; // warm charcoal
@@ -323,7 +323,7 @@ export default function QRExporter({
           <div className="w-full h-full flex flex-col justify-between items-center text-[#1c1917] p-2 relative">
             {/* Double Border Inset */}
             <div className="absolute inset-1.5 border border-[#1c1917] pointer-events-none" />
-            
+
             {/* Top Brand Info with decorative line underneath */}
             <div className="text-center mt-3 w-full">
               <span className="text-[12px] font-serif italic font-bold tracking-wider">
@@ -474,7 +474,7 @@ export default function QRExporter({
             {labelRoom || roomNumber ? (
               <div className="text-center my-1">
                 <div className="text-[9px] uppercase font-bold tracking-widest text-amber-500/70">{labelRoom}</div>
-                <div className="text-6xl font-black tracking-tighter mt-0.5 text-transparent bg-clip-text bg-gradient-to-r from-amber-300 via-yellow-400 to-amber-500">
+                <div className="text-6xl font-black tracking-tighter mt-0.5 text-transparent bg-clip-text bg-linear-to-r from-amber-300 via-yellow-400 to-amber-500">
                   {roomNumber}
                 </div>
               </div>
@@ -601,11 +601,10 @@ export default function QRExporter({
                 key={t.id}
                 type="button"
                 onClick={() => setTemplate(t.id as any)}
-                className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all cursor-pointer ${
-                  template === t.id
-                    ? 'bg-cyan-600 text-white border-cyan-600 shadow-md shadow-cyan-600/10'
-                    : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
-                }`}
+                className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all cursor-pointer ${template === t.id
+                  ? 'bg-cyan-600 text-white border-cyan-600 shadow-md shadow-cyan-600/10'
+                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                  }`}
               >
                 {t.label}
               </button>
@@ -634,11 +633,10 @@ export default function QRExporter({
                 <button
                   key={c.id}
                   onClick={() => setCardColor(c.id)}
-                  className={`h-8 w-8 rounded-full border-2 transition-all ${c.color} ${
-                    cardColor === c.id
-                      ? 'border-slate-900 dark:border-white scale-110 shadow-lg'
-                      : 'border-transparent hover:scale-105'
-                  }`}
+                  className={`h-8 w-8 rounded-full border-2 transition-all ${c.color} ${cardColor === c.id
+                    ? 'border-slate-900 dark:border-white scale-110 shadow-lg'
+                    : 'border-transparent hover:scale-105'
+                    }`}
                 />
               ))}
             </div>
@@ -651,7 +649,7 @@ export default function QRExporter({
             <Type className="h-4 w-4" />
             Sesuaikan Tulisan Kartu
           </label>
-          
+
           <div className="space-y-3">
             <div>
               <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase block mb-1">
@@ -702,12 +700,12 @@ export default function QRExporter({
                 Watermark Kamomi.id
               </label>
               <p className="text-[10px] text-slate-400">
-                {isFreePlan 
-                  ? "Watermark wajib untuk paket FREE" 
+                {isFreePlan
+                  ? "Watermark wajib untuk paket FREE"
                   : "Aktifkan/nonaktifkan branding Kamomi di kartu"}
               </p>
             </div>
-            
+
             {isFreePlan ? (
               <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 text-[10px] font-bold rounded-lg border border-slate-200 dark:border-slate-800 select-none">
                 Selalu Aktif (FREE)
@@ -716,14 +714,12 @@ export default function QRExporter({
               <button
                 type="button"
                 onClick={() => setShowLogo(!showLogo)}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${
-                  showLogo ? 'bg-cyan-600' : 'bg-slate-200 dark:bg-slate-800'
-                }`}
+                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${showLogo ? 'bg-cyan-600' : 'bg-slate-200 dark:bg-slate-800'
+                  }`}
               >
                 <span
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${
-                    showLogo ? 'translate-x-5' : 'translate-x-0'
-                  }`}
+                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${showLogo ? 'translate-x-5' : 'translate-x-0'
+                    }`}
                 />
               </button>
             )}
@@ -771,41 +767,40 @@ export default function QRExporter({
         {/* Printable Card Area */}
         <div
           ref={printRef}
-          className={`rounded-3xl p-8 shadow-2xl border-4 w-75 h-105 flex flex-col justify-between items-center relative overflow-hidden transition-all duration-300 ${
-            template === 'luxury'
-              ? 'bg-slate-950 text-white border-amber-400'
-              : template === 'minimal'
+          className={`rounded-3xl p-8 shadow-2xl border-4 w-75 h-105 flex flex-col justify-between items-center relative overflow-hidden transition-all duration-300 ${template === 'luxury'
+            ? 'bg-slate-950 text-white border-amber-400'
+            : template === 'minimal'
               ? 'bg-white text-slate-900 border-slate-100 shadow-lg'
               : template === 'glass'
-              ? 'bg-gradient-to-br from-slate-100/80 via-slate-50/70 to-slate-100/80 border-white/70 shadow-2xl backdrop-blur-md text-slate-900'
-              : template === 'neon'
-              ? 'bg-slate-950 text-white ' + colors.neonGlow
-              : template === 'retro'
-              ? 'bg-[#fdfaf2] text-[#1c1917] border-4 border-double border-[#1c1917]'
-              : 'bg-white text-slate-900 border-slate-900'
-          }`}
+                ? 'bg-linear-to-br from-slate-100/80 via-slate-50/70 to-slate-100/80 border-white/70 shadow-2xl backdrop-blur-md text-slate-900'
+                : template === 'neon'
+                  ? 'bg-slate-950 text-white ' + colors.neonGlow
+                  : template === 'retro'
+                    ? 'bg-[#fdfaf2] text-[#1c1917] border-4 border-double border-[#1c1917]'
+                    : 'bg-white text-slate-900 border-slate-900'
+            }`}
         >
           {/* Glassmorphic inner background overlay for glass preview */}
           {template === 'glass' && (
-            <div className={`absolute inset-0 bg-gradient-to-br ${colors.gradient} opacity-20 -z-10`} />
+            <div className={`absolute inset-0 bg-linear-to-br ${colors.gradient} opacity-20 -z-10`} />
           )}
 
           {/* Theme Stripes / Headers based on templates */}
           {template === 'modern' && (
             <div
-              className={`absolute top-0 left-0 w-full h-4 bg-gradient-to-r ${colors.gradient}`}
+              className={`absolute top-0 left-0 w-full h-4 bg-linear-to-r ${colors.gradient}`}
             />
           )}
 
           {template === 'luxury' && (
             <div
-              className="absolute top-0 left-0 w-full h-4 bg-gradient-to-r from-amber-400 via-yellow-500 to-amber-600"
+              className="absolute top-0 left-0 w-full h-4 bg-linear-to-r from-amber-400 via-yellow-500 to-amber-600"
             />
           )}
 
           {template === 'neon' && (
             <div
-              className={`absolute top-0 left-0 w-full h-3 bg-gradient-to-r ${colors.gradient}`}
+              className={`absolute top-0 left-0 w-full h-3 bg-linear-to-r ${colors.gradient}`}
             />
           )}
 

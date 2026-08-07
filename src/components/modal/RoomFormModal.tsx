@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Loader2 } from 'lucide-react';
-import { FormInput } from '../ui/FormInput';
+import { FormInput } from '../input/FormInput';
 import type { Room } from '../../types/room';
 
 interface RoomFormModalProps {

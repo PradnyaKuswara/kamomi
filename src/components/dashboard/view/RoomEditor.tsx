@@ -1,19 +1,19 @@
 import { useState, useEffect } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useUserData } from '../hooks/useUserData';
-import { useRoomQuery, useUpdateRoomMutation } from '../rest/useRoom';
+import { useUserData } from '../../../hooks/useUserData';
+import { useRoomQuery, useUpdateRoomMutation } from '../../../rest/useRoom';
 import {
   useRulesQuery,
   useCreateRuleMutation,
   useUpdateRuleMutation,
   useDeleteRuleMutation,
-} from '../rest/useRule';
-import WiFiCard from './WiFiCard.tsx';
-import HouseRules from './HouseRules.tsx';
-import FacilityGuides from './FacilityGuides.tsx';
-import QuickContact from './QuickContact.tsx';
-import QRExporter from './QRExporter.tsx';
-import { toast } from '../hooks/useToast';
+} from '../../../rest/useRule';
+import WiFiCard from '../../guest/WiFiCard.tsx';
+import HouseRules from '../../guest/HouseRules.tsx';
+import FacilityGuides from '../../guest/FacilityGuides.tsx';
+import QuickContact from '../../guest/QuickContact.tsx';
+import QRExporter from '../modal/QRExporter.tsx';
+import { toast } from '../../../hooks/useToast';
 import {
   Eye,
   Edit,
@@ -127,7 +127,7 @@ function RoomEditorContent() {
 
   if (!propertyId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
         <HelpCircle className="h-12 w-12 text-slate-400" />
         <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
         <p className="text-xs text-slate-400 max-w-sm">
@@ -139,7 +139,7 @@ function RoomEditorContent() {
 
   if (isLoadingRoom || roomId === null) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
         <Loader2 className="h-8 w-8 text-cyan-500 animate-spin" />
         <p className="text-xs text-slate-400">Memuat data kamar...</p>
       </div>
@@ -336,33 +336,30 @@ function RoomEditorContent() {
           <div className="flex p-1 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-slate-200/10">
             <button
               onClick={() => setActivePane('editor')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activePane === 'editor'
-                  ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
-              }`}
+              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activePane === 'editor'
+                ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
+                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+                }`}
             >
               <Edit className="h-4 w-4" />
               Edit Info
             </button>
             <button
               onClick={() => setActivePane('exporter')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activePane === 'exporter'
-                  ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
-              }`}
+              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activePane === 'exporter'
+                ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
+                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+                }`}
             >
               <FileText className="h-4 w-4" />
               Cetak QR Card
             </button>
             <button
               onClick={() => setActivePane('guest-preview')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${
-                activePane === 'guest-preview'
-                  ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
-                  : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
-              }`}
+              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activePane === 'guest-preview'
+                ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
+                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+                }`}
             >
               <Eye className="h-4 w-4" />
               Preview Tamu
@@ -477,7 +474,7 @@ function RoomEditorContent() {
                 </div>
               </div>
 
-              <div className="space-y-3 max-h-[350px] overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
+              <div className="space-y-3 max-h-87.5 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
                 {rules.length === 0 ? (
                   <p className="text-xs text-slate-400 text-center py-4">
                     Belum ada tata tertib khusus untuk kamar ini. Klik "Terapkan Master Template" atau tambahkan aturan di bawah.

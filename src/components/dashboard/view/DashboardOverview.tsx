@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { CheckCircle2, ArrowRight } from 'lucide-react';
-import { useUserData } from '../../hooks/useUserData';
-import { useActiveSubscriptionPlansQuery } from '../../rest/useSubscriptionPlans';
+import { useUserData } from '../../../hooks/useUserData';
+import { useActiveSubscriptionPlansQuery } from '../../../rest/useSubscriptionPlans';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const defaultQueryClient = new QueryClient();
@@ -63,10 +63,10 @@ function DashboardOverviewContent() {
   };
 
   return (
-    <div className="relative min-h-[600px] space-y-8">
+    <div className="relative min-h-150 space-y-8">
       {/* Blurred Dashboard Content Container for Free Plan */}
       <div className={`space-y-8 transition-all duration-300 ${isFreePlan ? 'blur-md select-none pointer-events-none opacity-40' : ''}`}>
-        
+
         {/* Subscription Banner */}
         <div className="bg-cyan-950/40 border border-cyan-500/20 rounded-2xl p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 relative overflow-hidden">
           <div className="flex items-center gap-3.5 z-10">
@@ -105,8 +105,8 @@ function DashboardOverviewContent() {
               Pantau akses Wi-Fi, tata tertib, dan keluhan kost Anda dengan praktis.
             </p>
           </div>
-          
-          <a 
+
+          <a
             href="/dashboard/rooms"
             className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/10 hover:opacity-90 transition-all self-start sm:self-center"
           >
@@ -207,7 +207,7 @@ function DashboardOverviewContent() {
 
       {/* Lock Overlay Modal for Free Plan Users */}
       {isFreePlan && (
-        <div className="absolute inset-0 z-30 flex items-center justify-center p-4 sm:p-6 bg-slate-650/80 backdrop-blur-sm rounded-3xl min-h-[500px]">
+        <div className="absolute inset-0 z-30 flex items-center justify-center p-4 sm:p-6 bg-slate-650/80 backdrop-blur-sm rounded-3xl min-h-125">
           <div className="w-full max-w-lg p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl text-center space-y-5 relative overflow-hidden">
 
             <div className="h-16 w-16 mx-auto rounded-3xl bg-cyan-600 flex items-center justify-center text-white text-2xl shadow-xl">

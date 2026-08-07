@@ -1,8 +1,8 @@
 import React, { useState } from 'react';
 import { Home, Building2, Briefcase, MapPin, CheckCircle2, ChevronRight, ChevronLeft, Sparkles, Loader2, Hotel } from 'lucide-react';
-import { useCreatePropertyMutation } from '../../rest/useProperty';
-import { useUserData } from '../../hooks/useUserData';
-import { toast } from '../../hooks/useToast';
+import { useCreatePropertyMutation } from '../../../rest/useProperty';
+import { useUserData } from '../../../hooks/useUserData';
+import { toast } from '../../../hooks/useToast';
 
 interface PropertyWizardModalProps {
   onComplete: (propertyName: string) => void;
@@ -109,7 +109,7 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
   };
 
   return (
-    <div className="fixed inset-0 z-[10000] flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
+    <div className="fixed inset-0 z-10000 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
       <div className="w-full max-w-xl p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden flex flex-col">
         {/* Glow Decor */}
         <div className="absolute -top-16 -left-16 h-36 w-36 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
@@ -169,11 +169,10 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
                     key={item.id}
                     type="button"
                     onClick={() => setPropertyType(item.id)}
-                    className={`p-4 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${
-                      isSelected
+                    className={`p-4 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${isSelected
                         ? 'bg-cyan-500/10 border-cyan-500 text-cyan-600 dark:text-cyan-400 ring-2 ring-cyan-500/20'
                         : 'bg-slate-50/50 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
-                    }`}
+                      }`}
                   >
                     <div className="flex items-center gap-3.5">
                       <div className={`p-3 rounded-xl ${isSelected ? 'bg-cyan-500 text-white' : 'bg-slate-200/60 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>

@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { User, Mail, Lock, Building, MapPin, Save, ShieldCheck, CheckCircle2 } from 'lucide-react';
-import { useUserData } from '../../hooks/useUserData';
-import DashboardLayout from './DashboardLayout';
-import { toast } from '../../hooks/useToast';
-import { FormInput } from '../ui/FormInput';
+import { useUserData } from '../../../hooks/useUserData';
+import DashboardLayout from '../layout/DashboardLayout';
+import { toast } from '../../../hooks/useToast';
+import { FormInput } from '../../input/FormInput';
 
 export default function AccountSettings() {
   return (

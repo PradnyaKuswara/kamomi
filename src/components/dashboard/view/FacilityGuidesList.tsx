@@ -1,19 +1,19 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, HelpCircle, Wind, Tv, Thermometer, Lightbulb, ArrowUp, ArrowDown, ChevronRight } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
-import { FormInput } from '../ui/FormInput';
-import ConfirmationModal from '../ui/ConfirmationModal';
-import Pagination from '../ui/Pagination';
-import { toast } from '../../hooks/useToast';
-import { useUserData } from '../../hooks/useUserData';
+import { FormInput } from '../../input/FormInput';
+import ConfirmationModal from '../../modal/ConfirmationModal';
+import Pagination from '../../ui/Pagination';
+import { toast } from '../../../hooks/useToast';
+import { useUserData } from '../../../hooks/useUserData';
 import {
   useGuidesQuery,
   useCreateGuideMutation,
   useUpdateGuideMutation,
   useDeleteGuideMutation,
   type FacilityGuideRequest,
-} from '../../rest/useFacilityGuide';
-import type { FacilityGuide } from '../../types/facility-guide';
+} from '../../../rest/useFacilityGuide';
+import type { FacilityGuide } from '../../../types/facility-guide';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const defaultQueryClient = new QueryClient();
@@ -72,7 +72,7 @@ function FacilityGuidesListContent() {
 
   if (!propertyId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
         <HelpCircle className="h-12 w-12 text-slate-400" />
         <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
         <p className="text-xs text-slate-400 max-w-sm">

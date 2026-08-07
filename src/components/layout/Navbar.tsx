@@ -13,7 +13,7 @@ import {
   Smartphone,
 } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useCheckMeMutation, useLogoutMutation } from '../rest/useCheckMe';
+import { useCheckMeMutation, useLogoutMutation } from '../../rest/useCheckMe';
 import ToastContainer from './ToastContainer';
 
 const queryClient = new QueryClient();

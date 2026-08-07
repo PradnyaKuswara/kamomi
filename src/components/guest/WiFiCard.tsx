@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { Wifi, Copy, Check, Info } from 'lucide-react';
-import { toast } from '../hooks/useToast';
+import { toast } from '../../hooks/useToast';
 
 export default function WiFiCard({ ssid = "AdemTentrem_102", password = "supersecurepass" }) {
   const [copied, setCopied] = useState(false);

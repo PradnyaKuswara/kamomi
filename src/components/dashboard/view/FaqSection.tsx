@@ -1,7 +1,7 @@
 import { useState, useMemo } from 'react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useFaqsQuery } from '../../rest/useFaq';
-import type { Faq } from '../../types/faq';
+import { useFaqsQuery } from '../../../rest/useFaq';
+import type { Faq } from '../../../types/faq';
 import {
   ChevronDown,
   Search,
@@ -120,14 +120,14 @@ function FaqSectionContent() {
       </div>
 
       {isLoading && (
-        <div className="flex flex-col items-center justify-center min-h-[300px] space-y-3">
+        <div className="flex flex-col items-center justify-center min-h-75 space-y-3">
           <Loader2 className="h-8 w-8 text-cyan-500 animate-spin" />
           <p className="text-xs text-slate-400">Memuat FAQ...</p>
         </div>
       )}
 
       {isError && !isLoading && (
-        <div className="flex flex-col items-center justify-center min-h-[240px] space-y-3 text-center">
+        <div className="flex flex-col items-center justify-center min-h-60 space-y-3 text-center">
           <AlertCircle className="h-10 w-10 text-rose-400" />
           <p className="text-sm font-semibold text-rose-500">Gagal memuat FAQ.</p>
           <p className="text-xs text-slate-400">Periksa koneksi Anda dan coba refresh halaman.</p>
@@ -145,11 +145,10 @@ function FaqSectionContent() {
                   <button
                     key={cat}
                     onClick={() => setActiveCategory(cat)}
-                    className={`px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all cursor-pointer ${
-                      isActive
-                        ? `${style.bg} ${style.text} ${style.border} shadow-sm`
-                        : 'border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900/50'
-                    }`}
+                    className={`px-3 py-1.5 rounded-full text-[11px] font-bold border transition-all cursor-pointer ${isActive
+                      ? `${style.bg} ${style.text} ${style.border} shadow-sm`
+                      : 'border-slate-200 dark:border-slate-800 text-slate-500 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-900/50'
+                      }`}
                   >
                     {cat}
                   </button>
@@ -159,7 +158,7 @@ function FaqSectionContent() {
           )}
 
           {filtered.length === 0 && (
-            <div className="flex flex-col items-center justify-center min-h-[240px] text-center space-y-3 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 p-8">
+            <div className="flex flex-col items-center justify-center min-h-60 text-center space-y-3 rounded-2xl border-2 border-dashed border-slate-200 dark:border-slate-800 p-8">
               <MessageCircleQuestion className="h-10 w-10 text-slate-300 dark:text-slate-600" />
               <p className="font-semibold text-slate-500 dark:text-slate-400 text-sm">
                 Pertanyaan tidak ditemukan
@@ -192,11 +191,10 @@ function FaqSectionContent() {
                         return (
                           <div
                             key={faq.id}
-                            className={`rounded-xl border transition-all duration-200 overflow-hidden ${
-                              isOpen
-                                ? `${style.border} ${style.bg}`
-                                : 'border-slate-200/70 dark:border-slate-800/70 bg-white/50 dark:bg-slate-900/40'
-                            } hover:border-opacity-80`}
+                            className={`rounded-xl border transition-all duration-200 overflow-hidden ${isOpen
+                              ? `${style.border} ${style.bg}`
+                              : 'border-slate-200/70 dark:border-slate-800/70 bg-white/50 dark:bg-slate-900/40'
+                              } hover:border-opacity-80`}
                           >
                             <button
                               onClick={() => toggle(faq.id)}
@@ -209,9 +207,8 @@ function FaqSectionContent() {
                                 </span>
                               </div>
                               <ChevronDown
-                                className={`h-4 w-4 shrink-0 mt-0.5 transition-transform duration-200 ${
-                                  isOpen ? `rotate-180 ${style.text}` : 'text-slate-400'
-                                }`}
+                                className={`h-4 w-4 shrink-0 mt-0.5 transition-transform duration-200 ${isOpen ? `rotate-180 ${style.text}` : 'text-slate-400'
+                                  }`}
                               />
                             </button>
 
@@ -232,7 +229,7 @@ function FaqSectionContent() {
             </div>
           )}
 
-          <div className="mt-2 rounded-2xl border border-cyan-200/50 dark:border-cyan-800/30 bg-gradient-to-br from-cyan-50/60 to-indigo-50/40 dark:from-cyan-950/20 dark:to-indigo-950/10 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
+          <div className="mt-2 rounded-2xl border border-cyan-200/50 dark:border-cyan-800/30 bg-linear-to-br from-cyan-50/60 to-indigo-50/40 dark:from-cyan-950/20 dark:to-indigo-950/10 p-5 flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4">
             <div className="flex items-start gap-3">
               <div className="h-8 w-8 rounded-xl bg-cyan-500/15 flex items-center justify-center shrink-0">
                 <MessageCircleQuestion className="h-4 w-4 text-cyan-600 dark:text-cyan-400" />

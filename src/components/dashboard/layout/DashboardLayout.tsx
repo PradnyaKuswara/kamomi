@@ -13,22 +13,22 @@ import {
   Settings,
 } from "lucide-react";
 import * as LucideIcons from "lucide-react";
-import { useUserData } from "../../hooks/useUserData";
+import { useUserData } from "../../../hooks/useUserData";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useCheckMeMutation, useLogoutMutation } from "../../rest/useCheckMe";
-import { useUserSidebarMenusQuery } from "../../rest/useMenu";
-import ToastContainer from "../ToastContainer";
-import PropertyWizardModal from "./PropertyWizardModal";
-import { ROLES } from "../../types/role";
-import ConfirmationModal from "../ui/ConfirmationModal";
-import type { MenuSection } from "../../types/menu";
-import LoadingState from "./LoadingState";
-import AccessBlockedScreen from "./AccessBlockedScreen";
-import SubscriptionBanner from "./SubscriptionBanner";
-import Sidebar from "./Sidebar";
-import Topbar from "./Topbar";
-import RightSidebar from "./RightSidebar";
-import CommandPaletteModal from "./CommandPaletteModal";
+import { useCheckMeMutation, useLogoutMutation } from "../../../rest/useCheckMe";
+import { useUserSidebarMenusQuery } from "../../../rest/useMenu";
+import ToastContainer from "../../layout/ToastContainer";
+import PropertyWizardModal from "../modal/PropertyWizardModal";
+import { ROLES } from "../../../types/role";
+import ConfirmationModal from "../../modal/ConfirmationModal";
+import type { MenuSection } from "../../../types/menu";
+import LoadingState from "../view/LoadingState";
+import AccessBlockedScreen from "../view/AccessBlockedScreen";
+import SubscriptionBanner from "../view/SubscriptionBanner";
+import Sidebar from './Sidebar';
+import Topbar from './Topbar';
+import CommandPaletteModal from '../modal/CommandPaletteModal';
+import RightSidebar from "../sidebar/RightSidebar";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
@@ -259,10 +259,10 @@ function DashboardLayoutContent({
   const pageTitle = activePageItem ? activePageItem.label : "Dashboard";
 
   return (
-    <div className="min-h-screen bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-300">
+    <div className="min-h-screen md:h-screen md:overflow-hidden bg-slate-50/50 dark:bg-slate-950 text-slate-900 dark:text-white flex flex-col font-sans transition-colors duration-300">
       <SubscriptionBanner subscriptionInfo={subscriptionInfo} currentPlanName={currentPlanName} />
 
-      <div className="flex-1 flex flex-col md:flex-row w-full mx-auto">
+      <div className="flex-1 flex flex-col md:flex-row w-full mx-auto md:min-h-0 md:overflow-hidden">
         <Sidebar
           isCollapsed={isCollapsed}
           setIsCollapsed={setIsCollapsed}
@@ -277,7 +277,7 @@ function DashboardLayoutContent({
         />
 
         {/* MAIN BODY AREA WITH TOPBAR */}
-        <div className="flex-1 flex flex-col min-w-0">
+        <div className="flex-1 flex flex-col min-w-0 md:h-full md:min-h-0 md:overflow-hidden">
           <Topbar pageTitle={pageTitle} setIsCommandPaletteOpen={setIsCommandPaletteOpen} />
 
           {/* MAIN CENTER CONTENT AREA */}

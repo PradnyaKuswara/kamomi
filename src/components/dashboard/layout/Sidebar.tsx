@@ -28,7 +28,7 @@ export default function Sidebar({
 }: SidebarProps) {
   return (
     <aside
-      className={`relative z-50 transition-all duration-300 border-r border-slate-200/40 dark:border-slate-800/40 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-4 flex flex-col justify-between shrink-0 ${
+      className={`relative z-50 transition-all duration-300 border-r border-slate-200/40 dark:border-slate-800/40 bg-white/70 dark:bg-slate-950/40 backdrop-blur-md p-4 flex flex-col justify-between shrink-0 md:h-full md:overflow-y-auto overflow-x-hidden no-scrollbar ${
         isCollapsed ? "w-full md:w-20" : "w-full md:w-64"
       }`}
     >

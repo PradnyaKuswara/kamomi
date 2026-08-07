@@ -1,13 +1,13 @@
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
 
-@import "tailwindcss";
+@import 'tailwindcss';
 
-@variant dark (&:where(.dark, .dark *));
+@custom-variant dark (&:where(.dark, .dark *));
 
 @theme {
   --font-sans: 'Outfit', 'Inter', sans-serif;
-  --spacing-70: 17.5rem;   /* 280px */
-  --spacing-75: 18.75rem;  /* 300px */
+  --spacing-70: 17.5rem; /* 280px */
+  --spacing-75: 18.75rem; /* 300px */
   --spacing-105: 26.25rem; /* 420px */
   --spacing-125: 31.25rem; /* 500px */
 
@@ -25,7 +25,7 @@
 
 :root {
   --color-primary-start: #0b8043; /* emerald-600 */
-  --color-primary-end: #0b8043;   /* emerald-600 */
+  --color-primary-end: #0b8043; /* emerald-600 */
 }
 
 /* Custom styles for Kokonut-inspired components */
@@ -78,3 +78,11 @@
   background: rgba(100, 116, 139, 0.4);
 }
 
+/* Hide scrollbar utility */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}

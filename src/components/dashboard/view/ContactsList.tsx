@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, HelpCircle, Phone, Mail, MessageCircle, User, ExternalLink, Link as LinkIcon } from 'lucide-react';
-import { FormInput } from '../ui/FormInput';
-import ConfirmationModal from '../ui/ConfirmationModal';
-import Pagination from '../ui/Pagination';
-import { toast } from '../../hooks/useToast';
-import { useUserData } from '../../hooks/useUserData';
+import { FormInput } from '../../input/FormInput';
+import ConfirmationModal from '../../modal/ConfirmationModal';
+import Pagination from '../../ui/Pagination';
+import { toast } from '../../../hooks/useToast';
+import { useUserData } from '../../../hooks/useUserData';
 import {
   useContactsQuery,
   useCreateContactMutation,
   useUpdateContactMutation,
   useDeleteContactMutation,
-} from '../../rest/useContact';
-import type { Contact, ContactRequest } from '../../types/contact';
+} from '../../../rest/useContact';
+import type { Contact, ContactRequest } from '../../../types/contact';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const defaultQueryClient = new QueryClient();
@@ -59,7 +59,7 @@ function ContactsListContent() {
 
   if (!propertyId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
         <HelpCircle className="h-12 w-12 text-slate-400" />
         <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
         <p className="text-xs text-slate-400 max-w-sm">
@@ -90,7 +90,7 @@ function ContactsListContent() {
   const handleOpenEdit = (contact: Contact) => {
     setEditingContact(contact);
     setName(contact.name);
-    
+
     const standardRoles = ['Pengelola Kost / Host', 'Keamanan / Security', 'Laundry'];
     if (standardRoles.includes(contact.role)) {
       setRoleSelect(contact.role);
@@ -99,7 +99,7 @@ function ContactsListContent() {
       setRoleSelect('Lainnya');
       setCustomRole(contact.role);
     }
-    
+
     setContactType(contact.contactType);
     setContactValue(contact.contactValue);
     setActionText(contact.actionText || '');
@@ -111,9 +111,9 @@ function ContactsListContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    
+
     const finalRole = roleSelect === 'Lainnya' ? customRole : roleSelect;
-    
+
     if (!name.trim() || !finalRole.trim() || !contactValue.trim()) {
       toast.error('Nama, Peran/Role, dan Detail kontak wajib diisi.');
       return;
@@ -273,7 +273,7 @@ function ContactsListContent() {
                         <ExternalLink className="h-3 w-3" />
                         Uji Link
                       </a>
-                      
+
                       <button
                         onClick={() => handleOpenEdit(contact)}
                         className="text-slate-400 hover:text-cyan-500 transition-colors p-1 cursor-pointer"
@@ -395,7 +395,7 @@ function ContactsListContent() {
                 <span className="text-[9px] font-black uppercase text-slate-400 tracking-wider block">
                   Kustomisasi Tambahan (Opsional)
                 </span>
-                
+
                 <div className="grid grid-cols-2 gap-4">
                   <FormInput
                     label="Custom Teks Aksi"
@@ -403,7 +403,7 @@ function ContactsListContent() {
                     value={actionText}
                     onChange={(e) => setActionText(e.target.value)}
                   />
-                  
+
                   <FormInput
                     label="Custom Link URL"
                     placeholder="Masukkan custom URL jika ada"

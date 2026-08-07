@@ -1,11 +1,11 @@
-import React, { useState, useEffect } from 'react';
+import { useState, useEffect } from 'react';
 import WiFiCard from './WiFiCard.tsx';
 import HouseRules from './HouseRules.tsx';
 import FacilityGuides from './FacilityGuides.tsx';
 import QuickContact from './QuickContact.tsx';
 import ReportIssue from './ReportIssue.tsx';
-import { AlertCircle, ShieldAlert, Lock, RefreshCw } from 'lucide-react';
-import type { PublicRoomData } from '../types/public-room';
+import { AlertCircle, Lock, RefreshCw } from 'lucide-react';
+import type { PublicRoomData } from '../../types/public-room';
 
 interface GuestRoomPublicProps {
   code: string;
@@ -50,7 +50,7 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
 
   if (loading) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[300px] space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-75 space-y-4">
         <RefreshCw className="h-8 w-8 text-cyan-500 animate-spin" />
         <p className="text-sm text-slate-400">Memuat info kamar...</p>
       </div>
@@ -144,6 +144,7 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
         open={reportOpen}
         onClose={() => setReportOpen(false)}
         roomNumber={data.roomNumber}
+        roomCode={code}
       />
     </div>
   );

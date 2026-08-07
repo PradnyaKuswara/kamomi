@@ -49,7 +49,7 @@ export default function RightSidebar({ activeNotification, setActiveNotification
   const activeBanner = banners[currentBanner];
 
   return (
-    <aside className="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-5 space-y-6 shrink-0">
+    <aside className="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-5 space-y-6 shrink-0 md:h-full md:overflow-y-auto no-scrollbar">
       {/* Banner Carousel Container */}
       <div className={`p-5 rounded-2xl ${activeBanner.bgClass} text-white shadow-lg space-y-4 relative overflow-hidden transition-all duration-550 ease-in-out`}>
         <div className="absolute top-0 right-0 p-3 opacity-15">

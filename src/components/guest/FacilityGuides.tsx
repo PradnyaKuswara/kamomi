@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { BookOpen, Tv, Wind, Thermometer, ArrowRight, Lightbulb } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
-import type { FacilityGuide } from '../types/facility-guide';
+import type { FacilityGuide } from '../../types/facility-guide';
 
 interface FacilityGuidesProps {
   guides?: FacilityGuide[] | null;

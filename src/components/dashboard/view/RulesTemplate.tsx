@@ -1,17 +1,17 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, HelpCircle } from 'lucide-react';
-import { FormInput, FormTextarea } from '../ui/FormInput';
-import ConfirmationModal from '../ui/ConfirmationModal';
-import Pagination from '../ui/Pagination';
-import { toast } from '../../hooks/useToast';
-import { useUserData } from '../../hooks/useUserData';
+import { FormInput, FormTextarea } from '../../input/FormInput';
+import ConfirmationModal from '../../modal/ConfirmationModal';
+import Pagination from '../../ui/Pagination';
+import { toast } from '../../../hooks/useToast';
+import { useUserData } from '../../../hooks/useUserData';
 import {
   useRulesQuery,
   useCreateRuleMutation,
   useUpdateRuleMutation,
   useDeleteRuleMutation,
-} from '../../rest/useRule';
-import type { Rule, RuleRequest } from '../../types/rule';
+} from '../../../rest/useRule';
+import type { Rule, RuleRequest } from '../../../types/rule';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 
 const defaultQueryClient = new QueryClient();
@@ -55,7 +55,7 @@ function RulesTemplateContent() {
 
   if (!propertyId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
         <HelpCircle className="h-12 w-12 text-slate-400" />
         <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
         <p className="text-xs text-slate-400 max-w-sm">
@@ -149,7 +149,7 @@ function RulesTemplateContent() {
         </div>
 
         <button
-          onClick={handleOpenCreate}  
+          onClick={handleOpenCreate}
           className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/10 hover:opacity-90 transition-all self-start sm:self-center cursor-pointer"
         >
           <Plus className="h-4 w-4" />
@@ -192,13 +192,12 @@ function RulesTemplateContent() {
                     <div className="space-y-1">
                       <div className="flex items-center gap-2">
                         <span
-                          className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md ${
-                            rule.category === 'Wajib'
+                          className={`text-[9px] font-black uppercase px-2 py-0.5 rounded-md ${rule.category === 'Wajib'
                               ? 'bg-emerald-100 dark:bg-emerald-950/40 text-emerald-800 dark:text-emerald-400'
                               : rule.category === 'Larangan'
-                              ? 'bg-rose-100 dark:bg-rose-950/40 text-rose-800 dark:text-rose-400'
-                              : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
-                          }`}
+                                ? 'bg-rose-100 dark:bg-rose-950/40 text-rose-800 dark:text-rose-400'
+                                : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                            }`}
                         >
                           {rule.category}
                         </span>

@@ -1,7 +1,7 @@
 import React from 'react';
 import { X, History, User, Clock, Info } from 'lucide-react';
-import { useRoomLogsByRoomQuery } from '../../rest/useRoom';
-import type { RoomLog } from '../../types/room';
+import { useRoomLogsByRoomQuery } from '../../../rest/useRoom';
+import type { RoomLog } from '../../../types/room';
 
 interface RoomLogsSidebarProps {
   isOpen: boolean;
@@ -27,7 +27,7 @@ export default function RoomLogsSidebar({ isOpen, onClose, propertyId, roomId, r
           const parsed = JSON.parse(log.newData);
           wifi = parsed.wifiSsid ? ` dengan Wi-Fi "${parsed.wifiSsid}"` : '';
         }
-      } catch (e) {}
+      } catch (e) { }
       return `Membuat kamar baru${wifi}`;
     }
     if (log.action === 'DELETE') {
@@ -39,7 +39,7 @@ export default function RoomLogsSidebar({ isOpen, onClose, propertyId, roomId, r
           const oldP = JSON.parse(log.oldData);
           const newP = JSON.parse(log.newData);
           const changes: string[] = [];
-          
+
           if (oldP.roomNumber !== newP.roomNumber) {
             changes.push(`Nomor Kamar "${oldP.roomNumber}" → "${newP.roomNumber}"`);
           }
@@ -52,7 +52,7 @@ export default function RoomLogsSidebar({ isOpen, onClose, propertyId, roomId, r
           if (oldP.isActive !== newP.isActive) {
             changes.push(`Status ${oldP.isActive !== false ? 'Aktif' : 'Nonaktif'} → ${newP.isActive !== false ? 'Aktif' : 'Nonaktif'}`);
           }
-          
+
           // Check rule changes
           if (JSON.stringify(oldP.ruleIds) !== JSON.stringify(newP.ruleIds)) {
             const oldRules = oldP.ruleNames || [];
@@ -94,7 +94,7 @@ export default function RoomLogsSidebar({ isOpen, onClose, propertyId, roomId, r
             return changes.join(', ');
           }
         }
-      } catch (e) {}
+      } catch (e) { }
       return 'Memperbarui data kamar';
     }
     return `Melakukan aksi ${log.action}`;
@@ -139,9 +139,8 @@ export default function RoomLogsSidebar({ isOpen, onClose, propertyId, roomId, r
 
       {/* Sidebar Container */}
       <div
-        className={`fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white/95 dark:bg-slate-900/95 border-l border-slate-250/50 dark:border-slate-800/60 backdrop-blur-xl shadow-2xl transition-transform duration-300 ease-out transform ${
-          isOpen ? 'translate-x-0' : 'translate-x-full'
-        }`}
+        className={`fixed top-0 right-0 z-50 h-full w-full max-w-md bg-white/95 dark:bg-slate-900/95 border-l border-slate-250/50 dark:border-slate-800/60 backdrop-blur-xl shadow-2xl transition-transform duration-300 ease-out transform ${isOpen ? 'translate-x-0' : 'translate-x-full'
+          }`}
       >
         <div className="flex flex-col h-full">
           {/* Header */}
@@ -212,7 +211,7 @@ export default function RoomLogsSidebar({ isOpen, onClose, propertyId, roomId, r
                   <div className="flex flex-wrap items-center justify-between gap-2 pt-2 border-t border-slate-100 dark:border-slate-800/40 text-[9px] text-slate-400">
                     <div className="flex items-center gap-1">
                       <User className="h-3 w-3 text-slate-455" />
-                      <span className="truncate max-w-[130px] font-bold" title={log.createdByEmail}>
+                      <span className="truncate max-w-32.5 font-bold" title={log.createdByEmail}>
                         {log.createdByName || log.createdByEmail || 'Sistem'}
                       </span>
                     </div>

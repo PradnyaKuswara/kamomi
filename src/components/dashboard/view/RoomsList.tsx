@@ -6,24 +6,24 @@ import {
   History,
 } from 'lucide-react';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
-import { useUserData } from '../../hooks/useUserData';
+import { useUserData } from '../../../hooks/useUserData';
 import {
   useRoomsQuery,
   useCreateRoomMutation,
   useUpdateRoomMutation,
   useDeleteRoomMutation,
-} from '../../rest/useRoom';
-import ConfirmationModal from '../ui/ConfirmationModal';
-import Pagination from '../ui/Pagination';
-import { toast } from '../../hooks/useToast';
-import type { Room, RoomRequest } from '../../types/room';
-import LoadingState from '../ui/LoadingState';
-import ErrorState from '../ui/ErrorState';
-import EmptyState from '../ui/EmptyState';
-import RoomFormModal from '../modal/RoomFormModal';
-import RoomCard from '../card/RoomCard';
-import TooltipButton from '../button/TooltipButton';
-import RoomLogsSidebar from './RoomLogsSidebar';
+} from '../../../rest/useRoom';
+import ConfirmationModal from '../../modal/ConfirmationModal';
+import Pagination from '../../ui/Pagination';
+import { toast } from '../../../hooks/useToast';
+import type { Room, RoomRequest } from '../../../types/room';
+import LoadingState from '../../ui/LoadingState';
+import ErrorState from '../../ui/ErrorState';
+import EmptyState from '../../ui/EmptyState';
+import RoomFormModal from '../../modal/RoomFormModal';
+import RoomCard from '../../card/RoomCard';
+import TooltipButton from '../../button/TooltipButton';
+import RoomLogsSidebar from '../sidebar/RoomLogsSidebar';
 
 const defaultQueryClient = new QueryClient();
 
@@ -65,7 +65,7 @@ function RoomsListContent() {
 
   if (!propertyId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
         <HelpCircle className="h-12 w-12 text-slate-400" />
         <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
         <p className="text-xs text-slate-400 max-w-sm">
@@ -80,7 +80,7 @@ function RoomsListContent() {
       toast.error('Anda tidak memiliki izin untuk menambah kamar.');
       return;
     }
-    if(isMaxRoom) {
+    if (isMaxRoom) {
       toast.error('Anda telah mencapai batas maksimum kamar. Silakan upgrade paket Anda.');
       return;
     }
@@ -165,8 +165,8 @@ function RoomsListContent() {
               !canAddRoom
                 ? "Anda tidak memiliki izin untuk menambah kamar."
                 : isMaxRoom
-                ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
-                : undefined
+                  ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
+                  : undefined
             }
             position='bottom'
             onClick={handleOpenCreate}
@@ -197,8 +197,8 @@ function RoomsListContent() {
             !canAddRoom
               ? "Anda tidak memiliki izin untuk menambah kamar."
               : isMaxRoom
-              ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
-              : undefined
+                ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
+                : undefined
           }
           tooltipPosition="top"
         />

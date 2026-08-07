@@ -15,8 +15,8 @@ import {
   Edit2,
 } from "lucide-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
-import { useUserData } from "../../hooks/useUserData";
-import { useRoomsQuery } from "../../rest/useRoom";
+import { useUserData } from "../../../hooks/useUserData";
+import { useRoomsQuery } from "../../../rest/useRoom";
 import {
   usePropertyUsersQuery,
   useCreatePropertyUserMutation,
@@ -24,17 +24,17 @@ import {
   useRemovePropertyUserMutation,
   useUpdatePropertyUserMutation,
   type UserRoomAccess,
-} from "../../rest/usePropertyUsers";
-import ConfirmationModal from "../ui/ConfirmationModal";
-import Pagination from "../ui/Pagination";
-import { toast } from "../../hooks/useToast";
-import LoadingState from "../ui/LoadingState";
-import ErrorState from "../ui/ErrorState";
-import EmptyState from "../ui/EmptyState";
-import AddStaffModal from "../modal/AddStaffModal";
-import EditStaffModal from "../modal/EditStaffModal";
-import AssignRoomsModal from "../modal/AssignRoomsModal";
-import { formatDate } from "../../utils/helper";
+} from "../../../rest/usePropertyUsers";
+import ConfirmationModal from "../../modal/ConfirmationModal";
+import Pagination from "../../ui/Pagination";
+import { toast } from "../../../hooks/useToast";
+import LoadingState from "../../ui/LoadingState";
+import ErrorState from "../../ui/ErrorState";
+import EmptyState from "../../ui/EmptyState";
+import AddStaffModal from "../../modal/AddStaffModal";
+import EditStaffModal from "../../modal/EditStaffModal";
+import AssignRoomsModal from "../../modal/AssignRoomsModal";
+import { formatDate } from "../../../utils/helper";
 
 const defaultQueryClient = new QueryClient();
 
@@ -88,7 +88,7 @@ function UsersListContent() {
 
   if (!propertyId) {
     return (
-      <div className="flex flex-col items-center justify-center min-h-[400px] text-center space-y-4">
+      <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
         <HelpCircle className="h-12 w-12 text-slate-400" />
         <h3 className="text-lg font-bold text-slate-800 dark:text-white">
           Hunian Tidak Ditemukan
@@ -265,7 +265,7 @@ function UsersListContent() {
                 `}
               >
                 {/* Section 1: Avatar & User Info */}
-                <div className="flex items-center gap-4 min-w-[280px]">
+                <div className="flex items-center gap-4 min-w-70">
                   {/* Avatar with status indicator */}
                   <div className="relative shrink-0">
                     <div
@@ -333,7 +333,7 @@ function UsersListContent() {
                 </div>
 
                 {/* Section 2: Room Access & Activity details */}
-                <div className="flex-1 min-w-[200px] lg:border-l lg:border-r lg:border-slate-100 lg:dark:border-slate-800/60 lg:px-6 py-2 lg:py-0">
+                <div className="flex-1 min-w-50 lg:border-l lg:border-r lg:border-slate-100 lg:dark:border-slate-800/60 lg:px-6 py-2 lg:py-0">
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between lg:justify-start gap-2">
                       <span className="text-xs font-bold text-slate-500 dark:text-slate-400">

@@ -1,10 +1,10 @@
 import React, { useState } from 'react';
 import { Loader2 } from 'lucide-react';
-import { FormInput } from '../ui/FormInput';
-import { InputEmail } from '../ui/InputEmail';
-import { InputPassword } from '../ui/InputPassword';
-import { InputPhone } from '../ui/InputPhone';
-import SelectRole from '../select/SelectRole';
+import { FormInput } from '../input/FormInput';
+import { InputEmail } from '../input/InputEmail';
+import { InputPassword } from '../input/InputPassword';
+import { InputPhone } from '../input/InputPhone';
+import SelectRole from '../input/SelectRole';
 
 interface AddStaffModalProps {
   isOpen: boolean;
