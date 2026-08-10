@@ -8,8 +8,10 @@ import {
   Layout,
   Type,
   Eye,
+  Lock,
 } from 'lucide-react';
 import { useUserData } from '../../../hooks/useUserData';
+import { toast } from '../../../hooks/useToast';
 
 interface QRExporterProps {
   propertyName?: string;
@@ -82,9 +84,13 @@ export default function QRExporter({
 
   const printRef = useRef<HTMLDivElement | null>(null);
 
-  // Set watermark defaults based on subscription plan
+  // Set defaults based on subscription plan
   useEffect(() => {
-    setShowLogo(isFreePlan ? true : showLogo);
+    if (isFreePlan) {
+      if (template !== 'modern') setTemplate('modern');
+      if (cardColor !== 'cyan') setCardColor('cyan');
+      setShowLogo(true);
+    }
   }, [isFreePlan]);
 
   const getThemeClasses = (colorName: string) => {
@@ -582,12 +588,33 @@ export default function QRExporter({
           </p>
         </div>
 
+        {/* Free Plan Restriction Banner */}
+        {isFreePlan && (
+          <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs flex items-start gap-2.5">
+            <Lock className="h-4 w-4 shrink-0 mt-0.5 text-amber-500" />
+            <div>
+              <span className="font-extrabold block">Paket FREE — 1 Templat Standar Sederhana</span>
+              <p className="text-[11px] opacity-90 mt-0.5 leading-relaxed">
+                Akun Paket Free menggunakan 1 Templat QR Standar. Upgrade ke Paket <strong className="font-black">Starter</strong> atau <strong className="font-black">Pro</strong> untuk membuka kustomisasi 6 gaya templat, tema warna, dan teks custom.
+              </p>
+            </div>
+          </div>
+        )}
+
         {/* Template Selector */}
         <div className="space-y-3">
-          <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-            <Layout className="h-4 w-4" />
-            Pilih Gaya / Templat Kartu (6 Pilihan)
-          </label>
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Layout className="h-4 w-4" />
+              Pilih Gaya / Templat Kartu
+            </label>
+            {isFreePlan && (
+              <span className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                <Lock className="h-3 w-3" /> Starter & Pro
+              </span>
+            )}
+          </div>
+
           <div className="grid grid-cols-3 gap-2">
             {[
               { id: 'modern', label: 'Modern' },
@@ -596,29 +623,49 @@ export default function QRExporter({
               { id: 'glass', label: 'Glassmorphic' },
               { id: 'neon', label: 'Cyber Neon' },
               { id: 'retro', label: 'Retro Vintage' },
-            ].map((t) => (
-              <button
-                key={t.id}
-                type="button"
-                onClick={() => setTemplate(t.id as any)}
-                className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all cursor-pointer ${template === t.id
-                  ? 'bg-cyan-600 text-white border-cyan-600 shadow-md shadow-cyan-600/10'
-                  : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
-                  }`}
-              >
-                {t.label}
-              </button>
-            ))}
+            ].map((t) => {
+              const isLocked = isFreePlan && t.id !== 'modern';
+              return (
+                <button
+                  key={t.id}
+                  type="button"
+                  onClick={() => {
+                    if (isLocked) {
+                      toast.error('Kustomisasi Templat QR hanya tersedia di Paket Starter & Pro');
+                      return;
+                    }
+                    setTemplate(t.id as any);
+                  }}
+                  className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all cursor-pointer relative flex items-center justify-center gap-1 ${template === t.id
+                    ? 'bg-cyan-600 text-white border-cyan-600 shadow-md shadow-cyan-600/10'
+                    : isLocked
+                      ? 'bg-slate-100/70 dark:bg-slate-900/40 border-slate-200/60 dark:border-slate-800/60 text-slate-400 opacity-70 hover:opacity-100'
+                      : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                    }`}
+                >
+                  {t.label}
+                  {isLocked && <Lock className="h-3 w-3 text-amber-500 shrink-0" />}
+                </button>
+              );
+            })}
           </div>
         </div>
 
-        {/* Color Theme Selector (Disabled if Luxury or Retro) */}
+        {/* Color Theme Selector (Disabled if Luxury or Retro or Free Plan) */}
         {template !== 'luxury' && template !== 'retro' && (
           <div className="space-y-3">
-            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
-              <Palette className="h-4 w-4" />
-              Tema Warna Kartu
-            </label>
+            <div className="flex items-center justify-between">
+              <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+                <Palette className="h-4 w-4" />
+                Tema Warna Kartu
+              </label>
+              {isFreePlan && (
+                <span className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                  <Lock className="h-3 w-3" /> Starter & Pro
+                </span>
+              )}
+            </div>
+
             <div className="flex flex-wrap gap-3">
               {[
                 { id: 'cyan', color: 'bg-cyan-500' },
@@ -629,26 +676,46 @@ export default function QRExporter({
                 { id: 'violet', color: 'bg-violet-500' },
                 { id: 'teal', color: 'bg-teal-500' },
                 { id: 'slate', color: 'bg-slate-500' },
-              ].map((c) => (
-                <button
-                  key={c.id}
-                  onClick={() => setCardColor(c.id)}
-                  className={`h-8 w-8 rounded-full border-2 transition-all ${c.color} ${cardColor === c.id
-                    ? 'border-slate-900 dark:border-white scale-110 shadow-lg'
-                    : 'border-transparent hover:scale-105'
-                    }`}
-                />
-              ))}
+              ].map((c) => {
+                const isLocked = isFreePlan && c.id !== 'cyan';
+                return (
+                  <button
+                    key={c.id}
+                    onClick={() => {
+                      if (isLocked) {
+                        toast.error('Kustomisasi Warna QR hanya tersedia di Paket Starter & Pro');
+                        return;
+                      }
+                      setCardColor(c.id);
+                    }}
+                    className={`h-8 w-8 rounded-full border-2 transition-all relative flex items-center justify-center ${c.color} ${cardColor === c.id
+                      ? 'border-slate-900 dark:border-white scale-110 shadow-lg'
+                      : isLocked
+                        ? 'opacity-40 cursor-not-allowed border-transparent'
+                        : 'border-transparent hover:scale-105'
+                      }`}
+                  >
+                    {isLocked && <Lock className="h-3.5 w-3.5 text-white/90 drop-shadow-md" />}
+                  </button>
+                );
+              })}
             </div>
           </div>
         )}
 
         {/* Text Customization Inputs */}
         <div className="space-y-4 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
-          <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5 mb-1">
-            <Type className="h-4 w-4" />
-            Sesuaikan Tulisan Kartu
-          </label>
+          <div className="flex items-center justify-between">
+            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <Type className="h-4 w-4" />
+              Sesuaikan Tulisan Kartu
+            </label>
+            {isFreePlan && (
+              <span className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                <Lock className="h-3 w-3" /> Starter & Pro
+              </span>
+            )}
+          </div>
 
           <div className="space-y-3">
             <div>
@@ -658,9 +725,10 @@ export default function QRExporter({
               <input
                 type="text"
                 value={customTitle}
+                disabled={isFreePlan}
                 onChange={(e) => setCustomTitle(e.target.value)}
                 placeholder="Contoh: KAMOMI GUESTBOOK"
-                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -671,9 +739,10 @@ export default function QRExporter({
               <input
                 type="text"
                 value={labelRoom}
+                disabled={isFreePlan}
                 onChange={(e) => setLabelRoom(e.target.value)}
                 placeholder="Contoh: NOMOR KAMAR atau MEJA"
-                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
 
@@ -684,9 +753,10 @@ export default function QRExporter({
               <input
                 type="text"
                 value={customInstruction}
+                disabled={isFreePlan}
                 onChange={(e) => setCustomInstruction(e.target.value)}
                 placeholder="Contoh: Scan QR Code untuk info Wi-Fi & Fasilitas"
-                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
+                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 disabled:opacity-60 disabled:cursor-not-allowed"
               />
             </div>
           </div>

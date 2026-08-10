@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, HelpCircle, Wind, Tv, Thermometer, Lightbulb, ArrowUp, ArrowDown, ChevronRight } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { FormInput } from '../../input/FormInput';
+import { FormSelect } from '../../input/FormSelect';
 import ConfirmationModal from '../../modal/ConfirmationModal';
 import Pagination from '../../ui/Pagination';
 import { toast } from '../../../hooks/useToast';
@@ -329,22 +330,13 @@ function FacilityGuidesListContent() {
                   required
                 />
 
-                <div className="space-y-1 w-full">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                    Pilihan Icon <span className="text-rose-500 ml-0.5">*</span>
-                  </label>
-                  <select
-                    value={icon}
-                    onChange={(e) => setIcon(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-xs font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all border-slate-200 dark:border-slate-800"
-                  >
-                    {iconOptions.map((opt) => (
-                      <option key={opt.value} value={opt.value}>
-                        {opt.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+              <FormSelect
+                label="Pilihan Icon"
+                required
+                value={icon}
+                onChange={(val) => setIcon(val)}
+                options={iconOptions}
+              />
               </div>
 
               <FormInput

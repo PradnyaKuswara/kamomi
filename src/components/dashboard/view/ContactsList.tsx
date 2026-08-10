@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, HelpCircle, Phone, Mail, MessageCircle, User, ExternalLink, Link as LinkIcon } from 'lucide-react';
 import { FormInput } from '../../input/FormInput';
+import { FormSelect } from '../../input/FormSelect';
 import ConfirmationModal from '../../modal/ConfirmationModal';
 import Pagination from '../../ui/Pagination';
 import { toast } from '../../../hooks/useToast';
@@ -337,36 +338,30 @@ function ContactsListContent() {
               />
 
               <div className="grid grid-cols-2 gap-4">
-                <div className="space-y-1 w-full">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                    Peran / Jabatan <span className="text-rose-500 ml-0.5">*</span>
-                  </label>
-                  <select
-                    value={roleSelect}
-                    onChange={(e) => setRoleSelect(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-xs font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all border-slate-200 dark:border-slate-800"
-                  >
-                    <option value="Pengelola Kost / Host">Pengelola Kost / Host</option>
-                    <option value="Keamanan / Security">Keamanan / Security</option>
-                    <option value="Laundry">Laundry</option>
-                    <option value="Lainnya">Lainnya (Tulis Sendiri)</option>
-                  </select>
-                </div>
+                <FormSelect
+                  label="Peran / Jabatan"
+                  required
+                  value={roleSelect}
+                  onChange={(val) => setRoleSelect(val)}
+                  options={[
+                    { value: 'Pengelola Kost / Host', label: 'Pengelola Kost / Host' },
+                    { value: 'Keamanan / Security', label: 'Keamanan / Security' },
+                    { value: 'Laundry', label: 'Laundry' },
+                    { value: 'Lainnya', label: 'Lainnya (Tulis Sendiri)' },
+                  ]}
+                />
 
-                <div className="space-y-1 w-full">
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                    Tipe Kontak <span className="text-rose-500 ml-0.5">*</span>
-                  </label>
-                  <select
-                    value={contactType}
-                    onChange={(e) => setContactType(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-xs font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all border-slate-200 dark:border-slate-800"
-                  >
-                    <option value="WHATSAPP">WhatsApp</option>
-                    <option value="EMAIL">Email</option>
-                    <option value="PHONE">Telepon Biasa</option>
-                  </select>
-                </div>
+                <FormSelect
+                  label="Tipe Kontak"
+                  required
+                  value={contactType}
+                  onChange={(val) => setContactType(val)}
+                  options={[
+                    { value: 'WHATSAPP', label: 'WhatsApp' },
+                    { value: 'EMAIL', label: 'Email' },
+                    { value: 'PHONE', label: 'Telepon Biasa' },
+                  ]}
+                />
               </div>
 
               {roleSelect === 'Lainnya' && (

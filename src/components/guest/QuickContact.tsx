@@ -41,11 +41,11 @@ export default function QuickContact({
   const activeContacts = contacts || [];
 
   return (
-    <div className="glassmorphic rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-800/50">
-      <h3 className="font-bold text-slate-800 dark:text-white text-lg mb-1">Kontak & Hubungi</h3>
-      <p className="text-xs text-slate-400 dark:text-slate-500 mb-6">Hubungi staf jika membutuhkan bantuan segera</p>
+    <div className="rounded-2xl p-5 bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 shadow-xs">
+      <h3 className="font-semibold text-slate-800 dark:text-white text-base mb-0.5">Kontak Bantuan</h3>
+      <p className="text-xs text-slate-400 dark:text-slate-500 mb-4">Hubungi pengelola atau minta bantuan kamar</p>
 
-      <div className="space-y-4">
+      <div className="space-y-2.5">
         {activeContacts.map((contact, idx) => {
           let Icon: React.ComponentType<{ className?: string }> = MessageCircle;
           if (contact.icon) {
@@ -61,13 +61,13 @@ export default function QuickContact({
           return (
             <div 
               key={idx} 
-              className="flex items-center justify-between p-3.5 rounded-xl border border-slate-100 dark:border-slate-800/40 bg-white/20 dark:bg-slate-900/10"
+              className="flex items-center justify-between p-3 rounded-xl border border-slate-200/60 dark:border-slate-800/50 bg-white dark:bg-slate-950"
             >
               <div>
                 <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 block">
                   {contact.role}
                 </span>
-                <span className="font-bold text-sm text-slate-700 dark:text-slate-200 block mt-0.5">
+                <span className="font-medium text-xs sm:text-sm text-slate-800 dark:text-slate-200 block">
                   {contact.name}
                 </span>
               </div>
@@ -76,9 +76,9 @@ export default function QuickContact({
                 href={contact.link}
                 target="_blank"
                 rel="noreferrer"
-                className={`px-3.5 py-1.5 text-xs font-semibold rounded-lg flex items-center gap-1.5 transition-all shadow-md ${contact.color}`}
+                className={`px-3.5 py-2 text-xs font-medium rounded-xl flex items-center gap-1.5 transition-all shadow-xs ${contact.color}`}
               >
-                <Icon className="h-3.5 w-3.5" />
+                <Icon className="h-4 w-4" />
                 {contact.actionText}
               </a>
             </div>
@@ -88,7 +88,7 @@ export default function QuickContact({
         {onOpenReport && (
           <button
             onClick={onOpenReport}
-            className="w-full mt-2 py-3 px-4 rounded-xl border border-dashed border-cyan-500/40 text-cyan-600 dark:text-cyan-400 hover:bg-cyan-500/5 font-semibold text-xs transition-all flex items-center justify-center gap-2"
+            className="w-full mt-2 py-3 px-4 rounded-xl border border-dashed border-emerald-500/50 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer bg-emerald-50/50 dark:bg-emerald-950/20"
           >
             <MessageSquarePlus className="h-4.5 w-4.5" />
             Laporkan Kerusakan / Keluhan Kamar

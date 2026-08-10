@@ -33,23 +33,23 @@ export default function HouseRules({ rules = null }: HouseRulesProps) {
   };
 
   return (
-    <div className="glassmorphic rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-800/50">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-3 bg-indigo-100 dark:bg-indigo-950/50 rounded-xl text-indigo-600 dark:text-indigo-400">
-          <ShieldCheck className="h-6 w-6" />
+    <div className="rounded-2xl p-5 bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 shadow-xs">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="p-2.5 bg-indigo-100 dark:bg-indigo-950/60 rounded-xl text-indigo-600 dark:text-indigo-400 shrink-0">
+          <ShieldCheck className="h-5 w-5" />
         </div>
         <div>
-          <h3 className="font-bold text-slate-800 dark:text-white text-lg">Tata Tertib & Aturan</h3>
-          <p className="text-xs text-slate-400 dark:text-slate-500">Demi kenyamanan bersama selama menginap</p>
+          <h3 className="font-semibold text-slate-800 dark:text-white text-base">Tata Tertib</h3>
+          <p className="text-xs text-slate-400 dark:text-slate-500">Aturan kenyamanan bersama</p>
         </div>
       </div>
 
       {activeRules.length === 0 ? (
-        <div className="text-center py-8 text-slate-400 dark:text-slate-500 text-xs font-semibold border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
-          Tidak ada data tata tertib
+        <div className="text-center py-6 text-slate-400 dark:text-slate-500 text-xs font-medium border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+          Tidak ada tata tertib khusus
         </div>
       ) : (
-        <div className="space-y-3">
+        <div className="space-y-2.5">
           {activeRules.map((rule) => {
             const Icon = rule.icon || AlertCircle;
             const isExpanded = expandedId === rule.id;
@@ -58,23 +58,21 @@ export default function HouseRules({ rules = null }: HouseRulesProps) {
                 key={rule.id}
                 className={`rounded-xl border transition-all duration-200 overflow-hidden ${
                   isExpanded 
-                    ? 'border-indigo-500/50 bg-slate-50/50 dark:bg-slate-900/40' 
-                    : 'border-slate-100 dark:border-slate-800/40 hover:bg-slate-50/30 dark:hover:bg-slate-900/20'
+                    ? 'border-indigo-500/40 bg-white dark:bg-slate-950' 
+                    : 'border-slate-200/60 dark:border-slate-800/50 bg-white/70 dark:bg-slate-950/40 hover:bg-white dark:hover:bg-slate-950'
                 }`}
               >
                 <button
                   onClick={() => toggleRule(rule.id)}
-                  className="w-full px-4 py-3.5 flex items-center justify-between text-left gap-3"
+                  className="w-full px-3.5 py-3 flex items-center justify-between text-left gap-3 cursor-pointer"
                 >
                   <div className="flex items-center gap-3 flex-1 min-w-0">
-                    <div className="p-2 rounded-lg bg-white dark:bg-slate-900 border border-slate-100 dark:border-slate-800 shrink-0 text-slate-500 dark:text-slate-400">
-                      <Icon className="h-4.5 w-4.5" />
+                    <div className="p-2 rounded-lg bg-slate-100 dark:bg-slate-900 shrink-0 text-slate-500 dark:text-slate-400">
+                      <Icon className="h-4 w-4" />
                     </div>
-                    <div className="truncate">
-                      <span className="font-semibold text-sm text-slate-700 dark:text-slate-200 block truncate">
-                        {rule.title}
-                      </span>
-                    </div>
+                    <span className="font-semibold text-xs sm:text-sm text-slate-800 dark:text-slate-200 truncate">
+                      {rule.title}
+                    </span>
                   </div>
 
                   <div className="flex items-center gap-2 shrink-0">
@@ -84,19 +82,19 @@ export default function HouseRules({ rules = null }: HouseRulesProps) {
                       </span>
                     )}
                     {isExpanded ? (
-                      <ChevronUp className="h-4.5 w-4.5 text-slate-400" />
+                      <ChevronUp className="h-4 w-4 text-slate-400" />
                     ) : (
-                      <ChevronDown className="h-4.5 w-4.5 text-slate-400" />
+                      <ChevronDown className="h-4 w-4 text-slate-400" />
                     )}
                   </div>
                 </button>
 
                 <div 
-                  className={`transition-all duration-300 ${
+                  className={`transition-all duration-200 ${
                     isExpanded ? 'max-h-40 border-t border-slate-100 dark:border-slate-800/50' : 'max-h-0'
                   } overflow-hidden`}
                 >
-                  <div className="p-4 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
+                  <div className="p-3.5 text-xs leading-relaxed text-slate-500 dark:text-slate-400">
                     {rule.desc}
                   </div>
                 </div>

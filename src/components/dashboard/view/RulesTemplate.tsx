@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Plus, Edit2, Trash2, HelpCircle } from 'lucide-react';
 import { FormInput, FormTextarea } from '../../input/FormInput';
+import { FormSelect } from '../../input/FormSelect';
 import ConfirmationModal from '../../modal/ConfirmationModal';
 import Pagination from '../../ui/Pagination';
 import { toast } from '../../../hooks/useToast';
@@ -280,20 +281,17 @@ function RulesTemplateContent() {
                 required
               />
 
-              <div className="space-y-1 w-full">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  Kategori Aturan <span className="text-rose-500 ml-0.5">*</span>
-                </label>
-                <select
-                  value={category}
-                  onChange={(e) => setCategory(e.target.value)}
-                  className="w-full px-4 py-2.5 rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-xs font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all border-slate-200 dark:border-slate-800"
-                >
-                  <option value="Wajib">Wajib</option>
-                  <option value="Larangan">Larangan</option>
-                  <option value="Ketentuan">Ketentuan</option>
-                </select>
-              </div>
+              <FormSelect
+                label="Kategori Aturan"
+                required
+                value={category}
+                onChange={(val) => setCategory(val)}
+                options={[
+                  { value: 'Wajib', label: 'Wajib' },
+                  { value: 'Larangan', label: 'Larangan' },
+                  { value: 'Ketentuan', label: 'Ketentuan' },
+                ]}
+              />
 
               <FormTextarea
                 label="Deskripsi Lengkap"

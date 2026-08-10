@@ -107,37 +107,69 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
   })) : null;
 
   return (
-    <div className="max-w-md mx-auto space-y-6">
-      {/* Welcome Banner with Custom QR Design */}
-      <div className="glassmorphic rounded-3xl p-6 border border-slate-200/50 dark:border-slate-800/50 text-center relative overflow-hidden shadow-xl">
-        <div className="absolute -top-12 -right-12 h-24 w-24 bg-cyan-600/15 rounded-full blur-2xl pointer-events-none"></div>
-        <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-600 dark:text-cyan-400">
-          {data.qrDesign?.customTitle || 'Selamat Datang di'}
-        </span>
-        <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-1">
-          {data.propertyName}
-        </h2>
-        <div className="inline-flex mt-4 px-4 py-1.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-extrabold text-xs tracking-wider uppercase">
-          Kamar {data.roomNumber}
+    <div className="w-full space-y-6">
+      {/* Header Banner */}
+      <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-emerald-600 to-teal-700 p-6 sm:p-7 text-white shadow-md">
+        <div className="absolute -right-6 -bottom-6 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
+        <div className="flex items-center justify-between gap-4">
+          <div className="space-y-1">
+            {/* Kamomi Logo / Branding header if showLogo is true */}
+            {(data.qrDesign?.showLogo ?? true) && (
+              <div className="flex items-center gap-1.5 mb-1.5">
+                <img
+                  src="/logo.png"
+                  alt="Kamomi Logo"
+                  className="h-5 w-5 object-contain bg-white/20 p-0.5 rounded-md backdrop-blur-xs"
+                />
+                <span className="text-xs font-bold text-white tracking-wide">
+                  Kamomi.id
+                </span>
+              </div>
+            )}
+
+            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-100/90">
+              {data.qrDesign?.customTitle || 'Selamat Datang'}
+            </span>
+            <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white leading-tight">
+              {data.propertyName}
+            </h2>
+            {data.qrDesign?.customInstruction && (
+              <p className="text-xs sm:text-sm text-emerald-100/90 italic pt-0.5">
+                "{data.qrDesign?.customInstruction}"
+              </p>
+            )}
+          </div>
+          <div className="px-5 py-2.5 rounded-2xl bg-white/20 backdrop-blur-md text-white font-extrabold text-sm sm:text-base tracking-wide shrink-0 border border-white/25 shadow-sm">
+            Kamar {data.roomNumber}
+          </div>
         </div>
-        {data.qrDesign?.customInstruction && (
-          <p className="text-[10px] text-slate-400 mt-3 italic">
-            "{data.qrDesign?.customInstruction}"
-          </p>
-        )}
       </div>
 
-      {/* Wifi Info */}
-      <WiFiCard ssid={data.wifiSsid} password={data.wifiPassword} />
+      {/* Grid Layout for wider screen */}
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <div className="space-y-6">
+          {/* Wifi Info */}
+          <WiFiCard ssid={data.wifiSsid} password={data.wifiPassword} />
 
-      {/* House Rules */}
-      <HouseRules rules={mappedRules} />
+          {/* Support & Quick Contact */}
+          <QuickContact contacts={data.contacts} onOpenReport={() => setReportOpen(true)} />
+        </div>
 
-      {/* Facility Instructions */}
-      <FacilityGuides guides={data.facilityGuides} />
+        <div className="space-y-6">
+          {/* House Rules */}
+          <HouseRules rules={mappedRules} />
 
-      {/* Support & Quick Contact */}
-      <QuickContact contacts={data.contacts} onOpenReport={() => setReportOpen(true)} />
+          {/* Facility Instructions */}
+          <FacilityGuides guides={data.facilityGuides} />
+        </div>
+      </div>
+
+      {/* Powered by Footer when logo is hidden or subtle footer */}
+      <div className="pt-2 text-center">
+        <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
+          Powered by <a href="https://kamomi.id" target="_blank" rel="noreferrer" className="font-semibold text-cyan-600 dark:text-cyan-400 hover:underline">Kamomi.id</a>
+        </p>
+      </div>
 
       {/* Issue Report Modal */}
       <ReportIssue

@@ -13,6 +13,8 @@ import HouseRules from '../../guest/HouseRules.tsx';
 import FacilityGuides from '../../guest/FacilityGuides.tsx';
 import QuickContact from '../../guest/QuickContact.tsx';
 import QRExporter from '../modal/QRExporter.tsx';
+import { FormInput, FormTextarea } from '../../input/FormInput.tsx';
+import { FormSelect } from '../../input/FormSelect.tsx';
 import { toast } from '../../../hooks/useToast';
 import {
   Eye,
@@ -392,28 +394,16 @@ function RoomEditorContent() {
                 Informasi Kamar & Properti
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Nama Properti
-                  </label>
-                  <input
-                    type="text"
-                    value={propertyName}
-                    disabled
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-900/80 text-slate-500 dark:text-slate-400 text-sm cursor-not-allowed"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Nomor Kamar
-                  </label>
-                  <input
-                    type="text"
-                    value={roomNumber}
-                    onChange={(e) => setRoomNumber(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all text-sm"
-                  />
-                </div>
+                <FormInput
+                  label="Nama Properti"
+                  value={propertyName}
+                  disabled
+                />
+                <FormInput
+                  label="Nomor Kamar"
+                  value={roomNumber}
+                  onChange={(e) => setRoomNumber(e.target.value)}
+                />
               </div>
             </div>
 
@@ -424,28 +414,16 @@ function RoomEditorContent() {
                 Pengaturan Wi-Fi Kamar
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Nama SSID WiFi
-                  </label>
-                  <input
-                    type="text"
-                    value={wifiSsid}
-                    onChange={(e) => setWifiSsid(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all text-sm"
-                  />
-                </div>
-                <div className="space-y-1.5">
-                  <label className="text-xs font-bold text-slate-400 uppercase tracking-wider">
-                    Password WiFi
-                  </label>
-                  <input
-                    type="text"
-                    value={wifiPass}
-                    onChange={(e) => setWifiPass(e.target.value)}
-                    className="w-full px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-slate-800 dark:text-white placeholder:text-slate-400 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 transition-all text-sm"
-                  />
-                </div>
+                <FormInput
+                  label="Nama SSID WiFi"
+                  value={wifiSsid}
+                  onChange={(e) => setWifiSsid(e.target.value)}
+                />
+                <FormInput
+                  label="Password WiFi"
+                  value={wifiPass}
+                  onChange={(e) => setWifiPass(e.target.value)}
+                />
               </div>
             </div>
 
@@ -490,28 +468,29 @@ function RoomEditorContent() {
                       >
                         {isEditing ? (
                           <div className="space-y-3 w-full">
-                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2">
-                              <input
-                                type="text"
-                                value={editTitle}
-                                onChange={(e) => setEditTitle(e.target.value)}
-                                className="sm:col-span-2 px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs focus:ring-1 focus:ring-cyan-500"
-                              />
-                              <select
+                            <div className="grid grid-cols-1 sm:grid-cols-3 gap-2 items-start">
+                              <div className="sm:col-span-2">
+                                <FormInput
+                                  value={editTitle}
+                                  onChange={(e) => setEditTitle(e.target.value)}
+                                  placeholder="Nama Aturan"
+                                />
+                              </div>
+                              <FormSelect
                                 value={editCat}
-                                onChange={(e) => setEditCat(e.target.value)}
-                                className="px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs text-slate-500 focus:ring-1 focus:ring-cyan-500"
-                              >
-                                <option value="Wajib">Wajib</option>
-                                <option value="Larangan">Larangan</option>
-                                <option value="Ketentuan">Ketentuan</option>
-                              </select>
+                                onChange={(val) => setEditCat(val)}
+                                options={[
+                                  { value: 'Wajib', label: 'Wajib' },
+                                  { value: 'Larangan', label: 'Larangan' },
+                                  { value: 'Ketentuan', label: 'Ketentuan' },
+                                ]}
+                              />
                             </div>
-                            <textarea
+                            <FormTextarea
                               value={editDesc}
                               onChange={(e) => setEditDesc(e.target.value)}
                               rows={2}
-                              className="w-full px-2.5 py-1.5 rounded-lg border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-950 text-xs focus:ring-1 focus:ring-cyan-500"
+                              placeholder="Deskripsi Aturan"
                             />
                             <div className="flex items-center justify-end gap-1.5">
                               <button
@@ -574,30 +553,29 @@ function RoomEditorContent() {
                     (Tip: Simpan rule baru ini di Master Template agar bisa dipakai di kamar lain)
                   </span>
                 </div>
-                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3">
-                  <input
-                    type="text"
-                    placeholder="Nama Aturan"
-                    value={newRuleTitle}
-                    onChange={(e) => setNewRuleTitle(e.target.value)}
-                    className="sm:col-span-2 px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-xs focus:ring-1 focus:ring-cyan-500"
-                  />
-                  <select
+                <div className="grid grid-cols-1 sm:grid-cols-3 gap-3 items-start">
+                  <div className="sm:col-span-2">
+                    <FormInput
+                      placeholder="Nama Aturan"
+                      value={newRuleTitle}
+                      onChange={(e) => setNewRuleTitle(e.target.value)}
+                    />
+                  </div>
+                  <FormSelect
                     value={newRuleCat}
-                    onChange={(e) => setNewRuleCat(e.target.value)}
-                    className="px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-xs text-slate-500 focus:ring-1 focus:ring-cyan-500"
-                  >
-                    <option value="Wajib">Wajib</option>
-                    <option value="Larangan">Larangan</option>
-                    <option value="Ketentuan">Ketentuan</option>
-                  </select>
+                    onChange={(val) => setNewRuleCat(val)}
+                    options={[
+                      { value: 'Wajib', label: 'Wajib' },
+                      { value: 'Larangan', label: 'Larangan' },
+                      { value: 'Ketentuan', label: 'Ketentuan' },
+                    ]}
+                  />
                 </div>
-                <textarea
+                <FormTextarea
                   placeholder="Detail Aturan..."
                   rows={2}
                   value={newRuleDesc}
                   onChange={(e) => setNewRuleDesc(e.target.value)}
-                  className="w-full px-3 py-2 rounded-lg border border-slate-200 dark:border-slate-800 bg-white/50 dark:bg-slate-900/50 text-xs focus:ring-1 focus:ring-cyan-500"
                 />
                 <button
                   type="button"

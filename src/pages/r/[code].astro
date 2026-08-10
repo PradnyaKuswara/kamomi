@@ -1,5 +1,6 @@
 ---
 import GuestRoomPublic from '../../components/guest/GuestRoomPublic.tsx';
+import SEOHead from '../../components/layout/SEOHead.astro';
 import '../../styles/global.css';
 
 export const prerender = false;
@@ -7,21 +8,12 @@ export const prerender = false;
 const { code } = Astro.params;
 ---
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Guestbook Kamar - Kamomi.id</title>
-    <script is:inline>
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
-    <style>
+  <SEOHead
+    title={`Guestbook Kamar ${code ? `#${code}` : ''} - Kamomi.id`}
+    description="Halaman Digital Guestbook resmi untuk kamar di Kamomi.id. Akses informasi tata tertib, panduan fasilitas, kontak pengelola, dan sampaikan keluhan."
+    keywords="guestbook kamar, qr code kamar, informasi hunian kost, kamomi digital guestbook"
+  />
+  <style>
       .phone-frame::-webkit-scrollbar {
         width: 3px;
       }
@@ -33,7 +25,6 @@ const { code } = Astro.params;
         border-radius: 99px;
       }
     </style>
-  </head>
   <body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
 
     <main class="flex-1 flex flex-col items-center justify-center p-4 py-8 gap-6">
@@ -51,18 +42,9 @@ const { code } = Astro.params;
         </span>
       </a>
 
-      {/* Phone container on desktop, clean layout on mobile */}
-      <div class="phone-frame w-full max-w-md md:border-10 md:border-slate-900 md:dark:border-slate-800 md:rounded-[48px] md:shadow-2xl md:bg-white md:dark:bg-slate-900/60 md:h-195 md:overflow-y-auto relative md:p-6 md:pb-12 md:backdrop-blur-md">
-        
-        {/* Mock Speaker/Camera Notch on Desktop */}
-        <div class="hidden md:block absolute top-3 left-1/2 -translate-x-1/2 w-32 h-5 bg-slate-900 dark:bg-slate-800 rounded-full z-30"></div>
-
-        <div class="md:pt-6">
-          <GuestRoomPublic code={code || ""} client:only="react" />
-        </div>
-        
-        {/* Mock Home Indicator Bar on Desktop */}
-        <div class="hidden md:block absolute bottom-2.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-400 dark:bg-slate-700 rounded-full z-30"></div>
+      {/* Responsive spacious container for web & mobile view */}
+      <div class="w-full max-w-4xl bg-white dark:bg-slate-900/80 rounded-3xl border border-slate-200/80 dark:border-slate-800/80 shadow-xl overflow-hidden p-6 sm:p-8 backdrop-blur-md">
+        <GuestRoomPublic code={code || ""} client:only="react" />
       </div>
     </main>
   </body>

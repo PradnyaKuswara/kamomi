@@ -1,23 +1,14 @@
 ---
+import SEOHead from '../../components/layout/SEOHead.astro';
 import '../../styles/global.css';
 ---
 
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Mengautentikasi... - Kamomi.id</title>
-    <script is:inline>
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
-  </head>
+  <SEOHead
+    title="Mengautentikasi... - Kamomi.id"
+    description="Proses autentikasi akun Kamomi.id sedang berlangsung. Mohon tunggu sebentar."
+    noindex={true}
+  />
   <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col items-center justify-center font-sans transition-colors duration-300">
     <main class="w-full max-w-md p-8 rounded-3xl glassmorphic border border-slate-200/50 dark:border-slate-800/50 shadow-2xl relative overflow-hidden text-center">
       {/* Decorative elements */}

@@ -28,14 +28,15 @@ import SubscriptionBanner from "../view/SubscriptionBanner";
 import Sidebar from './Sidebar';
 import Topbar from './Topbar';
 import CommandPaletteModal from '../modal/CommandPaletteModal';
+import { useNotificationSse } from "../../../rest/useNotificationSse";
 import RightSidebar from "../sidebar/RightSidebar";
+
+import { queryClient } from "../../../rest/queryClient";
 
 interface DashboardLayoutProps {
   children: React.ReactNode;
   activeMenu: string;
 }
-
-const queryClient = new QueryClient();
 
 export default function DashboardLayout(props: DashboardLayoutProps) {
   return (
@@ -50,6 +51,7 @@ function DashboardLayoutContent({
   children,
   activeMenu,
 }: DashboardLayoutProps) {
+  useNotificationSse();
   const [isVerifying, setIsVerifying] = useState(true);
 
   const { user, subscriptionInfo, setUserData, clearUserData } = useUserData();

@@ -1,26 +1,16 @@
 ---
 import DashboardLayout from '../../components/dashboard/layout/DashboardLayout.tsx';
 import FacilityGuidesList from '../../components/dashboard/view/FacilityGuidesList.tsx';
+import SEOHead from '../../components/layout/SEOHead.astro';
 import '../../styles/global.css';
 ---
 
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="preload" href="/logo.png" as="image" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Panduan Fasilitas - Kamomi.id</title>
-    <script is:inline>
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
-  </head>
+  <SEOHead
+    title="Panduan Fasilitas - Kamomi.id"
+    description="Kelola panduan penggunaan fasilitas kamar (Wi-Fi, AC, Water Heater) untuk penghuni di dashboard Kamomi.id."
+    noindex={true}
+  />
   <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
     
     <script is:inline>

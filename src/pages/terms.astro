@@ -1,27 +1,15 @@
 ---
 import Navbar from "../components/layout/Navbar.tsx";
+import SEOHead from "../components/layout/SEOHead.astro";
 import "../styles/global.css";
 ---
 
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>Syarat & Ketentuan - Kamomi.id</title>
-    <script is:inline>
-      const theme = localStorage.getItem("theme");
-      if (
-        theme === "dark" ||
-        (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    </script>
-  </head>
+  <SEOHead
+    title="Syarat & Ketentuan - Kamomi.id"
+    description="Syarat dan ketentuan penggunaan platform Kamomi.id bagi pengelola properti, penghuni, dan pengunjung situs web."
+    keywords="syarat dan ketentuan, terms of service kamomi, aturan penggunaan"
+  />
   <body
     class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
   >

@@ -15,6 +15,7 @@ import {
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useCheckMeMutation, useLogoutMutation } from '../../rest/useCheckMe';
 import ToastContainer from './ToastContainer';
+import { useTheme } from '../../hooks/useTheme';
 
 const queryClient = new QueryClient();
 
@@ -28,7 +29,7 @@ export default function Navbar() {
 }
 
 function NavbarContent() {
-  const [darkMode, setDarkMode] = useState(false);
+  const { darkMode, toggleTheme } = useTheme();
   const [isLoggedIn, setIsLoggedIn] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const [dropdownOpen, setDropdownOpen] = useState(false);
@@ -38,17 +39,6 @@ function NavbarContent() {
   const logoutMutation = useLogoutMutation();
 
   useEffect(() => {
-    // Check local storage or document class list for theme
-    const isDark =
-      document.documentElement.classList.contains('dark') ||
-      localStorage.getItem('theme') === 'dark';
-    setDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
-
     const checkAuth = async () => {
       const token = localStorage.getItem('AUTH_TOKEN');
       if (!token) {
@@ -91,18 +81,6 @@ function NavbarContent() {
     return () => document.removeEventListener('mousedown', handleClickOutside);
   }, []);
 
-  const toggleTheme = () => {
-    const nextDark = !darkMode;
-    setDarkMode(nextDark);
-    if (nextDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
-  };
-
   const handleLogout = async () => {
     try {
       await logoutMutation.mutateAsync();
@@ -117,7 +95,7 @@ function NavbarContent() {
   };
 
   return (
-    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-7xl z-50 glassmorphic border border-slate-200/40 dark:border-slate-800/50 backdrop-blur-md rounded-2xl shadow-[0_10px_30px_-10px_rgba(0,0,0,0.08)] dark:shadow-[0_10px_30px_-10px_rgba(0,0,0,0.4)]">
+    <nav className="fixed top-4 left-1/2 -translate-x-1/2 w-[calc(100%-2rem)] max-w-7xl z-50 bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-2xl shadow-xl">
       <div className="px-4 sm:px-6 lg:px-8">
         <div className="flex items-center justify-between h-14">
           {/* Logo */}
@@ -163,11 +141,11 @@ function NavbarContent() {
                     animate={{ opacity: 1, y: 0, scale: 1 }}
                     exit={{ opacity: 0, y: 10, scale: 0.95 }}
                     transition={{ duration: 0.15, ease: 'easeOut' }}
-                    className="absolute top-full left-0 mt-3 w-72 rounded-2xl border border-slate-200/50 dark:border-slate-800/80 bg-white/95 dark:bg-slate-900/95 backdrop-blur-xl shadow-2xl p-2 z-50 origin-top-left"
+                    className="absolute top-full left-0 mt-3 w-72 rounded-2xl border border-slate-200 dark:border-slate-800 bg-white dark:bg-slate-900 shadow-2xl p-2 z-50 origin-top-left"
                   >
                     <a
                       href="/features"
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-all duration-200 group"
+                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 group"
                     >
                       <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-violet-100 dark:bg-violet-950/40 text-violet-600 dark:text-violet-400 group-hover:scale-110 transition-all">
                         <Sparkles className="h-5 w-5" />
@@ -183,7 +161,7 @@ function NavbarContent() {
                     </a>
                     <a
                       href="/guest"
-                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100/80 dark:hover:bg-slate-800/80 transition-all duration-200 group"
+                      className="flex items-center gap-3 p-3 rounded-xl hover:bg-slate-100 dark:hover:bg-slate-800 transition-all duration-200 group"
                     >
                       <div className="flex items-center justify-center h-10 w-10 rounded-xl bg-emerald-100 dark:bg-emerald-950/40 text-emerald-600 dark:text-emerald-400 group-hover:scale-110 transition-all">
                         <Smartphone className="h-5 w-5" />
@@ -222,7 +200,7 @@ function NavbarContent() {
             {/* Theme Toggle Button */}
             <button
               onClick={toggleTheme}
-              className="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all"
+              className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 hover:bg-slate-200 dark:hover:bg-slate-700 text-slate-600 dark:text-slate-300 transition-all"
               aria-label="Toggle Theme"
             >
               {darkMode ? (
@@ -233,7 +211,7 @@ function NavbarContent() {
             </button>
 
             {isLoading ? (
-              <div className="h-9 w-24 rounded-xl bg-slate-200/50 dark:bg-slate-800/50 animate-pulse"></div>
+              <div className="h-9 w-24 rounded-xl bg-slate-200 dark:bg-slate-800 animate-pulse"></div>
             ) : isLoggedIn ? (
               <div className="flex items-center gap-3">
                 <a
@@ -245,7 +223,7 @@ function NavbarContent() {
                 </a>
                 <button
                   onClick={handleLogout}
-                  className="p-2.5 rounded-xl border border-slate-200/60 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 transition-all"
+                  className="p-2.5 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-100 dark:bg-slate-800 hover:bg-red-50 dark:hover:bg-red-950/20 text-slate-600 dark:text-slate-300 hover:text-red-600 dark:hover:text-red-400 transition-all"
                   title="Logout"
                 >
                   <LogOut className="h-4.5 w-4.5" />

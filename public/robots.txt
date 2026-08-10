@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /dashboard/
+Disallow: /editor
+Disallow: /oauth2/
+
+Sitemap: https://kamomi.id/sitemap.xml

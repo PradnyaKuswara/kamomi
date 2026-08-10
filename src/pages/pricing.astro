@@ -1,5 +1,6 @@
 ---
 import Navbar from "../components/layout/Navbar.tsx";
+import SEOHead from "../components/layout/SEOHead.astro";
 import "../styles/global.css";
 import type { SubscriptionPlan } from "../types/subscription-plan";
 import { formatCurrency } from "../utils/formatCurrency";
@@ -33,24 +34,11 @@ const planStyles = [
 ---
 
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Harga - Kamomi.id</title>
-    <script is:inline>
-      const theme = localStorage.getItem("theme");
-      if (
-        theme === "dark" ||
-        (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    </script>
-  </head>
+  <SEOHead
+    title="Harga & Paket Berlangganan - Kamomi.id"
+    description="Pilih paket layanan Kamomi.id yang sesuai dengan kebutuhan properti Anda. Mulai dari paket Starter, Pro, hingga Enterprise dengan harga terjangkau."
+    keywords="harga kamomi, paket berlangganan kost, biaya aplikasi kost, langganan kelola kost"
+  />
   <body
     class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
   >
@@ -85,11 +73,10 @@ const planStyles = [
         ) : (
           <div class="max-w-6xl mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-5">
             {plans.map((plan, idx) => {
-              const style = planStyles[idx] || planStyles[0];
-              const isPro = plan.name.toLowerCase().includes("pro");
+              const isFeatured = plan.name.toLowerCase().includes("business");
               const featureList = parseFeatures(plan.features);
 
-              return isPro ? (
+              return isFeatured ? (
                 /* ============= PRO / FEATURED CARD ============= */
                 <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-cyan-600/10 lg:scale-[1.04] z-10">
                   {/* Glow border effect */}

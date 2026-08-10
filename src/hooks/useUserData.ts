@@ -1,8 +1,9 @@
 import { useSyncExternalStore } from 'react';
 import type { UserData, UserSubscription } from '../types/user';
 import type { SubscriptionPlan } from '../types/subscription-plan';
+import { getPlanPermissions, type PlanPermissions } from '../utils/planPermissions';
 
-export type { UserData, UserSubscription, SubscriptionPlan };
+export type { UserData, UserSubscription, SubscriptionPlan, PlanPermissions };
 
 const initialStore: UserData = {
   id: undefined,
@@ -52,19 +53,22 @@ export function useUserData() {
   const subscription = user.subscription;
   const plan = subscription?.plan || null;
   const planName = plan?.name || 'Free';
-  const maxRooms = plan?.maxRooms ?? 3;
+  const permissions = getPlanPermissions(planName);
+  const maxRooms = permissions.maxRooms;
   const isUnlimited = maxRooms === -1;
 
   return {
     user,
+    permissions,
     subscriptionInfo: {
       plan,
       planName,
       maxRooms,
       isUnlimited,
-      isFreePlan: planName === 'Free',
-      isStarterPlan: planName === 'Starter',
-      isProPlan: planName === 'Pro',
+      isFreePlan: permissions.maxStaff === 0,
+      isStarterPlan: planName.toLowerCase().includes('starter'),
+      isBusinessPlan: planName.toLowerCase().includes('business'),
+      isEnterprisePlan: planName.toLowerCase().includes('enterprise'),
       startDate: subscription?.startDate || null,
       endDate: subscription?.endDate || null,
       isActive: subscription?.status === 'ACTIVE' || subscription?.status === 'active' || !subscription,

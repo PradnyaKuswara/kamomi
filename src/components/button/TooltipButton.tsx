@@ -52,7 +52,8 @@ export default function TooltipButton({
       onMouseLeave={() => setShowTooltip(false)}
     >
       <button
-        disabled={disabled}
+        type="button"
+        aria-disabled={disabled}
         onClick={onClick}
         className={`${className} ${
           disabled

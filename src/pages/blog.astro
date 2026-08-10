@@ -1,28 +1,16 @@
 ---
 import Navbar from "../components/layout/Navbar.tsx";
+import SEOHead from "../components/layout/SEOHead.astro";
 import "../styles/global.css";
 import { posts } from "../data/posts.js";
 ---
 
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Blog & Edukasi Kost - Kamomi.id</title>
-    <script is:inline>
-      const theme = localStorage.getItem("theme");
-      if (
-        theme === "dark" ||
-        (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
-      ) {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
-    </script>
-  </head>
+  <SEOHead
+    title="Blog & Edukasi Kost - Kamomi.id"
+    description="Artikel, tips, dan panduan praktis seputar pengelolaan kost, bisnis hunian sewa, serta teknologi manajemen properti terbaru dari Kamomi.id."
+    keywords="blog kamomi, tips bisnis kost, panduan pengelola kost, edukasi properti sewa"
+  />
   <body
     class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
   >

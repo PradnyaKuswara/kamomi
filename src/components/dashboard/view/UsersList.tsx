@@ -13,6 +13,7 @@ import {
   ToggleLeft,
   ToggleRight,
   Edit2,
+  Lock,
 } from "lucide-react";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useUserData } from "../../../hooks/useUserData";
@@ -47,7 +48,7 @@ export default function UsersList() {
 }
 
 function UsersListContent() {
-  const { user } = useUserData();
+  const { user, subscriptionInfo, permissions } = useUserData();
   const propertyId = user.properties?.[0]?.id;
 
   const [page, setPage] = useState(0);
@@ -221,11 +222,24 @@ function UsersListContent() {
 
         <button
           onClick={() => {
+            const currentStaffCount = usersList.length;
+            if (permissions.maxStaff !== -1 && currentStaffCount >= permissions.maxStaff) {
+              if (permissions.maxStaff === 0) {
+                toast.error("Paket Free hanya memiliki 1 Akun Pemilik. Tingkatkan paket untuk menambah Staff.");
+              } else {
+                toast.error(`Batas maksimal staff untuk paket ${subscriptionInfo.planName} adalah ${permissions.maxStaff} akun.`);
+              }
+              return;
+            }
             setIsCreateOpen(true);
           }}
-          className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 hover:opacity-90 transition-all self-start sm:self-center cursor-pointer"
+          className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl font-bold text-xs transition-all self-start sm:self-center cursor-pointer ${
+            permissions.maxStaff !== -1 && usersList.length >= permissions.maxStaff
+              ? "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
+              : "bg-cyan-600 text-white shadow-lg shadow-cyan-500/20 hover:opacity-90"
+          }`}
         >
-          <Plus className="h-4 w-4" />
+          {permissions.maxStaff !== -1 && usersList.length >= permissions.maxStaff ? <Lock className="h-4 w-4 text-amber-500" /> : <Plus className="h-4 w-4" />}
           Tambah Staff Baru
         </button>
       </div>

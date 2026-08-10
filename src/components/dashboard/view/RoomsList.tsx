@@ -1,6 +1,7 @@
 import React, { useMemo, useState } from 'react';
 import {
   Plus,
+  Lock,
   HelpCircle,
   DoorOpen,
   History,
@@ -36,7 +37,7 @@ export default function RoomsList() {
 }
 
 function RoomsListContent() {
-  const { user, subscriptionInfo } = useUserData();
+  const { user, subscriptionInfo, permissions } = useUserData();
   const propertyId = user.properties?.[0]?.id;
 
   const [page, setPage] = useState(0);
@@ -57,11 +58,12 @@ function RoomsListContent() {
 
   const canAddRoom = useMemo(() => {
     return user.roleName === 'ADMIN' || user.roleName === 'SUPER ADMIN';
-  }, [user])
+  }, [user]);
 
   const isMaxRoom = useMemo(() => {
-    return rooms.length >= (subscriptionInfo?.plan?.maxRooms || 1);
-  }, [rooms, subscriptionInfo])
+    if (permissions.maxRooms === -1) return false;
+    return rooms.length >= permissions.maxRooms;
+  }, [rooms, permissions]);
 
   if (!propertyId) {
     return (
@@ -81,7 +83,7 @@ function RoomsListContent() {
       return;
     }
     if (isMaxRoom) {
-      toast.error('Anda telah mencapai batas maksimum kamar. Silakan upgrade paket Anda.');
+      toast.error(`Batas maksimal kamar untuk paket ${subscriptionInfo.planName} (${permissions.maxRooms} kamar) tercapai. Silakan tingkatkan paket Anda.`);
       return;
     }
     setEditingRoom(null);
@@ -165,14 +167,18 @@ function RoomsListContent() {
               !canAddRoom
                 ? "Anda tidak memiliki izin untuk menambah kamar."
                 : isMaxRoom
-                  ? "Batas maksimum kamar tercapai. Silakan upgrade paket Anda."
+                  ? `Batas maksimal kamar untuk paket ${subscriptionInfo.planName} (${permissions.maxRooms} kamar) tercapai. Silakan tingkatkan paket Anda.`
                   : undefined
             }
             position='bottom'
             onClick={handleOpenCreate}
-            className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 hover:opacity-90 transition-all cursor-pointer"
+            className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${
+              isMaxRoom
+                ? "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
+                : "bg-cyan-600 text-white shadow-lg shadow-cyan-500/20 hover:opacity-90"
+            }`}
           >
-            <Plus className="h-4 w-4" />
+            {isMaxRoom ? <Lock className="h-4 w-4 text-amber-500" /> : <Plus className="h-4 w-4" />}
             Tambah Kamar Baru
           </TooltipButton>
         </div>

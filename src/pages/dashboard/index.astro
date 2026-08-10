@@ -1,26 +1,16 @@
 ---
 import DashboardLayout from '../../components/dashboard/layout/DashboardLayout.tsx';
 import DashboardOverview from '../../components/dashboard/view/DashboardOverview.tsx';
+import SEOHead from '../../components/layout/SEOHead.astro';
 import '../../styles/global.css';
 ---
 
 <html lang="id">
-  <head>
-    <meta charset="utf-8" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-    <link rel="icon" href="/favicon.ico" />
-    <link rel="preload" href="/logo.png" as="image" />
-    <meta name="viewport" content="width=device-width" />
-    <title>Overview Dashboard - Kamomi.id</title>
-    <script is:inline>
-      const theme = localStorage.getItem('theme');
-      if (theme === 'dark' || (!theme && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
-        document.documentElement.classList.add('dark');
-      } else {
-        document.documentElement.classList.remove('dark');
-      }
-    </script>
-  </head>
+  <SEOHead
+    title="Overview Dashboard - Kamomi.id"
+    description="Ringkasan statistik, aktivitas terbaru, dan performa hunian Anda di dashboard pengelola Kamomi.id."
+    noindex={true}
+  />
   <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
     
     <script is:inline>

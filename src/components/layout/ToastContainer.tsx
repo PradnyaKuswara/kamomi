@@ -6,7 +6,7 @@ export default function ToastContainer() {
   const toasts = useToasts();
 
   return (
-    <div className="fixed top-5 right-5 z-9999 flex flex-col gap-3.5 w-full max-w-sm pointer-events-none">
+    <div className="fixed top-4 sm:top-5 left-3 right-3 sm:left-auto sm:right-5 z-9999 flex flex-col gap-2.5 sm:gap-3.5 w-auto sm:w-full sm:max-w-sm pointer-events-none">
       <AnimatePresence>
         {toasts.map((t) => (
           <motion.div
@@ -15,7 +15,7 @@ export default function ToastContainer() {
             animate={{ opacity: 1, x: 0, y: 0, scale: 1 }}
             exit={{ opacity: 0, x: 100, scale: 0.9, transition: { duration: 0.2 } }}
             transition={{ type: 'spring', stiffness: 350, damping: 28 }}
-            className={`pointer-events-auto relative flex items-start gap-3.5 pl-4 pr-5 py-4 rounded-2xl border backdrop-blur-xl shadow-xl overflow-hidden transition-all duration-300 bg-white/90 dark:bg-slate-900/90 ${t.type === 'success'
+            className={`pointer-events-auto relative flex items-start gap-3 p-3.5 sm:pl-4 sm:pr-5 sm:py-4 rounded-2xl border backdrop-blur-xl shadow-xl overflow-hidden transition-all duration-300 bg-white/95 dark:bg-slate-900/95 ${t.type === 'success'
               ? 'border-emerald-500/25 border-l-4 border-l-emerald-500 shadow-emerald-500/5'
               : t.type === 'error'
                 ? 'border-rose-500/25 border-l-4 border-l-rose-500 shadow-rose-500/5'
@@ -33,14 +33,14 @@ export default function ToastContainer() {
             </div>
 
             {/* Content text */}
-            <div className="flex-1 flex flex-col gap-0.5 min-w-0 pr-2">
-              <span className="text-[10px] font-bold tracking-widest uppercase opacity-40 text-slate-500 dark:text-slate-400">
+            <div className="flex-1 flex flex-col gap-0.5 min-w-0 pr-1 sm:pr-2">
+              <span className="text-[9px] sm:text-[10px] font-bold tracking-widest uppercase opacity-50 text-slate-500 dark:text-slate-400">
                 {t.type === 'success' && 'Berhasil'}
                 {t.type === 'error' && 'Gagal'}
                 {t.type === 'warning' && 'Peringatan'}
                 {t.type === 'info' && 'Informasi'}
               </span>
-              <p className="text-sm font-medium leading-relaxed text-slate-700 dark:text-slate-200 wrap-break-word">
+              <p className="text-xs sm:text-sm font-semibold leading-snug text-slate-800 dark:text-slate-100 whitespace-pre-line wrap-break-word">
                 {t.message}
               </p>
             </div>

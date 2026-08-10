@@ -37,25 +37,25 @@ export default function FacilityGuides({ guides = null }: FacilityGuidesProps) {
   const currentGuide = activeGuides.find(g => g.id === activeTab);
 
   return (
-    <div className="glassmorphic rounded-2xl p-6 shadow-lg border border-slate-200/50 dark:border-slate-800/50">
-      <div className="flex items-center gap-3 mb-6">
-        <div className="p-3 bg-cyan-100 dark:bg-cyan-950/50 rounded-xl text-cyan-600 dark:text-cyan-400">
-          <BookOpen className="h-6 w-6" />
+    <div className="rounded-2xl p-4 sm:p-5 bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 shadow-xs">
+      <div className="flex items-center gap-2.5 mb-3">
+        <div className="p-2 bg-emerald-100 dark:bg-emerald-950/60 rounded-lg text-emerald-600 dark:text-emerald-400 shrink-0">
+          <BookOpen className="h-4.5 w-4.5" />
         </div>
         <div>
-          <h3 className="font-bold text-slate-800 dark:text-white text-lg">Panduan Fasilitas</h3>
-          <p className="text-xs text-slate-400 dark:text-slate-500">Cara mudah menggunakan fasilitas di dalam kamar Anda</p>
+          <h3 className="font-semibold text-slate-800 dark:text-white text-sm">Panduan Fasilitas</h3>
+          <p className="text-[11px] text-slate-400 dark:text-slate-500">Petunjuk penggunaan perangkat kamar</p>
         </div>
       </div>
 
       {activeGuides.length === 0 ? (
-        <div className="text-center py-8 text-slate-400 dark:text-slate-500 text-xs font-semibold border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
-          Tidak ada data panduan fasilitas
+        <div className="text-center py-6 text-slate-400 dark:text-slate-500 text-xs font-medium border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+          Tidak ada panduan fasilitas
         </div>
       ) : (
         <>
           {/* Tab Selector */}
-          <div className="flex gap-2 p-1 bg-slate-100 dark:bg-slate-900/60 rounded-xl mb-6 overflow-x-auto">
+          <div className="flex gap-1.5 p-1 bg-white dark:bg-slate-950 rounded-xl mb-3 border border-slate-200/60 dark:border-slate-800/50 overflow-x-auto">
             {activeGuides.map((guide) => {
               const Icon = getIconComponent(guide.icon);
               const isActive = activeTab === guide.id;
@@ -63,13 +63,13 @@ export default function FacilityGuides({ guides = null }: FacilityGuidesProps) {
                 <button
                   key={guide.id}
                   onClick={() => setActiveTab(guide.id)}
-                  className={`flex items-center gap-2 px-3 py-2 text-xs font-semibold rounded-lg transition-all shrink-0 ${
+                  className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all shrink-0 cursor-pointer ${
                     isActive 
-                      ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-sm border border-slate-200/20' 
-                      : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
+                      ? 'bg-emerald-600 text-white shadow-xs' 
+                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
                   }`}
                 >
-                  <Icon className="h-4 w-4" />
+                  <Icon className="h-3.5 w-3.5" />
                   {guide.name}
                 </button>
               );
@@ -78,22 +78,22 @@ export default function FacilityGuides({ guides = null }: FacilityGuidesProps) {
 
           {/* Steps Content */}
           {currentGuide && (
-            <div className="space-y-4">
-              <h4 className="font-bold text-slate-700 dark:text-slate-200 text-sm flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-cyan-500"></span>
+            <div className="space-y-2.5 bg-white/70 dark:bg-slate-950/40 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800/50">
+              <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
                 {currentGuide.title}
               </h4>
 
-              <div className="space-y-3">
+              <div className="space-y-2">
                 {currentGuide.steps.map((step, idx) => (
                   <div 
                     key={idx} 
-                    className="flex items-start gap-3 p-3 rounded-xl bg-slate-50/50 dark:bg-slate-900/30 border border-slate-100/40 dark:border-slate-800/20"
+                    className="flex items-start gap-2.5 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800/40"
                   >
-                    <div className="h-5 w-5 rounded-full bg-cyan-100 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-400 flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
+                    <div className="h-4.5 w-4.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                       {idx + 1}
                     </div>
-                    <p className="text-xs leading-relaxed text-slate-600 dark:text-slate-300">
+                    <p className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-300">
                       {step}
                     </p>
                   </div>

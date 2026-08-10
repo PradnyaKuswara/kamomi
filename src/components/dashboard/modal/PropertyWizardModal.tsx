@@ -3,6 +3,7 @@ import { Home, Building2, Briefcase, MapPin, CheckCircle2, ChevronRight, Chevron
 import { useCreatePropertyMutation } from '../../../rest/useProperty';
 import { useUserData } from '../../../hooks/useUserData';
 import { toast } from '../../../hooks/useToast';
+import { FormInput, FormTextarea } from '../../input/FormInput';
 
 interface PropertyWizardModalProps {
   onComplete: (propertyName: string) => void;
@@ -202,32 +203,21 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
             </div>
 
             <div className="space-y-3.5 pt-2">
-              <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                  Nama Properti / Hunian *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={name}
-                  onChange={(e) => setName(e.target.value)}
-                  placeholder="Contoh: Kost Adem Tentrem Residence"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
-                />
-              </div>
+              <FormInput
+                label="Nama Properti / Hunian"
+                required
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="Contoh: Kost Adem Tentrem Residence"
+              />
 
-              <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                  Deskripsi Singkat (Opsional)
-                </label>
-                <textarea
-                  rows={3}
-                  value={description}
-                  onChange={(e) => setDescription(e.target.value)}
-                  placeholder="Contoh: Hunian nyaman dekat kampus, fasilitas Wi-Fi super kencang 24 jam."
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-sm focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
-                />
-              </div>
+              <FormTextarea
+                label="Deskripsi Singkat (Opsional)"
+                rows={3}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+                placeholder="Contoh: Hunian nyaman dekat kampus, fasilitas Wi-Fi super kencang 24 jam."
+              />
             </div>
           </div>
         )}
@@ -243,58 +233,35 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
             </div>
 
             <div className="space-y-3.5 pt-2">
-              <div>
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                  Alamat Lengkap *
-                </label>
-                <input
-                  type="text"
-                  required
-                  value={address}
-                  onChange={(e) => setAddress(e.target.value)}
-                  placeholder="Contoh: Jl. Anggrek No. 45, RT 02/RW 05"
-                  className="w-full px-4 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
-                />
-              </div>
+              <FormInput
+                label="Alamat Lengkap"
+                required
+                value={address}
+                onChange={(e) => setAddress(e.target.value)}
+                placeholder="Contoh: Jl. Anggrek No. 45, RT 02/RW 05"
+              />
 
               <div className="grid grid-cols-3 gap-3">
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                    Kota / Kab *
-                  </label>
-                  <input
-                    type="text"
-                    required
-                    value={city}
-                    onChange={(e) => setCity(e.target.value)}
-                    placeholder="Yogyakarta"
-                    className="w-full px-3.5 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-sm font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                    Provinsi
-                  </label>
-                  <input
-                    type="text"
-                    value={province}
-                    onChange={(e) => setProvince(e.target.value)}
-                    placeholder="D.I. Yogyakarta"
-                    className="w-full px-3.5 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-sm focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
-                  />
-                </div>
-                <div>
-                  <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block mb-1">
-                    Kode Pos
-                  </label>
-                  <input
-                    type="text"
-                    value={postalCode}
-                    onChange={(e) => setPostalCode(e.target.value)}
-                    placeholder="55281"
-                    className="w-full px-3.5 py-3 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-sm focus:outline-hidden focus:ring-2 focus:ring-cyan-500 font-mono"
-                  />
-                </div>
+                <FormInput
+                  label="Kota / Kab"
+                  required
+                  value={city}
+                  onChange={(e) => setCity(e.target.value)}
+                  placeholder="Yogyakarta"
+                />
+                <FormInput
+                  label="Provinsi"
+                  value={province}
+                  onChange={(e) => setProvince(e.target.value)}
+                  placeholder="D.I. Yogyakarta"
+                />
+                <FormInput
+                  label="Kode Pos"
+                  value={postalCode}
+                  onChange={(e) => setPostalCode(e.target.value)}
+                  placeholder="55281"
+                  className="font-mono"
+                />
               </div>
             </div>
           </form>
