@@ -1,0 +1,60 @@
+---
+import Navbar from '../components/layout/Navbar.tsx';
+import Footer from '../components/layout/Footer.astro';
+import SEOHead from '../components/layout/SEOHead.astro';
+import PublicFaqView from '../components/public/PublicFaqView.tsx';
+import '../styles/global.css';
+---
+
+<html lang="id" class="scroll-smooth">
+  <SEOHead
+    title="Pusat Bantuan & FAQ - Kamomi.id"
+    description="Pertanyaan umum (FAQ) seputar penggunaan platform manajemen hunian digital, QR Code akrilik pintar, Wi-Fi 1-klik, dan paket langganan Kamomi.id."
+    keywords="faq kamomi, pusat bantuan kost, pertanyaan umum guestbook digital, cara pakai qr code kost"
+  />
+
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased overflow-x-hidden">
+    <Navbar client:load />
+
+    <main class="flex-1 relative pt-28 pb-20 px-4 sm:px-6">
+      {/* Background Lighting & Glow Orbs */}
+      <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-180 h-120 bg-linear-to-tr from-emerald-500/10 via-teal-500/10 to-cyan-500/10 blur-[130px] rounded-full"></div>
+        <div class="absolute top-48 left-[5%] w-72 h-72 bg-emerald-500/12 blur-[100px] rounded-full"></div>
+        <div class="absolute top-96 right-[5%] w-80 h-80 bg-teal-500/12 blur-[110px] rounded-full"></div>
+        
+        {/* Pattern Overlay */}
+        <div 
+          class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" 
+          style="background-image: radial-gradient(circle, currentColor 1px, transparent 1px); background-size: 32px 32px;"
+        ></div>
+      </div>
+
+      <div class="max-w-7xl mx-auto relative z-10 space-y-12">
+        {/* Page Header */}
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-extrabold tracking-wider uppercase bg-emerald-100 dark:bg-emerald-950/70 text-emerald-700 dark:text-emerald-300 border border-emerald-200/80 dark:border-emerald-800/70 shadow-xs backdrop-blur-md">
+            <span class="w-2 h-2 rounded-full bg-emerald-500 animate-pulse"></span>
+            Pusat Informasi & Bantuan
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Pertanyaan Yang Sering <br class="hidden sm:block" />
+            <span class="bg-linear-to-r from-emerald-500 via-teal-400 to-cyan-400 bg-clip-text text-transparent">
+              Diajukan (FAQ)
+            </span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Temukan jawaban lengkap seputar cara kerja QR akrilik, koneksi Wi-Fi 1-klik, tata cara langganan, dan manajemen hunian Kamomi.id.
+          </p>
+        </div>
+
+        {/* Dynamic FAQ Interactive List */}
+        <PublicFaqView client:load />
+      </div>
+    </main>
+
+    <Footer />
+  </body>
+</html>

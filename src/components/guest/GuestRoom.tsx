@@ -14,19 +14,36 @@ export default function GuestRoom() {
   const [reportOpen, setReportOpen] = useState(false);
 
   useEffect(() => {
-    // Parse URL params
-    const params = new URLSearchParams(window.location.search);
-    const roomParam = params.get('room');
-    const propParam = params.get('prop');
-    const ssidParam = params.get('ssid');
-    const passParam = params.get('pass');
+    const parseParams = () => {
+      const params = new URLSearchParams(window.location.search);
+      const roomParam = params.get('room');
+      const propParam = params.get('prop');
+      const ssidParam = params.get('ssid');
+      const passParam = params.get('pass');
 
-    if (roomParam) setRoomNumber(roomParam);
-    if (propParam) setPropertyName(propParam);
-    if (ssidParam) setWifiSsid(ssidParam);
-    else if (roomParam) setWifiSsid(`AdemTentrem_${roomParam}`);
+      if (roomParam) setRoomNumber(roomParam);
+      if (propParam) setPropertyName(propParam);
 
-    if (passParam) setWifiPass(passParam);
+      if (ssidParam) {
+        setWifiSsid(ssidParam);
+      } else if (roomParam && propParam) {
+        setWifiSsid(`${propParam.replace(/\s+/g, '')}_${roomParam}`);
+      } else if (roomParam) {
+        setWifiSsid(`AdemTentrem_${roomParam}`);
+      }
+
+      if (passParam) setWifiPass(passParam);
+    };
+
+    parseParams();
+
+    window.addEventListener('popstate', parseParams);
+    window.addEventListener('room-change', parseParams);
+
+    return () => {
+      window.removeEventListener('popstate', parseParams);
+      window.removeEventListener('room-change', parseParams);
+    };
   }, []);
 
   return (

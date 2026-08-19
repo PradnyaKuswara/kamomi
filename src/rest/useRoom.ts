@@ -1,7 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import ApiService, { type ApiResponse } from '../services/api';
 import type { Room, RoomRequest, RoomLog } from '../types/room';
+import type { PublicRoomData } from '../types/public-room';
 import type { Page } from '../types/rule';
+
+// Fetch public room by code
+export const getPublicRoom = async (code: string): Promise<ApiResponse<PublicRoomData>> => {
+  return ApiService.get<ApiResponse<PublicRoomData>>(`/api/public/rooms/${code}`);
+};
 
 // Fetch all rooms paginated
 export const getRooms = async (
@@ -68,6 +74,14 @@ export function useRoomQuery(propertyId: number | undefined, roomId: number | un
     queryKey: ['room', propertyId, roomId],
     queryFn: () => getRoom(propertyId!, roomId!),
     enabled: !!propertyId && !!roomId,
+  });
+}
+
+export function usePublicRoomQuery(code: string | undefined) {
+  return useQuery<ApiResponse<PublicRoomData>, Error>({
+    queryKey: ['publicRoom', code],
+    queryFn: () => getPublicRoom(code!),
+    enabled: !!code,
   });
 }
 

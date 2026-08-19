@@ -1,45 +1,369 @@
 ---
 import Navbar from '../components/layout/Navbar.tsx';
+import Footer from '../components/layout/Footer.astro';
 import GuestRoom from '../components/guest/GuestRoom.tsx';
 import SEOHead from '../components/layout/SEOHead.astro';
 import '../styles/global.css';
 ---
-<html lang="id">
+
+<html lang="id" class="scroll-smooth">
   <SEOHead
     title="Digital Guestbook Demo - Kamomi.id"
     description="Coba pengalaman interaktif penggunaan Digital Guestbook Kamomi.id dari sudut pandang tamu atau penghuni kamar."
-    keywords="guestbook demo, contoh buku tamu digital, qr room preview"
+    keywords="guestbook demo, contoh buku tamu digital, qr room preview, simulasi kamomi"
   />
-  <head>
-    <style>
-      .phone-frame::-webkit-scrollbar {
-        width: 3px;
+
+  <style>
+    @keyframes float-slow {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
       }
-      .phone-frame::-webkit-scrollbar-track {
-        background: transparent;
+      50% {
+        transform: translateY(-16px) rotate(1.5deg);
       }
-      .phone-frame::-webkit-scrollbar-thumb {
-        background: rgba(156, 163, 175, 0.3);
-        border-radius: 99px;
+    }
+
+    @keyframes float-reverse {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
       }
-    </style>
-  <body class="bg-slate-100 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300">
+      50% {
+        transform: translateY(16px) rotate(-1.5deg);
+      }
+    }
+
+    @keyframes pulse-glow {
+      0%, 100% {
+        opacity: 0.4;
+        transform: scale(1);
+      }
+      50% {
+        opacity: 0.75;
+        transform: scale(1.06);
+      }
+    }
+
+    .animate-float-slow {
+      animation: float-slow 7s ease-in-out infinite;
+    }
+
+    .animate-float-reverse {
+      animation: float-reverse 8s ease-in-out infinite;
+    }
+
+    .animate-pulse-glow {
+      animation: pulse-glow 6s ease-in-out infinite;
+    }
+
+    .phone-frame::-webkit-scrollbar {
+      width: 4px;
+    }
+    .phone-frame::-webkit-scrollbar-track {
+      background: transparent;
+    }
+    .phone-frame::-webkit-scrollbar-thumb {
+      background: rgba(156, 163, 175, 0.35);
+      border-radius: 99px;
+    }
+    .phone-frame::-webkit-scrollbar-thumb:hover {
+      background: rgba(156, 163, 175, 0.6);
+    }
+  </style>
+
+  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased overflow-x-hidden">
     <Navbar client:load />
 
-    <main class="flex-1 flex items-center justify-center p-4 pt-24 pb-16">
-      {/* Phone container on desktop, clean layout on mobile */}
-      <div class="phone-frame w-full max-w-md md:border-10 md:border-slate-900 md:dark:border-slate-800 md:rounded-[48px] md:shadow-2xl md:bg-white md:dark:bg-slate-900/60 md:h-195 md:overflow-y-auto relative md:p-6 md:pb-12 md:backdrop-blur-md">
+    <main class="flex-1 relative pt-28 pb-20 px-4 sm:px-6">
+      {/* Dynamic Background Parallax & Glow Orbs */}
+      <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-200 h-125 bg-linear-to-tr from-cyan-500/10 via-emerald-500/10 to-indigo-500/10 blur-[120px] rounded-full animate-pulse-glow"></div>
+        <div class="absolute top-40 left-[8%] w-72 h-72 bg-cyan-500/15 blur-[90px] rounded-full animate-float-slow"></div>
+        <div class="absolute top-96 right-[8%] w-80 h-80 bg-indigo-500/15 blur-[100px] rounded-full animate-float-reverse"></div>
         
-        {/* Mock Speaker/Camera Notch on Desktop */}
-        <div class="hidden md:block absolute top-3 left-1/2 -translate-x-1/2 w-32 h-5 bg-slate-900 dark:bg-slate-800 rounded-full z-30"></div>
+        {/* Subtle Background Pattern */}
+        <div 
+          class="absolute inset-0 opacity-[0.03] dark:opacity-[0.05]" 
+          style="background-image: radial-gradient(circle, currentColor 1px, transparent 1px); background-size: 32px 32px;"
+        ></div>
+      </div>
 
-        <div class="md:pt-6">
-          <GuestRoom client:only="react" />
+      <div class="max-w-7xl mx-auto relative z-10 space-y-12">
+        {/* Header Section */}
+        <div class="text-center max-w-3xl mx-auto space-y-4">
+          <div class="inline-flex items-center gap-2 px-4 py-1.5 rounded-full text-xs font-extrabold tracking-wide uppercase bg-cyan-100 dark:bg-cyan-950/60 text-cyan-700 dark:text-cyan-300 border border-cyan-200/80 dark:border-cyan-800/60 shadow-sm backdrop-blur-md">
+            <span class="relative flex h-2 w-2">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-cyan-400 opacity-75"></span>
+              <span class="relative inline-flex rounded-full h-2 w-2 bg-cyan-500"></span>
+            </span>
+            Live Interactive Demo
+          </div>
+
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+            Simulasi Digital Guestbook <br class="hidden sm:block" />
+            <span class="bg-linear-to-r from-cyan-600 via-emerald-500 to-teal-400 bg-clip-text text-transparent">
+              Kamomi.id
+            </span>
+          </h1>
+
+          <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+            Pengalaman praktis yang didapatkan penghuni saat memindai QR Code di kamar. Bebas coba semua fitur interaktif di bawah ini.
+          </p>
+
+          {/* Interactive Room Presets Switcher */}
+          <div class="pt-3">
+            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
+              Ganti Contoh Properti & Kamar:
+            </p>
+            <div class="flex flex-wrap justify-center gap-2.5 max-w-2xl mx-auto">
+              <button
+                type="button"
+                data-preset="1"
+                data-room="102"
+                data-prop="Kost Adem Tentrem"
+                data-ssid="AdemTentrem_102"
+                data-pass="supersecurepass"
+                class="preset-btn px-4 py-2 rounded-xl font-bold text-xs transition-all duration-300 border border-cyan-500/40 bg-cyan-600 text-white shadow-lg shadow-cyan-600/25 scale-105 flex items-center gap-2 cursor-pointer"
+              >
+                <span>🏨</span> Kost Adem Tentrem (Kamar 102)
+              </button>
+
+              <button
+                type="button"
+                data-preset="2"
+                data-room="204"
+                data-prop="Villa Asri Sunset"
+                data-ssid="VillaSunset_VIP"
+                data-pass="sunsetvilla2026"
+                class="preset-btn px-4 py-2 rounded-xl font-bold text-xs transition-all duration-300 border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2 cursor-pointer"
+              >
+                <span>🏡</span> Villa Asri Sunset (Kamar 204)
+              </button>
+
+              <button
+                type="button"
+                data-preset="3"
+                data-room="308"
+                data-prop="Homestay Grand Luxury"
+                data-ssid="GrandLuxury_308"
+                data-pass="homestaypass308"
+                class="preset-btn px-4 py-2 rounded-xl font-bold text-xs transition-all duration-300 border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2 cursor-pointer"
+              >
+                <span>🌇</span> Homestay Grand Luxury (Kamar 308)
+              </button>
+            </div>
+          </div>
         </div>
-        
-        {/* Mock Home Indicator Bar on Desktop */}
-        <div class="hidden md:block absolute bottom-2.5 left-1/2 -translate-x-1/2 w-32 h-1 bg-slate-400 dark:bg-slate-700 rounded-full z-30"></div>
+
+        {/* Demo Stage Container with Parallax Floating Feature Badges */}
+        <div class="relative flex items-center justify-center min-h-160 pt-4 pb-8">
+
+          {/* Left Side Parallax Glass Badges (Desktop) */}
+          <div class="hidden xl:flex flex-col gap-6 absolute left-4 top-12 w-72 z-20 pointer-events-none">
+            <div class="animate-float-slow glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-3 mb-1.5">
+                <div class="h-9 w-9 rounded-xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-bold text-lg">
+                  📲
+                </div>
+                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">Tanpa Install App</h3>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Tamu cukup memindai QR Code menggunakan kamera HP standar dan langsung terhubung.
+              </p>
+            </div>
+
+            <div class="animate-float-reverse glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-3 mb-1.5">
+                <div class="h-9 w-9 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg">
+                  📶
+                </div>
+                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">1-Klik Salin Wi-Fi</h3>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Tidak ada lagi kerumitan mengetik password Wi-Fi yang panjang dan rumit.
+              </p>
+            </div>
+          </div>
+
+          {/* Center Smartphone Mockup Frame */}
+          <div class="relative z-20 group">
+            {/* Ambient Glow Rim behind Smartphone */}
+            <div class="absolute -inset-1.5 bg-linear-to-r from-cyan-500 via-emerald-500 to-teal-500 rounded-[52px] blur-xl opacity-40 group-hover:opacity-75 transition-opacity duration-500 animate-pulse-glow"></div>
+
+            {/* Instruction tooltip above phone */}
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900/90 dark:bg-white/90 text-white dark:text-slate-950 text-[11px] font-extrabold px-4 py-1.5 rounded-full shadow-lg border border-white/10 dark:border-slate-800/20 backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap z-30 animate-bounce">
+              <span>👇</span> Gulir & klik komponen di dalam HP
+            </div>
+
+            {/* Phone Container */}
+            <div class="phone-frame w-full max-w-90 sm:max-w-md border-[9px] border-slate-900 dark:border-slate-800 rounded-[46px] shadow-2xl bg-white dark:bg-slate-900 h-162.5 overflow-y-auto relative p-4 pt-7 pb-10 backdrop-blur-md transition-transform duration-500 hover:transform-[rotateX(2deg)_rotateY(-2deg)] transform-gpu">
+              
+              {/* Notch */}
+              <div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-28 h-4.5 bg-slate-900 dark:bg-slate-800 rounded-full z-30 flex items-center justify-center">
+                <div class="w-2.5 h-2.5 rounded-full bg-slate-800 dark:bg-slate-900 mr-2"></div>
+                <div class="w-1.5 h-1.5 rounded-full bg-slate-700 dark:bg-slate-800"></div>
+              </div>
+
+              {/* Dynamic Guestroom Component */}
+              <div class="pt-4">
+                <GuestRoom client:only="react" />
+              </div>
+              
+              {/* Home Indicator Bar */}
+              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-slate-300 dark:bg-slate-700 rounded-full z-30"></div>
+            </div>
+          </div>
+
+          {/* Right Side Parallax Glass Badges (Desktop) */}
+          <div class="hidden xl:flex flex-col gap-6 absolute right-4 top-12 w-72 z-20 pointer-events-none">
+            <div class="animate-float-reverse glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-3 mb-1.5">
+                <div class="h-9 w-9 rounded-xl bg-teal-500/15 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold text-lg">
+                  📜
+                </div>
+                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">Tata Tertib Transparan</h3>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Aturan kunjungan, jam malam, dan petunjuk parkir selalu dapat diakses.
+              </p>
+            </div>
+
+            <div class="animate-float-slow glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+              <div class="flex items-center gap-3 mb-1.5">
+                <div class="h-9 w-9 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-lg">
+                  🚨
+                </div>
+                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">Lapor Keluhan 24/7</h3>
+              </div>
+              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+                Kendala AC, kran bocor, atau mati lampu dapat dilaporkan langsung ke WhatsApp.
+              </p>
+            </div>
+          </div>
+        </div>
+
+        {/* Feature Highlights Grid for Mobile / Tablet */}
+        <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 xl:hidden pt-4">
+          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+            <div class="text-2xl mb-2">📲</div>
+            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">Tanpa Install App</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Scan QR Code dengan kamera HP standar untuk langsung masuk.</p>
+          </div>
+
+          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+            <div class="text-2xl mb-2">📶</div>
+            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">1-Klik Salin Wi-Fi</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Menyalin kredensial Wi-Fi instan tanpa perlu mengetik manual.</p>
+          </div>
+
+          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+            <div class="text-2xl mb-2">📜</div>
+            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">Tata Tertib Hunian</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Aturan jam malam & pengunaan fasilitas bersama selalu transparan.</p>
+          </div>
+
+          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+            <div class="text-2xl mb-2">🚨</div>
+            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">Pelaporan Keluhan</h3>
+            <p class="text-xs text-slate-600 dark:text-slate-400">Laporan kerusakan fasilitas langsung terkirim ke pengelola.</p>
+          </div>
+        </div>
+
+        {/* Call to Action Banner */}
+        <div class="relative overflow-hidden rounded-3xl bg-linear-to-r from-slate-900 via-cyan-950 to-slate-900 p-8 sm:p-12 text-white border border-cyan-500/20 shadow-2xl">
+          <div class="absolute -right-10 -bottom-10 w-72 h-72 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
+          
+          <div class="relative z-10 flex flex-col md:flex-row items-center justify-between gap-8 text-center md:text-left">
+            <div class="space-y-3 max-w-xl">
+              <span class="inline-flex items-center gap-2 text-cyan-400 font-extrabold text-xs tracking-wider uppercase">
+                ⚡ Siap Modernisasi Hunian Anda?
+              </span>
+              <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
+                Buat Digital Guestbook untuk Kost, Homestay, atau Villa Anda Sekarang.
+              </h2>
+              <p class="text-sm text-slate-300">
+                Gunakan QR Code pintar untuk meningkatkan kenyamanan tamu dan efisiensi pengelolaan hunian.
+              </p>
+            </div>
+
+            <div class="flex flex-col sm:flex-row gap-3.5 w-full md:w-auto shrink-0">
+              <a
+                href="/register"
+                class="px-6 py-3.5 rounded-xl font-extrabold text-sm bg-cyan-500 hover:bg-cyan-400 text-slate-950 transition-all duration-300 text-center shadow-lg shadow-cyan-500/30 hover:scale-105"
+              >
+                Coba Gratis Sekarang
+              </a>
+              <a
+                href="/features"
+                class="px-6 py-3.5 rounded-xl font-bold text-sm bg-slate-800/80 hover:bg-slate-800 text-white border border-slate-700/80 transition-all duration-300 text-center"
+              >
+                Pelajari Fitur Lengkap
+              </a>
+            </div>
+          </div>
+        </div>
       </div>
     </main>
+
+    <Footer />
+
+    {/* Interactive Preset Handler Script */}
+    <script>
+      const buttons = document.querySelectorAll('.preset-btn');
+      
+      buttons.forEach(btn => {
+        btn.addEventListener('click', () => {
+          const room = btn.getAttribute('data-room');
+          const prop = btn.getAttribute('data-prop');
+          const ssid = btn.getAttribute('data-ssid');
+          const pass = btn.getAttribute('data-pass');
+
+          const url = new URL(window.location.href);
+          if (room) url.searchParams.set('room', room);
+          if (prop) url.searchParams.set('prop', prop);
+          if (ssid) url.searchParams.set('ssid', ssid);
+          if (pass) url.searchParams.set('pass', pass);
+
+          window.history.pushState({}, '', url.toString());
+          window.dispatchEvent(new Event('room-change'));
+
+          // Toggle button styles
+          buttons.forEach(b => {
+            b.classList.remove(
+              'border-cyan-500/40',
+              'bg-cyan-600',
+              'text-white',
+              'shadow-lg',
+              'shadow-cyan-600/25',
+              'scale-105'
+            );
+            b.classList.add(
+              'border-slate-200',
+              'dark:border-slate-800',
+              'bg-white/80',
+              'dark:bg-slate-900/80',
+              'text-slate-700',
+              'dark:text-slate-300'
+            );
+          });
+
+          btn.classList.remove(
+            'border-slate-200',
+            'dark:border-slate-800',
+            'bg-white/80',
+            'dark:bg-slate-900/80',
+            'text-slate-700',
+            'dark:text-slate-300'
+          );
+          btn.classList.add(
+            'border-cyan-500/40',
+            'bg-cyan-600',
+            'text-white',
+            'shadow-lg',
+            'shadow-cyan-600/25',
+            'scale-105'
+          );
+        });
+      });
+    </script>
   </body>
 </html>

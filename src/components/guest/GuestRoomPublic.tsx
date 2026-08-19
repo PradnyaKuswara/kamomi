@@ -1,52 +1,23 @@
-import { useState, useEffect } from 'react';
+import { useState } from 'react';
 import WiFiCard from './WiFiCard.tsx';
 import HouseRules from './HouseRules.tsx';
 import FacilityGuides from './FacilityGuides.tsx';
 import QuickContact from './QuickContact.tsx';
 import ReportIssue from './ReportIssue.tsx';
 import { AlertCircle, Lock, RefreshCw } from 'lucide-react';
-import type { PublicRoomData } from '../../types/public-room';
+import { usePublicRoomQuery } from '../../rest/useRoom';
 
 interface GuestRoomPublicProps {
   code: string;
 }
 
 export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
-  const [data, setData] = useState<PublicRoomData | null>(null);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
   const [reportOpen, setReportOpen] = useState(false);
 
-  const BASE_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+  const { data: response, isLoading: loading, isError, error: queryError } = usePublicRoomQuery(code);
 
-  useEffect(() => {
-    if (!code) {
-      setError('Kode kamar tidak valid');
-      setLoading(false);
-      return;
-    }
-
-    fetch(`${BASE_URL}/api/public/rooms/${code}`)
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error('Gagal mengambil data kamar');
-        }
-        return res.json();
-      })
-      .then((json) => {
-        if (json.success && json.data) {
-          setData(json.data);
-        } else {
-          setError(json.message || 'Gagal memuat data');
-        }
-      })
-      .catch((err) => {
-        setError(err.message || 'Terjadi kesalahan koneksi');
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [code]);
+  const data = response?.data;
+  const error = isError ? (queryError?.message || 'Gagal memuat data') : (!code ? 'Kode kamar tidak valid' : null);
 
   if (loading) {
     return (

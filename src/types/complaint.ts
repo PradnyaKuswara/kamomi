@@ -21,6 +21,14 @@ export interface UpdateComplaintStatusRequest {
   responseNote?: string;
 }
 
+export interface CreatePublicComplaintRequest {
+  roomCode: string;
+  category: string;
+  description: string;
+  guestName?: string;
+  guestContact?: string;
+}
+
 export interface Page<T> {
   content: T[];
   totalPages: number;

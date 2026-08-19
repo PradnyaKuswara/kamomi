@@ -1,6 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
 import ApiService, { type ApiResponse } from '../services/api';
-import type { Complaint, UpdateComplaintStatusRequest, Page } from '../types/complaint';
+import type { Complaint, UpdateComplaintStatusRequest, CreatePublicComplaintRequest, Page } from '../types/complaint';
 
 export const getComplaints = async (
   propertyId: number,
@@ -12,6 +12,12 @@ export const getComplaints = async (
   return ApiService.get<ApiResponse<Page<Complaint>>>(
     `/api/properties/${propertyId}/complaints?page=${page}&size=${size}&sort=createdAt,desc${statusParam}`
   );
+};
+
+export const createPublicComplaint = async (
+  data: CreatePublicComplaintRequest
+): Promise<ApiResponse<Complaint>> => {
+  return ApiService.post<ApiResponse<Complaint>>('/api/public/complaints', data);
 };
 
 export const updateComplaintStatus = async ({
@@ -51,6 +57,12 @@ export function useComplaintsQuery(
     queryKey: ['complaints', propertyId, page, size, status],
     queryFn: () => getComplaints(propertyId!, page, size, status),
     enabled: !!propertyId,
+  });
+}
+
+export function useCreatePublicComplaintMutation() {
+  return useMutation<ApiResponse<Complaint>, Error, CreatePublicComplaintRequest>({
+    mutationFn: (data) => createPublicComplaint(data),
   });
 }
 

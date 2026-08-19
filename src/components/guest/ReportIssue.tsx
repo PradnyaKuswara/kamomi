@@ -13,6 +13,8 @@ import { FormInput, FormTextarea } from '../input/FormInput.tsx';
 import { InputPhone } from '../input/InputPhone.tsx';
 import { FormSelect, type Option } from '../input/FormSelect.tsx';
 
+import { useCreatePublicComplaintMutation } from '../../rest/useComplaint';
+
 interface ReportIssueProps {
   open: boolean;
   onClose: () => void;
@@ -33,51 +35,44 @@ export default function ReportIssue({ open, onClose, roomNumber = "102", roomCod
   const [description, setDescription] = useState('');
   const [guestName, setGuestName] = useState('');
   const [guestContact, setGuestContact] = useState('');
-  const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [successOpen, setSuccessOpen] = useState(false);
 
-  const BASE_URL = import.meta.env.PUBLIC_API_URL || 'http://localhost:8080';
+  const createComplaintMutation = useCreatePublicComplaintMutation();
+  const loading = createComplaintMutation.isPending;
 
-  const handleSubmit = async (e: React.FormEvent) => {
+  const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     if (!category || !description) return;
-    
-    setLoading(true);
+
     setErrorMessage(null);
 
-    try {
-      const response = await fetch(`${BASE_URL}/api/public/complaints`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
+    createComplaintMutation.mutate(
+      {
+        roomCode: roomCode || '',
+        category,
+        description,
+        guestName: guestName.trim() || undefined,
+        guestContact: guestContact.trim() || undefined,
+      },
+      {
+        onSuccess: (res) => {
+          if (res.success) {
+            setSuccessOpen(true);
+            setCategory('');
+            setDescription('');
+            setGuestName('');
+            setGuestContact('');
+            onClose();
+          } else {
+            setErrorMessage(res.message || 'Gagal mengirim keluhan. Silakan coba lagi.');
+          }
         },
-        body: JSON.stringify({
-          roomCode: roomCode || '',
-          category,
-          description,
-          guestName: guestName.trim() || undefined,
-          guestContact: guestContact.trim() || undefined,
-        }),
-      });
-
-      const json = await response.json();
-
-      if (response.ok && json.success) {
-        setSuccessOpen(true);
-        setCategory('');
-        setDescription('');
-        setGuestName('');
-        setGuestContact('');
-        onClose();
-      } else {
-        setErrorMessage(json.message || 'Gagal mengirim keluhan. Silakan coba lagi.');
+        onError: (err: any) => {
+          setErrorMessage(err.message || 'Terjadi kesalahan koneksi ke server.');
+        },
       }
-    } catch (err: any) {
-      setErrorMessage(err.message || 'Terjadi kesalahan koneksi ke server.');
-    } finally {
-      setLoading(false);
-    }
+    );
   };
 
   return (
