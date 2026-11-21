@@ -1,5 +1,5 @@
 import React from 'react';
-import { AlertCircle } from 'lucide-react';
+import { Alert } from '@pradnyakuswara/ui';
 
 interface ErrorStateProps {
   title?: string;
@@ -13,12 +13,10 @@ export default function ErrorState({
   minHeight = 'min-h-[300px]'
 }: ErrorStateProps) {
   return (
-    <div className={`flex flex-col items-center justify-center ${minHeight} text-center space-y-2.5 p-6`}>
-      <div className="h-12 w-12 rounded-2xl bg-rose-500/10 flex items-center justify-center text-rose-500">
-        <AlertCircle className="h-6 w-6" />
-      </div>
-      <p className="text-sm font-extrabold text-rose-500 dark:text-rose-400">{title}</p>
-      <p className="text-xs text-slate-400 dark:text-slate-500 max-w-xs">{message}</p>
+    <div className={`flex items-center justify-center ${minHeight} p-6`}>
+      <Alert variant="danger" title={title} className="max-w-md">
+        {message}
+      </Alert>
     </div>
   );
 }

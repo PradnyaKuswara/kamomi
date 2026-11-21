@@ -62,23 +62,23 @@ import '../styles/global.css';
       background: transparent;
     }
     .phone-frame::-webkit-scrollbar-thumb {
-      background: rgba(156, 163, 175, 0.35);
+      background: var(--border-color);
       border-radius: 99px;
     }
     .phone-frame::-webkit-scrollbar-thumb:hover {
-      background: rgba(156, 163, 175, 0.6);
+      background: var(--border-strong);
     }
   </style>
 
-  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased overflow-x-hidden">
+  <body class="bg-[var(--bg-subtle)] text-[var(--text-primary)] min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased overflow-x-hidden">
     <Navbar client:load />
 
     <main class="flex-1 relative pt-28 pb-20 px-4 sm:px-6">
       {/* Dynamic Background Parallax & Glow Orbs */}
       <div class="absolute inset-0 pointer-events-none overflow-hidden z-0">
-        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-200 h-125 bg-linear-to-tr from-cyan-500/10 via-emerald-500/10 to-indigo-500/10 blur-[120px] rounded-full animate-pulse-glow"></div>
+        <div class="absolute top-10 left-1/2 -translate-x-1/2 w-200 h-125 bg-linear-to-tr from-cyan-500/10 via-cyan-500/10 to-cyan-500/10 blur-[120px] rounded-full animate-pulse-glow"></div>
         <div class="absolute top-40 left-[8%] w-72 h-72 bg-cyan-500/15 blur-[90px] rounded-full animate-float-slow"></div>
-        <div class="absolute top-96 right-[8%] w-80 h-80 bg-indigo-500/15 blur-[100px] rounded-full animate-float-reverse"></div>
+        <div class="absolute top-96 right-[8%] w-80 h-80 bg-cyan-500/15 blur-[100px] rounded-full animate-float-reverse"></div>
         
         {/* Subtle Background Pattern */}
         <div 
@@ -98,20 +98,20 @@ import '../styles/global.css';
             Live Interactive Demo
           </div>
 
-          <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-slate-900 dark:text-white leading-tight">
+          <h1 class="text-3xl sm:text-5xl font-black tracking-tight text-[var(--text-primary)] leading-tight">
             Simulasi Digital Guestbook <br class="hidden sm:block" />
-            <span class="bg-linear-to-r from-cyan-600 via-emerald-500 to-teal-400 bg-clip-text text-transparent">
+            <span class="bg-linear-to-r from-cyan-600 via-cyan-500 to-cyan-400 bg-clip-text text-transparent">
               Kamomi.id
             </span>
           </h1>
 
-          <p class="text-base sm:text-lg text-slate-600 dark:text-slate-400 max-w-2xl mx-auto leading-relaxed">
+          <p class="text-base sm:text-lg text-[var(--text-secondary)] max-w-2xl mx-auto leading-relaxed">
             Pengalaman praktis yang didapatkan penghuni saat memindai QR Code di kamar. Bebas coba semua fitur interaktif di bawah ini.
           </p>
 
           {/* Interactive Room Presets Switcher */}
           <div class="pt-3">
-            <p class="text-xs font-bold uppercase tracking-wider text-slate-400 dark:text-slate-500 mb-3">
+            <p class="text-xs font-bold uppercase tracking-wider text-[var(--text-muted)] mb-3">
               Ganti Contoh Properti & Kamar:
             </p>
             <div class="flex flex-wrap justify-center gap-2.5 max-w-2xl mx-auto">
@@ -134,7 +134,7 @@ import '../styles/global.css';
                 data-prop="Villa Asri Sunset"
                 data-ssid="VillaSunset_VIP"
                 data-pass="sunsetvilla2026"
-                class="preset-btn px-4 py-2 rounded-xl font-bold text-xs transition-all duration-300 border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2 cursor-pointer"
+                class="preset-btn px-4 py-2 rounded-xl font-bold text-xs transition-all duration-300 border border-[var(--border-color)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-cyan-500/50 hover:bg-[var(--control-hover)] flex items-center gap-2 cursor-pointer"
               >
                 <span>🏡</span> Villa Asri Sunset (Kamar 204)
               </button>
@@ -146,7 +146,7 @@ import '../styles/global.css';
                 data-prop="Homestay Grand Luxury"
                 data-ssid="GrandLuxury_308"
                 data-pass="homestaypass308"
-                class="preset-btn px-4 py-2 rounded-xl font-bold text-xs transition-all duration-300 border border-slate-200 dark:border-slate-800 bg-white/80 dark:bg-slate-900/80 text-slate-700 dark:text-slate-300 hover:border-cyan-500/50 hover:bg-slate-100 dark:hover:bg-slate-800 flex items-center gap-2 cursor-pointer"
+                class="preset-btn px-4 py-2 rounded-xl font-bold text-xs transition-all duration-300 border border-[var(--border-color)] bg-[var(--bg-surface)] text-[var(--text-primary)] hover:border-cyan-500/50 hover:bg-[var(--control-hover)] flex items-center gap-2 cursor-pointer"
               >
                 <span>🌇</span> Homestay Grand Luxury (Kamar 308)
               </button>
@@ -159,43 +159,43 @@ import '../styles/global.css';
 
           {/* Left Side Parallax Glass Badges (Desktop) */}
           <div class="hidden xl:flex flex-col gap-6 absolute left-4 top-12 w-72 z-20 pointer-events-none">
-            <div class="animate-float-slow glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+            <div class="animate-float-slow glassmorphic p-4 rounded-2xl border border-[var(--border-color)] shadow-xl backdrop-blur-xl bg-[var(--bg-surface)] pointer-events-auto hover:scale-105 transition-transform duration-300">
               <div class="flex items-center gap-3 mb-1.5">
                 <div class="h-9 w-9 rounded-xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-bold text-lg">
                   📲
                 </div>
-                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">Tanpa Install App</h3>
+                <h3 class="font-extrabold text-sm text-[var(--text-primary)]">Tanpa Install App</h3>
               </div>
-              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
                 Tamu cukup memindai QR Code menggunakan kamera HP standar dan langsung terhubung.
               </p>
             </div>
 
-            <div class="animate-float-reverse glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+            <div class="animate-float-reverse glassmorphic p-4 rounded-2xl border border-[var(--border-color)] shadow-xl backdrop-blur-xl bg-[var(--bg-surface)] pointer-events-auto hover:scale-105 transition-transform duration-300">
               <div class="flex items-center gap-3 mb-1.5">
-                <div class="h-9 w-9 rounded-xl bg-emerald-500/15 text-emerald-600 dark:text-emerald-400 flex items-center justify-center font-bold text-lg">
+                <div class="h-9 w-9 rounded-xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-bold text-lg">
                   📶
                 </div>
-                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">1-Klik Salin Wi-Fi</h3>
+                <h3 class="font-extrabold text-sm text-[var(--text-primary)]">1-Klik Salin Wi-Fi</h3>
               </div>
-              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
                 Tidak ada lagi kerumitan mengetik password Wi-Fi yang panjang dan rumit.
               </p>
             </div>
           </div>
 
           {/* Center Smartphone Mockup Frame */}
-          <div class="relative z-20 group">
+          <div class="relative z-20 group w-full max-w-90 sm:max-w-md">
             {/* Ambient Glow Rim behind Smartphone */}
-            <div class="absolute -inset-1.5 bg-linear-to-r from-cyan-500 via-emerald-500 to-teal-500 rounded-[52px] blur-xl opacity-40 group-hover:opacity-75 transition-opacity duration-500 animate-pulse-glow"></div>
+            <div class="absolute -inset-1.5 bg-linear-to-r from-cyan-500 via-cyan-500 to-cyan-500 rounded-[52px] blur-xl opacity-40 group-hover:opacity-75 transition-opacity duration-500 animate-pulse-glow"></div>
 
             {/* Instruction tooltip above phone */}
-            <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-slate-900/90 dark:bg-white/90 text-white dark:text-slate-950 text-[11px] font-extrabold px-4 py-1.5 rounded-full shadow-lg border border-white/10 dark:border-slate-800/20 backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap z-30 animate-bounce">
+            <div class="absolute -top-10 left-1/2 -translate-x-1/2 bg-[var(--text-primary)] text-[var(--bg-base)] text-[11px] font-extrabold px-4 py-1.5 rounded-full shadow-lg border border-white/10 dark:border-slate-800/20 backdrop-blur-md flex items-center gap-1.5 whitespace-nowrap z-30 animate-bounce">
               <span>👇</span> Gulir & klik komponen di dalam HP
             </div>
 
             {/* Phone Container */}
-            <div class="phone-frame w-full max-w-90 sm:max-w-md border-[9px] border-slate-900 dark:border-slate-800 rounded-[46px] shadow-2xl bg-white dark:bg-slate-900 h-162.5 overflow-y-auto relative p-4 pt-7 pb-10 backdrop-blur-md transition-transform duration-500 hover:transform-[rotateX(2deg)_rotateY(-2deg)] transform-gpu">
+            <div class="phone-frame w-full max-w-90 sm:max-w-md border-[9px] border-slate-900 dark:border-slate-800 rounded-[46px] shadow-2xl bg-[var(--bg-surface)] h-162.5 overflow-y-auto relative p-4 pt-7 pb-10 backdrop-blur-md transition-transform duration-500 hover:transform-[rotateX(2deg)_rotateY(-2deg)] transform-gpu">
               
               {/* Notch */}
               <div class="absolute top-2.5 left-1/2 -translate-x-1/2 w-28 h-4.5 bg-slate-900 dark:bg-slate-800 rounded-full z-30 flex items-center justify-center">
@@ -209,32 +209,32 @@ import '../styles/global.css';
               </div>
               
               {/* Home Indicator Bar */}
-              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-slate-300 dark:bg-slate-700 rounded-full z-30"></div>
+              <div class="absolute bottom-2 left-1/2 -translate-x-1/2 w-28 h-1 bg-[var(--border-strong)] rounded-full z-30"></div>
             </div>
           </div>
 
           {/* Right Side Parallax Glass Badges (Desktop) */}
           <div class="hidden xl:flex flex-col gap-6 absolute right-4 top-12 w-72 z-20 pointer-events-none">
-            <div class="animate-float-reverse glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+            <div class="animate-float-reverse glassmorphic p-4 rounded-2xl border border-[var(--border-color)] shadow-xl backdrop-blur-xl bg-[var(--bg-surface)] pointer-events-auto hover:scale-105 transition-transform duration-300">
               <div class="flex items-center gap-3 mb-1.5">
-                <div class="h-9 w-9 rounded-xl bg-teal-500/15 text-teal-600 dark:text-teal-400 flex items-center justify-center font-bold text-lg">
+                <div class="h-9 w-9 rounded-xl bg-cyan-500/15 text-cyan-600 dark:text-cyan-400 flex items-center justify-center font-bold text-lg">
                   📜
                 </div>
-                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">Tata Tertib Transparan</h3>
+                <h3 class="font-extrabold text-sm text-[var(--text-primary)]">Tata Tertib Transparan</h3>
               </div>
-              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
                 Aturan kunjungan, jam malam, dan petunjuk parkir selalu dapat diakses.
               </p>
             </div>
 
-            <div class="animate-float-slow glassmorphic p-4 rounded-2xl border border-white/40 dark:border-slate-800/60 shadow-xl backdrop-blur-xl bg-white/60 dark:bg-slate-900/60 pointer-events-auto hover:scale-105 transition-transform duration-300">
+            <div class="animate-float-slow glassmorphic p-4 rounded-2xl border border-[var(--border-color)] shadow-xl backdrop-blur-xl bg-[var(--bg-surface)] pointer-events-auto hover:scale-105 transition-transform duration-300">
               <div class="flex items-center gap-3 mb-1.5">
                 <div class="h-9 w-9 rounded-xl bg-rose-500/15 text-rose-600 dark:text-rose-400 flex items-center justify-center font-bold text-lg">
                   🚨
                 </div>
-                <h3 class="font-extrabold text-sm text-slate-800 dark:text-white">Lapor Keluhan 24/7</h3>
+                <h3 class="font-extrabold text-sm text-[var(--text-primary)]">Lapor Keluhan 24/7</h3>
               </div>
-              <p class="text-xs text-slate-600 dark:text-slate-400 leading-relaxed">
+              <p class="text-xs text-[var(--text-secondary)] leading-relaxed">
                 Kendala AC, kran bocor, atau mati lampu dapat dilaporkan langsung ke WhatsApp.
               </p>
             </div>
@@ -243,28 +243,28 @@ import '../styles/global.css';
 
         {/* Feature Highlights Grid for Mobile / Tablet */}
         <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 xl:hidden pt-4">
-          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+          <div class="glassmorphic p-5 rounded-2xl border border-[var(--border-color)] shadow-md">
             <div class="text-2xl mb-2">📲</div>
-            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">Tanpa Install App</h3>
-            <p class="text-xs text-slate-600 dark:text-slate-400">Scan QR Code dengan kamera HP standar untuk langsung masuk.</p>
+            <h3 class="font-bold text-sm text-[var(--text-primary)] mb-1">Tanpa Install App</h3>
+            <p class="text-xs text-[var(--text-secondary)]">Scan QR Code dengan kamera HP standar untuk langsung masuk.</p>
           </div>
 
-          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+          <div class="glassmorphic p-5 rounded-2xl border border-[var(--border-color)] shadow-md">
             <div class="text-2xl mb-2">📶</div>
-            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">1-Klik Salin Wi-Fi</h3>
-            <p class="text-xs text-slate-600 dark:text-slate-400">Menyalin kredensial Wi-Fi instan tanpa perlu mengetik manual.</p>
+            <h3 class="font-bold text-sm text-[var(--text-primary)] mb-1">1-Klik Salin Wi-Fi</h3>
+            <p class="text-xs text-[var(--text-secondary)]">Menyalin kredensial Wi-Fi instan tanpa perlu mengetik manual.</p>
           </div>
 
-          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+          <div class="glassmorphic p-5 rounded-2xl border border-[var(--border-color)] shadow-md">
             <div class="text-2xl mb-2">📜</div>
-            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">Tata Tertib Hunian</h3>
-            <p class="text-xs text-slate-600 dark:text-slate-400">Aturan jam malam & pengunaan fasilitas bersama selalu transparan.</p>
+            <h3 class="font-bold text-sm text-[var(--text-primary)] mb-1">Tata Tertib Hunian</h3>
+            <p class="text-xs text-[var(--text-secondary)]">Aturan jam malam & pengunaan fasilitas bersama selalu transparan.</p>
           </div>
 
-          <div class="glassmorphic p-5 rounded-2xl border border-slate-200/80 dark:border-slate-800/80 shadow-md">
+          <div class="glassmorphic p-5 rounded-2xl border border-[var(--border-color)] shadow-md">
             <div class="text-2xl mb-2">🚨</div>
-            <h3 class="font-bold text-sm text-slate-800 dark:text-white mb-1">Pelaporan Keluhan</h3>
-            <p class="text-xs text-slate-600 dark:text-slate-400">Laporan kerusakan fasilitas langsung terkirim ke pengelola.</p>
+            <h3 class="font-bold text-sm text-[var(--text-primary)] mb-1">Pelaporan Keluhan</h3>
+            <p class="text-xs text-[var(--text-secondary)]">Laporan kerusakan fasilitas langsung terkirim ke pengelola.</p>
           </div>
         </div>
 
@@ -280,7 +280,7 @@ import '../styles/global.css';
               <h2 class="text-2xl sm:text-3xl font-black tracking-tight">
                 Buat Digital Guestbook untuk Kost, Homestay, atau Villa Anda Sekarang.
               </h2>
-              <p class="text-sm text-slate-300">
+              <p class="text-sm text-[var(--text-secondary)]">
                 Gunakan QR Code pintar untuk meningkatkan kenyamanan tamu dan efisiensi pengelolaan hunian.
               </p>
             </div>
@@ -337,22 +337,16 @@ import '../styles/global.css';
               'scale-105'
             );
             b.classList.add(
-              'border-slate-200',
-              'dark:border-slate-800',
-              'bg-white/80',
-              'dark:bg-slate-900/80',
-              'text-slate-700',
-              'dark:text-slate-300'
+              'border-[var(--border-color)]',
+              'bg-[var(--bg-surface)]',
+              'text-[var(--text-primary)]'
             );
           });
 
           btn.classList.remove(
-            'border-slate-200',
-            'dark:border-slate-800',
-            'bg-white/80',
-            'dark:bg-slate-900/80',
-            'text-slate-700',
-            'dark:text-slate-300'
+            'border-[var(--border-color)]',
+              'bg-[var(--bg-surface)]',
+              'text-[var(--text-primary)]'
           );
           btn.classList.add(
             'border-cyan-500/40',

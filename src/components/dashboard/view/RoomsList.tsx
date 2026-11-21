@@ -1,4 +1,5 @@
 import React, { useMemo, useState } from 'react';
+import { Button, Tooltip } from '@pradnyakuswara/ui';
 import {
   Plus,
   Lock,
@@ -23,7 +24,6 @@ import ErrorState from '../../ui/ErrorState';
 import EmptyState from '../../ui/EmptyState';
 import RoomFormModal from '../../modal/RoomFormModal';
 import RoomCard from '../../card/RoomCard';
-import TooltipButton from '../../button/TooltipButton';
 import RoomLogsSidebar from '../sidebar/RoomLogsSidebar';
 
 const defaultQueryClient = new QueryClient();
@@ -68,9 +68,9 @@ function RoomsListContent() {
   if (!propertyId) {
     return (
       <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
-        <HelpCircle className="h-12 w-12 text-slate-400" />
-        <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
-        <p className="text-xs text-slate-400 max-w-sm">
+        <HelpCircle className="h-12 w-12 text-[var(--text-muted)]" />
+        <h3 className="text-lg font-bold text-[var(--text-primary)]">Hunian Tidak Ditemukan</h3>
+        <p className="text-xs text-[var(--text-muted)] max-w-sm">
           Anda harus memiliki setidaknya satu hunian (property) untuk dapat mengelola kamar.
         </p>
       </div>
@@ -152,35 +152,32 @@ function RoomsListContent() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text-primary)]">
             Daftar Ruangan &amp; Link QR
           </h1>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-[var(--text-muted)] mt-1">
             Kelola informasi Wi-Fi, aturan, dan ekspor stiker QR untuk setiap kamar.
           </p>
         </div>
 
         <div className="flex items-center gap-2 self-start sm:self-center">
-          <TooltipButton
-            disabled={!canAddRoom || isMaxRoom}
-            tooltipMessage={
+          <Tooltip
+            placement="bottom"
+            disabled={!(!canAddRoom || isMaxRoom)}
+            content={
               !canAddRoom
                 ? "Anda tidak memiliki izin untuk menambah kamar."
-                : isMaxRoom
-                  ? `Batas maksimal kamar untuk paket ${subscriptionInfo.planName} (${permissions.maxRooms} kamar) tercapai. Silakan tingkatkan paket Anda.`
-                  : undefined
+                : `Batas maksimal kamar untuk paket ${subscriptionInfo.planName} (${permissions.maxRooms} kamar) tercapai. Silakan tingkatkan paket Anda.`
             }
-            position='bottom'
-            onClick={handleOpenCreate}
-            className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl font-bold text-xs transition-all cursor-pointer ${
-              isMaxRoom
-                ? "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
-                : "bg-cyan-600 text-white shadow-lg shadow-cyan-500/20 hover:opacity-90"
-            }`}
           >
-            {isMaxRoom ? <Lock className="h-4 w-4 text-amber-500" /> : <Plus className="h-4 w-4" />}
-            Tambah Kamar Baru
-          </TooltipButton>
+            <Button
+              onClick={handleOpenCreate}
+              disabled={!canAddRoom || isMaxRoom}
+              leftIcon={isMaxRoom ? <Lock className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
+            >
+              Tambah Kamar Baru
+            </Button>
+          </Tooltip>
         </div>
       </div>
 

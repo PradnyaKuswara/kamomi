@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Input, Modal } from '@pradnyakuswara/ui';
 import { Plus, Edit2, Trash2, HelpCircle, Wind, Tv, Thermometer, Lightbulb, ArrowUp, ArrowDown, ChevronRight } from 'lucide-react';
 import * as LucideIcons from 'lucide-react';
 import { FormInput } from '../../input/FormInput';
@@ -74,9 +75,9 @@ function FacilityGuidesListContent() {
   if (!propertyId) {
     return (
       <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
-        <HelpCircle className="h-12 w-12 text-slate-400" />
-        <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
-        <p className="text-xs text-slate-400 max-w-sm">
+        <HelpCircle className="h-12 w-12 text-[var(--text-muted)]" />
+        <h3 className="text-lg font-bold text-[var(--text-primary)]">Hunian Tidak Ditemukan</h3>
+        <p className="text-xs text-[var(--text-muted)] max-w-sm">
           Anda harus memiliki setidaknya satu hunian (property) untuk dapat mengelola panduan fasilitas.
         </p>
       </div>
@@ -196,27 +197,26 @@ function FacilityGuidesListContent() {
     <div className="space-y-6">
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text-primary)]">
             Master Panduan Fasilitas
           </h1>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-[var(--text-muted)] mt-1">
             Konfigurasi langkah-langkah pengoperasian barang elektronik / fasilitas kamar untuk membantu tamu Anda.
           </p>
         </div>
 
-        <button
+        <Button variant="primary" size="sm" className="self-start sm:self-center"
           onClick={handleOpenCreate}
-          className="inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl bg-cyan-600 text-white font-bold text-xs shadow-lg shadow-cyan-500/10 hover:opacity-90 transition-all self-start sm:self-center cursor-pointer"
         >
           <Plus className="h-4 w-4" />
           Tambah Panduan
-        </button>
+        </Button>
       </div>
 
       <div className="space-y-4">
-        <div className="glassmorphic rounded-2xl p-6 border border-slate-200/50 dark:border-slate-800/50 space-y-6">
+        <div className="glassmorphic rounded-2xl p-6 border border-[var(--border-color)] space-y-6">
           <div className="flex justify-between items-center">
-            <h3 className="font-bold text-slate-800 dark:text-white text-sm">
+            <h3 className="font-bold text-[var(--text-primary)] text-sm">
               Daftar Panduan Aktif ({guidesPage?.totalElements || 0})
             </h3>
           </div>
@@ -224,16 +224,16 @@ function FacilityGuidesListContent() {
           {isLoadingGuides ? (
             <div className="flex flex-col items-center justify-center py-12 space-y-3">
               <div className="h-8 w-8 border-4 border-cyan-500 border-t-transparent rounded-full animate-spin" />
-              <p className="text-xs text-slate-400">Memuat data panduan...</p>
+              <p className="text-xs text-[var(--text-muted)]">Memuat data panduan...</p>
             </div>
           ) : isError ? (
-            <div className="text-center py-12 text-rose-500 text-xs font-semibold">
+            <div className="text-center py-12 text-[var(--color-danger)] text-xs font-semibold">
               Gagal memuat data panduan fasilitas.
             </div>
           ) : guides.length === 0 ? (
-            <div className="text-center py-12 space-y-3 border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
-              <p className="text-xs text-slate-400">Belum ada panduan fasilitas yang terdaftar.</p>
-              <p className="text-[10px] text-slate-400 max-w-xs mx-auto">
+            <div className="text-center py-12 space-y-3 border border-dashed border-[var(--border-color)] rounded-xl">
+              <p className="text-xs text-[var(--text-muted)]">Belum ada panduan fasilitas yang terdaftar.</p>
+              <p className="text-[10px] text-[var(--text-muted)] max-w-xs mx-auto">
                 Silakan buat panduan pertama Anda untuk AC, TV, atau Water Heater dengan menekan tombol "Tambah Panduan" di atas.
               </p>
             </div>
@@ -245,20 +245,20 @@ function FacilityGuidesListContent() {
                   return (
                     <div
                       key={guide.id}
-                      className="p-4 rounded-xl border border-slate-200/50 dark:border-slate-800/50 bg-white/50 dark:bg-slate-900/50 flex justify-between items-start gap-4 transition-all hover:bg-slate-50 dark:hover:bg-slate-900/60"
+                      className="p-4 rounded-xl border border-[var(--border-color)] bg-[var(--bg-surface)] flex justify-between items-start gap-4 transition-all hover:bg-slate-50 dark:hover:bg-slate-900/60"
                     >
                       <div className="flex items-start gap-3.5">
-                        <div className="p-2.5 bg-cyan-50 dark:bg-cyan-950/40 rounded-xl text-cyan-600 dark:text-cyan-400 shrink-0">
+                        <div className="p-2.5 bg-cyan-50 dark:bg-cyan-950/40 rounded-xl text-[var(--primary-accent)] shrink-0">
                           <Icon className="h-5 w-5" />
                         </div>
                         <div className="space-y-1">
-                          <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200">
-                            {guide.name} — <span className="text-slate-400 font-normal">{guide.title}</span>
+                          <h4 className="font-bold text-xs text-[var(--text-primary)]">
+                            {guide.name} — <span className="text-[var(--text-muted)] font-normal">{guide.title}</span>
                           </h4>
                           <div className="flex flex-col gap-1 pt-1">
                             {guide.steps.map((step, idx) => (
-                              <p key={idx} className="text-[11px] text-slate-500 dark:text-slate-400 flex items-start gap-1">
-                                <span className="font-bold text-cyan-600 shrink-0">{idx + 1}.</span>
+                              <p key={idx} className="text-[11px] text-[var(--text-secondary)] flex items-start gap-1">
+                                <span className="font-bold text-[var(--primary-accent)] shrink-0">{idx + 1}.</span>
                                 <span>{step}</span>
                               </p>
                             ))}
@@ -267,20 +267,12 @@ function FacilityGuidesListContent() {
                       </div>
 
                       <div className="flex items-center gap-3 shrink-0">
-                        <button
+                        <Button variant="ghost" size="sm" aria-label="Edit"
                           onClick={() => handleOpenEdit(guide)}
-                          className="text-slate-400 hover:text-cyan-500 transition-colors p-1 cursor-pointer"
-                          title="Edit"
-                        >
-                          <Edit2 className="h-3.5 w-3.5" />
-                        </button>
-                        <button
+                          title="Edit" leftIcon={<Edit2 className="h-3.5 w-3.5" />} />
+                        <Button variant="ghost" size="sm" aria-label="Hapus"
                           onClick={() => setDeleteGuideId(guide.id)}
-                          className="text-slate-400 hover:text-rose-500 transition-colors p-1 cursor-pointer"
-                          title="Hapus"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
+                          title="Hapus" leftIcon={<Trash2 className="h-3.5 w-3.5" />} />
                       </div>
                     </div>
                   );
@@ -303,24 +295,24 @@ function FacilityGuidesListContent() {
       </div>
 
       {/* Form Dialog */}
-      {isFormOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4">
-          <div
-            onClick={() => setIsFormOpen(false)}
-            className="fixed inset-0 bg-slate-950/40 backdrop-blur-xs"
-          />
-
-          <div className="relative w-full max-w-xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 rounded-3xl p-6 shadow-2xl z-10 space-y-6 max-h-[90vh] overflow-y-auto">
-            <div>
-              <h3 className="text-base font-extrabold text-slate-800 dark:text-white">
-                {editingGuide ? 'Edit Panduan Fasilitas' : 'Tambah Panduan Baru'}
-              </h3>
-              <p className="text-[10px] text-slate-400">
-                Lengkapi nama fasilitas, icon representatif, serta langkah-langkah penggunaan di bawah ini.
-              </p>
-            </div>
-
-            <form onSubmit={handleSubmit} className="space-y-4">
+      <Modal
+        open={isFormOpen}
+        onClose={() => setIsFormOpen(false)}
+        size="lg"
+        title={editingGuide ? 'Edit Panduan Fasilitas' : 'Tambah Panduan Baru'}
+        description="Lengkapi nama fasilitas, icon representatif, serta langkah-langkah penggunaan di bawah ini."
+        footer={
+          <>
+            <Button type="button" variant="ghost" onClick={() => setIsFormOpen(false)}>
+              Batal
+            </Button>
+            <Button type="submit" form="dashboard-form" isLoading={createMutation.isPending || updateMutation.isPending}>
+              Simpan Panduan
+            </Button>
+          </>
+        }
+      >
+        <form id="dashboard-form" onSubmit={handleSubmit} className="space-y-4">
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                 <FormInput
                   label="Nama Fasilitas"
@@ -349,85 +341,43 @@ function FacilityGuidesListContent() {
 
               {/* Dynamic steps section */}
               <div className="space-y-2.5">
-                <label className="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">
-                  Langkah-Langkah Penggunaan <span className="text-rose-500 ml-0.5">*</span>
+                <label className="text-[10px] font-bold text-[var(--text-muted)] uppercase tracking-wider block">
+                  Langkah-Langkah Penggunaan <span className="text-[var(--color-danger)] ml-0.5">*</span>
                 </label>
                 <div className="space-y-2.5 max-h-[30vh] overflow-y-auto pr-1">
                   {steps.map((step, idx) => (
                     <div key={idx} className="flex items-center gap-2">
-                      <span className="text-xs font-bold text-cyan-600 w-4 shrink-0">{idx + 1}</span>
-                      <input
-                        type="text"
-                        placeholder={`Langkah ke-${idx + 1}...`}
-                        value={step}
-                        onChange={(e) => handleStepChange(idx, e.target.value)}
-                        className="flex-1 px-4 py-2 rounded-xl border border-slate-200 dark:border-slate-800 bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white text-xs font-semibold focus:outline-hidden focus:ring-2 focus:ring-cyan-500"
-                        required
-                      />
+                      <span className="text-xs font-bold text-[var(--primary-accent)] w-4 shrink-0">{idx + 1}</span>
+                      <Input size="sm" placeholder={`Langkah ke-${idx + 1}...`} value={step} onChange={(e) => handleStepChange(idx, e.target.value)} required />
                       <div className="flex items-center gap-1 shrink-0">
-                        <button
+                        <Button variant="ghost" size="sm" aria-label="Pindahkan Ke Atas"
                           type="button"
                           onClick={() => moveStep(idx, 'up')}
                           disabled={idx === 0}
-                          className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 disabled:opacity-30 cursor-pointer"
-                          title="Pindahkan Ke Atas"
-                        >
-                          <ArrowUp className="h-3.5 w-3.5" />
-                        </button>
-                        <button
+                          title="Pindahkan Ke Atas" leftIcon={<ArrowUp className="h-3.5 w-3.5" />} />
+                        <Button variant="ghost" size="sm" aria-label="Pindahkan Ke Bawah"
                           type="button"
                           onClick={() => moveStep(idx, 'down')}
                           disabled={idx === steps.length - 1}
-                          className="p-1.5 text-slate-400 hover:text-slate-600 dark:hover:text-slate-200 disabled:opacity-30 cursor-pointer"
-                          title="Pindahkan Ke Bawah"
-                        >
-                          <ArrowDown className="h-3.5 w-3.5" />
-                        </button>
-                        <button
+                          title="Pindahkan Ke Bawah" leftIcon={<ArrowDown className="h-3.5 w-3.5" />} />
+                        <Button variant="ghost" size="sm" aria-label="Hapus Langkah"
                           type="button"
                           onClick={() => removeStepField(idx)}
-                          className="p-1.5 text-slate-400 hover:text-rose-500 cursor-pointer"
-                          title="Hapus Langkah"
-                        >
-                          <Trash2 className="h-3.5 w-3.5" />
-                        </button>
+                          title="Hapus Langkah" leftIcon={<Trash2 className="h-3.5 w-3.5" />} />
                       </div>
                     </div>
                   ))}
                 </div>
-                <button
+                <Button variant="ghost" size="sm"
                   type="button"
                   onClick={addStepField}
-                  className="mt-2 text-cyan-600 hover:text-cyan-500 font-bold text-xs flex items-center gap-1 cursor-pointer"
                 >
                   <Plus className="h-3.5 w-3.5" />
                   Tambah Langkah Baru
-                </button>
+                </Button>
               </div>
-
-              <div className="flex items-center justify-end gap-2 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
-                <button
-                  type="button"
-                  onClick={() => setIsFormOpen(false)}
-                  className="px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-400 hover:bg-slate-50 dark:hover:bg-slate-950/60 font-bold text-xs transition-all cursor-pointer"
-                >
-                  Batal
-                </button>
-                <button
-                  type="submit"
-                  disabled={createMutation.isPending || updateMutation.isPending}
-                  className="px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs transition-all shadow-md shadow-cyan-500/10 flex items-center gap-1.5 cursor-pointer"
-                >
-                  {(createMutation.isPending || updateMutation.isPending) && (
-                    <div className="h-3 w-3 border-2 border-white border-t-transparent rounded-full animate-spin" />
-                  )}
-                  Simpan Panduan
-                </button>
-              </div>
-            </form>
-          </div>
-        </div>
-      )}
+        </form>
+      </Modal>
 
       {/* Confirmation Modal for delete */}
       <ConfirmationModal

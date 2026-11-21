@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { Button } from '@pradnyakuswara/ui';
 import {
   Plus,
   Trash2,
@@ -90,11 +91,11 @@ function UsersListContent() {
   if (!propertyId) {
     return (
       <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
-        <HelpCircle className="h-12 w-12 text-slate-400" />
-        <h3 className="text-lg font-bold text-slate-800 dark:text-white">
+        <HelpCircle className="h-12 w-12 text-[var(--text-muted)]" />
+        <h3 className="text-lg font-bold text-[var(--text-primary)]">
           Hunian Tidak Ditemukan
         </h3>
-        <p className="text-xs text-slate-400 max-w-sm">
+        <p className="text-xs text-[var(--text-muted)] max-w-sm">
           Anda harus memiliki setidaknya satu hunian (property) untuk dapat
           mengelola staff/user.
         </p>
@@ -211,16 +212,16 @@ function UsersListContent() {
       {/* Header */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-slate-800 dark:text-white">
+          <h1 className="text-3xl font-extrabold tracking-tight text-[var(--text-primary)]">
             Kelola Staff &amp; User
           </h1>
-          <p className="text-xs text-slate-400 dark:text-slate-500 mt-1">
+          <p className="text-xs text-[var(--text-muted)] mt-1">
             Tambahkan staff/user pengelola dan tugaskan kamar tertentu yang
             dapat mereka kelola.
           </p>
         </div>
 
-        <button
+        <Button
           onClick={() => {
             const currentStaffCount = usersList.length;
             if (permissions.maxStaff !== -1 && currentStaffCount >= permissions.maxStaff) {
@@ -233,15 +234,10 @@ function UsersListContent() {
             }
             setIsCreateOpen(true);
           }}
-          className={`inline-flex items-center gap-2 px-4.5 py-2.5 rounded-xl font-bold text-xs transition-all self-start sm:self-center cursor-pointer ${
-            permissions.maxStaff !== -1 && usersList.length >= permissions.maxStaff
-              ? "bg-slate-200 dark:bg-slate-800 text-slate-400 dark:text-slate-500 cursor-not-allowed"
-              : "bg-cyan-600 text-white shadow-lg shadow-cyan-500/20 hover:opacity-90"
-          }`}
+          leftIcon={permissions.maxStaff !== -1 && usersList.length >= permissions.maxStaff ? <Lock className="h-4 w-4" /> : <Plus className="h-4 w-4" />}
         >
-          {permissions.maxStaff !== -1 && usersList.length >= permissions.maxStaff ? <Lock className="h-4 w-4 text-amber-500" /> : <Plus className="h-4 w-4" />}
           Tambah Staff Baru
-        </button>
+        </Button>
       </div>
 
       {/* Loading */}
@@ -271,8 +267,8 @@ function UsersListContent() {
                 key={item.userId}
                 className={`
                   flex flex-col lg:flex-row lg:items-center justify-between gap-6
-                  bg-white dark:bg-slate-900
-                  border border-slate-200 dark:border-slate-800
+                  bg-[var(--bg-surface)]
+                  border border-[var(--border-color)]
                   rounded-2xl p-5 shadow-xs hover:shadow-md
                   transition-all duration-200
                   ${!isActive ? "opacity-65" : ""}
@@ -288,7 +284,7 @@ function UsersListContent() {
                         flex items-center justify-center font-bold text-sm border
                         ${item.roleName === "ADMIN"
                           ? "bg-indigo-50 border-indigo-100 text-indigo-600 dark:bg-indigo-950/40 dark:border-indigo-900 dark:text-indigo-400"
-                          : "bg-cyan-50 border-cyan-100 text-cyan-600 dark:bg-cyan-950/40 dark:border-cyan-900 dark:text-cyan-400"
+                          : "bg-cyan-50 border-cyan-100 text-[var(--primary-accent)] dark:bg-cyan-950/40 dark:border-cyan-900 "
                         }
                       `}
                     >
@@ -311,7 +307,7 @@ function UsersListContent() {
                   {/* Profile info */}
                   <div className="min-w-0">
                     <div className="flex items-center gap-2 flex-wrap">
-                      <h3 className="text-sm font-bold text-slate-800 dark:text-white truncate">
+                      <h3 className="text-sm font-bold text-[var(--text-primary)] truncate">
                         {item.userName}
                       </h3>
                       {/* Role Badge */}
@@ -320,7 +316,7 @@ function UsersListContent() {
                           inline-flex items-center px-2 py-0.5 rounded-full text-[9px] font-extrabold tracking-wide uppercase
                           ${item.roleName === "ADMIN"
                             ? "bg-indigo-100 text-indigo-700 dark:bg-indigo-950/60 dark:text-indigo-400"
-                            : "bg-cyan-100 text-cyan-700 dark:bg-cyan-950/60 dark:text-cyan-400"
+                            : "bg-cyan-100 text-cyan-700 dark:bg-cyan-950/60 "
                           }
                         `}
                       >
@@ -328,16 +324,16 @@ function UsersListContent() {
                       </span>
                     </div>
 
-                    <div className="flex items-center gap-1.5 mt-1 text-xs text-slate-400 dark:text-slate-500">
+                    <div className="flex items-center gap-1.5 mt-1 text-xs text-[var(--text-muted)]">
                       <Mail className="h-3.5 w-3.5 shrink-0" />
                       <span className="truncate">{item.userEmail}</span>
                     </div>
 
                     {item.propertyNames && item.propertyNames.length > 0 && (
-                      <div className="flex flex-wrap gap-1 mt-2 text-[10px] text-slate-400 dark:text-slate-500">
+                      <div className="flex flex-wrap gap-1 mt-2 text-[10px] text-[var(--text-muted)]">
                         <span className="font-bold mr-0.5">Properti:</span>
                         {item.propertyNames.map((pName, index) => (
-                          <span key={index} className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 font-semibold border border-slate-200 dark:border-slate-750">
+                          <span key={index} className="inline-flex items-center px-1.5 py-0.5 rounded-md bg-[var(--bg-subtle)] text-[var(--text-secondary)] font-semibold border border-[var(--border-color)]">
                             {pName}
                           </span>
                         ))}
@@ -350,16 +346,16 @@ function UsersListContent() {
                 <div className="flex-1 min-w-50 lg:border-l lg:border-r lg:border-slate-100 lg:dark:border-slate-800/60 lg:px-6 py-2 lg:py-0">
                   <div className="flex flex-col gap-2">
                     <div className="flex items-center justify-between lg:justify-start gap-2">
-                      <span className="text-xs font-bold text-slate-500 dark:text-slate-400">
+                      <span className="text-xs font-bold text-[var(--text-secondary)]">
                         Akses Kamar:
                       </span>
-                      <span className="text-xs font-semibold text-slate-400">
+                      <span className="text-xs font-semibold text-[var(--text-muted)]">
                         {item.assignedRooms.length} kamar
                       </span>
                     </div>
 
                     {item.assignedRooms.length === 0 ? (
-                      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 text-amber-600 dark:text-amber-400 text-xs font-medium self-start">
+                      <div className="inline-flex items-center gap-1.5 px-3 py-1.5 rounded-xl bg-amber-50 dark:bg-amber-950/20 border border-amber-100 dark:border-amber-900/40 text-[var(--color-warning)] dark:text-amber-400 text-xs font-medium self-start">
                         <DoorOpen className="h-3.5 w-3.5 shrink-0" />
                         Belum ada akses kamar
                       </div>
@@ -368,7 +364,7 @@ function UsersListContent() {
                         {item.assignedRooms.map((room) => (
                           <span
                             key={room.id}
-                            className="inline-flex items-center px-2 py-0.5 rounded-lg bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 text-[10px] font-bold border border-slate-200 dark:border-slate-700"
+                            className="inline-flex items-center px-2 py-0.5 rounded-lg bg-[var(--bg-subtle)] text-[var(--text-secondary)] text-[10px] font-bold border border-[var(--border-color)]"
                           >
                             Room {room.roomNumber}
                           </span>
@@ -377,9 +373,9 @@ function UsersListContent() {
                     )}
 
                     {/* Last active info */}
-                    <div className="text-[10px] text-slate-400 mt-1">
+                    <div className="text-[10px] text-[var(--text-muted)] mt-1">
                       {item.isOnline ? (
-                        <span className="text-emerald-500 font-semibold">Online Sekarang</span>
+                        <span className="text-[var(--color-success-text)] font-semibold">Online Sekarang</span>
                       ) : item.lastLoginAt ? (
                         <span>Terakhir aktif: {formatDate(item.lastLoginAt)}</span>
                       ) : (
@@ -391,82 +387,52 @@ function UsersListContent() {
 
                 {/* Section 3: Action Buttons */}
                 <div className="flex items-center justify-end gap-3 shrink-0">
-                  {/* Active Toggle Switch */}
-                  <button
+                  {/* Active Toggle */}
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => handleToggleUserActive(item.userId, isActive)}
-                    disabled={isUpdatingId === item.userId || item.userId === user.id}
-                    className={`
-                      inline-flex items-center gap-1.5 px-3 py-2 rounded-xl text-xs font-bold transition-all border
-                      ${item.userId === user.id
-                        ? "bg-slate-50 border-slate-200 text-slate-400 dark:bg-slate-900/45 dark:border-slate-800 dark:text-slate-600 cursor-not-allowed"
-                        : isActive
-                          ? "bg-emerald-50 border-emerald-100 text-emerald-700 dark:bg-emerald-950/30 dark:border-emerald-900/40 dark:text-emerald-400 hover:bg-rose-50 hover:border-rose-100 hover:text-rose-700 dark:hover:bg-rose-950/30 cursor-pointer"
-                          : "bg-slate-100 border-slate-200 text-slate-500 dark:bg-slate-850 dark:border-slate-700 dark:text-slate-400 hover:bg-emerald-50 hover:border-emerald-100 hover:text-emerald-700 dark:hover:bg-emerald-950/30 cursor-pointer"
-                      }
-                    `}
+                    disabled={item.userId === user.id}
+                    isLoading={isUpdatingId === item.userId}
                     title={item.userId === user.id ? "Anda tidak dapat menonaktifkan akun sendiri" : isActive ? "Nonaktifkan Staff" : "Aktifkan Staff"}
+                    leftIcon={isActive ? <ToggleRight className="h-4 w-4 text-[var(--color-success-text)]" /> : <ToggleLeft className="h-4 w-4" />}
                   >
-                    {isUpdatingId === item.userId ? (
-                      <Loader2 className="h-4 w-4 animate-spin" />
-                    ) : isActive ? (
-                      <>
-                        <ToggleRight className="h-4 w-4 text-emerald-500" />
-                        <span>Aktif</span>
-                      </>
-                    ) : (
-                      <>
-                        <ToggleLeft className="h-4 w-4 text-slate-400" />
-                        <span>Nonaktif</span>
-                      </>
-                    )}
-                  </button>
+                    {isActive ? "Aktif" : "Nonaktif"}
+                  </Button>
 
-                  {/* Edit User Info button */}
-                  <button
+                  {/* Edit */}
+                  <Button
+                    variant="outline"
+                    size="sm"
                     onClick={() => {
                       setEditingUser(item);
                       setIsEditOpen(true);
                     }}
-                    className="
-                      inline-flex items-center gap-1.5 h-9 px-3 rounded-xl
-                      border border-slate-200 dark:border-slate-700 bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60
-                      text-xs font-semibold transition-all cursor-pointer
-                    "
                     title="Ubah Data Staff"
+                    leftIcon={<Edit2 className="h-3.5 w-3.5" />}
                   >
-                    <Edit2 className="h-3.5 w-3.5" />
                     Ubah
-                  </button>
+                  </Button>
 
                   {/* Assign rooms button */}
-                  <button
+                  <Button variant="primary" size="sm"
                     onClick={() => handleOpenAccessModal(item)}
                     disabled={!isActive}
-                    className="
-                      inline-flex items-center gap-1.5 h-9 px-3.5 rounded-xl
-                      bg-cyan-600 hover:bg-cyan-700 disabled:bg-slate-100 dark:disabled:bg-slate-800 disabled:text-slate-400 disabled:cursor-not-allowed
-                      text-white text-xs font-semibold shadow-xs shadow-cyan-600/10 transition-all cursor-pointer
-                    "
                   >
                     <Key className="h-3.5 w-3.5" />
                     Atur Kamar
-                  </button>
+                  </Button>
 
                   {/* Remove User from property button */}
                   {item.userId !== user.id && (
-                    <button
+                    <Button
+                      variant="danger"
+                      size="sm"
                       onClick={() => setDeleteUserId(item.userId)}
-                      className="
-                        h-9 w-9 inline-flex items-center justify-center rounded-xl
-                        border border-slate-200 dark:border-slate-700
-                        bg-white dark:bg-slate-900 text-slate-400
-                        hover:text-rose-500 hover:border-rose-250 hover:bg-rose-50 dark:hover:bg-rose-950/20
-                        transition-all cursor-pointer
-                      "
                       title="Cabut Akses Properti"
-                    >
-                      <Trash2 className="h-4 w-4" />
-                    </button>
+                      aria-label="Cabut Akses Properti"
+                      leftIcon={<Trash2 className="h-4 w-4" />}
+                    />
                   )}
                 </div>
               </div>

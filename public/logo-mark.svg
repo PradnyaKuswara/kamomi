@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3 9 58 56" role="img" aria-label="Kamomi.id">
+  <style>.k{color:#2c5a8c}@media (prefers-color-scheme: dark){.k{color:#6096d0}}</style>
+  <g class="k">
+  <path d="M4 20 L32 36 L20 42Z" fill="currentColor"/>
+  <path d="M60 20 L32 36 L44 42Z" fill="currentColor"/>
+  <path d="M20 42 L32 36 L32 54Z" fill="currentColor" fill-opacity=".42"/>
+  <path d="M44 42 L32 36 L32 54Z" fill="currentColor" fill-opacity=".7"/>
+  </g>
+</svg>

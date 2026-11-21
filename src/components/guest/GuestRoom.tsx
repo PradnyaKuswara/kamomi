@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '../../rest/queryClient';
 import WiFiCard from './WiFiCard.tsx';
 import HouseRules from './HouseRules.tsx';
 import FacilityGuides from './FacilityGuides.tsx';
@@ -6,7 +8,7 @@ import QuickContact from './QuickContact.tsx';
 import ReportIssue from './ReportIssue.tsx';
 import { AlertCircle, ShieldAlert } from 'lucide-react';
 
-export default function GuestRoom() {
+function GuestRoomInner() {
   const [roomNumber, setRoomNumber] = useState('102');
   const [propertyName, setPropertyName] = useState('Kost Adem Tentrem');
   const [wifiSsid, setWifiSsid] = useState('AdemTentrem_102');
@@ -49,15 +51,15 @@ export default function GuestRoom() {
   return (
     <div className="max-w-md mx-auto space-y-6">
       {/* Welcome Banner */}
-      <div className="glassmorphic rounded-3xl p-6 border border-slate-200/50 dark:border-slate-800/50 text-center relative overflow-hidden shadow-xl">
+      <div className="glassmorphic rounded-3xl p-6 border border-[var(--border-color)] text-center relative overflow-hidden shadow-xl">
         <div className="absolute -top-12 -right-12 h-24 w-24 bg-cyan-600/15 rounded-full blur-2xl pointer-events-none"></div>
-        <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-600 dark:text-cyan-400">
+        <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--primary-accent)] ">
           Selamat Datang di
         </span>
-        <h2 className="text-2xl font-black text-slate-800 dark:text-white tracking-tight mt-1">
+        <h2 className="text-2xl font-black text-[var(--text-primary)] tracking-tight mt-1">
           {propertyName}
         </h2>
-        <div className="inline-flex mt-4 px-4 py-1.5 rounded-full bg-slate-900 dark:bg-white text-white dark:text-slate-950 font-extrabold text-xs tracking-wider uppercase">
+        <div className="inline-flex mt-4 px-4 py-1.5 rounded-full bg-[var(--color-primary)] text-[var(--color-on-primary)] font-extrabold text-xs tracking-wider uppercase">
           Kamar {roomNumber}
         </div>
       </div>
@@ -81,5 +83,13 @@ export default function GuestRoom() {
         roomNumber={roomNumber}
       />
     </div>
+  );
+}
+
+export default function GuestRoom() {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <GuestRoomInner />
+    </QueryClientProvider>
   );
 }

@@ -34,7 +34,7 @@ function RightSidebarContent({ activeNotification, setActiveNotification }: Righ
       tag: "Tips Efisiensi",
       title: "Kelola Tamu Realtime",
       desc: "Update tata tertib & Wi-Fi kamar kapan saja. Tamu dapat langsung memindai QR untuk info terbaru.",
-      bgClass: "bg-cyan-600 dark:bg-cyan-700",
+      bgClass: "bg-[var(--color-primary)] dark:bg-cyan-700",
       buttonText: "Pelajari Fitur",
       buttonHref: "/dashboard/faq",
     },
@@ -73,7 +73,7 @@ function RightSidebarContent({ activeNotification, setActiveNotification }: Righ
   };
 
   return (
-    <aside className="w-full md:w-80 border-t md:border-t-0 md:border-l border-slate-200/60 dark:border-slate-800/80 bg-white dark:bg-slate-900/60 p-5 space-y-6 shrink-0 md:h-full md:overflow-y-auto no-scrollbar">
+    <aside className="w-full md:w-80 border-t md:border-t-0 md:border-l border-[var(--border-color)] bg-[var(--bg-surface)] p-5 space-y-6 shrink-0 md:h-full md:overflow-y-auto no-scrollbar">
       {/* Banner Carousel Container */}
       <div className={`p-5 rounded-2xl ${activeBanner.bgClass} text-white shadow-lg space-y-4 relative overflow-hidden transition-all duration-550 ease-in-out`}>
         <div className="absolute top-0 right-0 p-3 opacity-15">
@@ -115,8 +115,8 @@ function RightSidebarContent({ activeNotification, setActiveNotification }: Righ
       {/* Notifications List */}
       <div className="space-y-4">
         <div className="flex justify-between items-center">
-          <h4 className="font-bold text-xs text-slate-800 dark:text-slate-200 flex items-center gap-1.5">
-            <Bell className="h-4 w-4 text-cyan-500" />
+          <h4 className="font-bold text-xs text-[var(--text-primary)] flex items-center gap-1.5">
+            <Bell className="h-4 w-4 text-[var(--primary-accent)]" />
             Notifikasi Terbaru
           </h4>
           {notifications.some(n => !n.isRead) && (
@@ -126,7 +126,7 @@ function RightSidebarContent({ activeNotification, setActiveNotification }: Righ
 
         <div className="space-y-3">
           {notifications.length === 0 ? (
-            <div className="p-3 text-center text-xs text-slate-400">
+            <div className="p-3 text-center text-xs text-[var(--text-muted)]">
               Belum ada notifikasi
             </div>
           ) : (
@@ -134,17 +134,17 @@ function RightSidebarContent({ activeNotification, setActiveNotification }: Righ
               <div
                 key={n.id}
                 className={`p-3 border rounded-xl space-y-1 relative ${n.isRead
-                    ? 'bg-slate-50 dark:bg-slate-900/40 border-slate-200/50 dark:border-slate-800/50'
-                    : 'bg-cyan-500/5 border-cyan-500/20'
+                    ? 'bg-[var(--bg-subtle)] border-[var(--border-color)]'
+                    : 'bg-cyan-500/5 border-[var(--color-primary)]/20'
                   }`}
               >
-                <span className="text-[9px] font-bold text-cyan-600 dark:text-cyan-400 block uppercase">
+                <span className="text-[9px] font-bold text-[var(--primary-accent)] block uppercase">
                   {n.title}
                 </span>
-                <p className="text-[11px] text-slate-600 dark:text-slate-300 font-bold leading-tight">
+                <p className="text-[11px] text-[var(--text-secondary)] font-bold leading-tight">
                   {n.message}
                 </p>
-                <span className="text-[9px] text-slate-400 block font-sans">
+                <span className="text-[9px] text-[var(--text-muted)] block font-sans">
                   {formatDate(n.createdAt)}
                 </span>
               </div>
@@ -154,7 +154,7 @@ function RightSidebarContent({ activeNotification, setActiveNotification }: Righ
 
         <a
           href="/dashboard/notifications"
-          className="w-full text-center text-xs text-cyan-600 dark:text-cyan-400 font-bold hover:underline py-1 block"
+          className="w-full text-center text-xs text-[var(--primary-accent)] font-bold hover:underline py-1 block"
         >
           Lihat Semua Notifikasi
         </a>

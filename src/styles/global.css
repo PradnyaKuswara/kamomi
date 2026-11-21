@@ -1,46 +1,338 @@
-@import url('https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&family=Inter:wght@300;400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Host+Grotesk:wght@300;400;500;600;700;800&family=IBM+Plex+Mono:wght@400;500;600&display=swap');
 
+@import '@pradnyakuswara/ui/styles.css';
 @import 'tailwindcss';
 
 @custom-variant dark (&:where(.dark, .dark *));
 
+/*
+ * Semua warna/radius/font Tailwind dipetakan ke design token @pradnyakuswara/ui.
+ * Class lama (slate-*, cyan-*, rose-*, ...) otomatis mengikuti token & tema.
+ * Jangan menulis hex baru di sini — rujuk token library (var(--color-*)).
+ */
 @theme {
-  --font-sans: 'Plus Jakarta Sans', 'Inter', sans-serif;
-  --spacing-70: 17.5rem; /* 280px */
-  --spacing-75: 18.75rem; /* 300px */
-  --spacing-105: 26.25rem; /* 420px */
-  --spacing-125: 31.25rem; /* 500px */
+  --font-sans: 'Host Grotesk', 'Segoe UI', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  --spacing-70: 17.5rem;
+  --spacing-75: 18.75rem;
+  --spacing-105: 26.25rem;
+  --spacing-125: 31.25rem;
 
-  /* Map cyan and blue to premium Forest Emerald and Warm Amber colors to globally update the brand theme */
-  --color-cyan-100: #e6f4ea; /* light-emerald */
-  --color-cyan-400: #34a853; /* emerald-400 */
-  --color-cyan-500: #0f9d58; /* emerald-500 */
-  --color-cyan-600: #0b8043; /* emerald-600 */
-  --color-cyan-700: #096635; /* emerald-700 */
-  --color-cyan-950: #032a15; /* emerald-950 */
+  /* Radius ala library (tegas, 2–8px) */
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 4px;
+  --radius-lg: 6px;
+  --radius-xl: 6px;
+  --radius-2xl: 8px;
+  --radius-3xl: 8px;
 
-  --color-blue-500: #d97706; /* warm-amber-600 */
-  --color-blue-600: #b45309; /* warm-amber-700 */
+  /* Netral → ink / dark surface */
+  --color-slate-50: var(--color-well);
+  --color-slate-100: var(--color-ink-100);
+  --color-slate-200: var(--color-ink-200);
+  --color-slate-300: var(--color-ink-300);
+  --color-slate-400: var(--color-ink-400);
+  --color-slate-500: var(--color-subtle);
+  --color-slate-600: var(--color-slate);
+  --color-slate-700: var(--color-ink-600);
+  --color-slate-800: var(--color-ink-700);
+  --color-slate-900: var(--color-dark-surface);
+  --color-slate-950: var(--color-dark-background);
+  --color-gray-50: var(--color-well);
+  --color-gray-100: var(--color-ink-100);
+  --color-gray-200: var(--color-ink-200);
+  --color-gray-300: var(--color-ink-300);
+  --color-gray-400: var(--color-ink-400);
+  --color-gray-500: var(--color-subtle);
+  --color-gray-600: var(--color-slate);
+  --color-gray-700: var(--color-ink-600);
+  --color-gray-800: var(--color-ink-700);
+  --color-gray-900: var(--color-dark-surface);
+  --color-gray-950: var(--color-dark-background);
+  --color-zinc-50: var(--color-well);
+  --color-zinc-100: var(--color-ink-100);
+  --color-zinc-200: var(--color-ink-200);
+  --color-zinc-300: var(--color-ink-300);
+  --color-zinc-400: var(--color-ink-400);
+  --color-zinc-500: var(--color-subtle);
+  --color-zinc-600: var(--color-slate);
+  --color-zinc-700: var(--color-ink-600);
+  --color-zinc-800: var(--color-ink-700);
+  --color-zinc-900: var(--color-dark-surface);
+  --color-zinc-950: var(--color-dark-background);
+  --color-neutral-50: var(--color-well);
+  --color-neutral-100: var(--color-ink-100);
+  --color-neutral-200: var(--color-ink-200);
+  --color-neutral-300: var(--color-ink-300);
+  --color-neutral-400: var(--color-ink-400);
+  --color-neutral-500: var(--color-subtle);
+  --color-neutral-600: var(--color-slate);
+  --color-neutral-700: var(--color-ink-600);
+  --color-neutral-800: var(--color-ink-700);
+  --color-neutral-900: var(--color-dark-surface);
+  --color-neutral-950: var(--color-dark-background);
+  --color-stone-50: var(--color-well);
+  --color-stone-100: var(--color-ink-100);
+  --color-stone-200: var(--color-ink-200);
+  --color-stone-300: var(--color-ink-300);
+  --color-stone-400: var(--color-ink-400);
+  --color-stone-500: var(--color-subtle);
+  --color-stone-600: var(--color-slate);
+  --color-stone-700: var(--color-ink-600);
+  --color-stone-800: var(--color-ink-700);
+  --color-stone-900: var(--color-dark-surface);
+  --color-stone-950: var(--color-dark-background);
+
+  /* Keluarga warna lain → token chart/semantik (skala lengkap 50–950) */
+  --color-cyan-50: color-mix(in srgb, var(--color-primary) 8%, white);
+  --color-cyan-100: color-mix(in srgb, var(--color-primary) 14%, white);
+  --color-cyan-200: color-mix(in srgb, var(--color-primary) 28%, white);
+  --color-cyan-300: color-mix(in srgb, var(--color-primary) 48%, white);
+  --color-cyan-400: color-mix(in srgb, var(--color-primary) 72%, white);
+  --color-cyan-500: var(--color-primary);
+  --color-cyan-600: color-mix(in srgb, var(--color-primary) 92%, black);
+  --color-cyan-700: color-mix(in srgb, var(--color-primary) 80%, black);
+  --color-cyan-800: color-mix(in srgb, var(--color-primary) 62%, black);
+  --color-cyan-900: color-mix(in srgb, var(--color-primary) 30%, var(--color-dark-background));
+  --color-cyan-950: color-mix(in srgb, var(--color-primary) 20%, var(--color-dark-background));
+  --color-blue-50: color-mix(in srgb, var(--color-primary) 8%, white);
+  --color-blue-100: color-mix(in srgb, var(--color-primary) 14%, white);
+  --color-blue-200: color-mix(in srgb, var(--color-primary) 28%, white);
+  --color-blue-300: color-mix(in srgb, var(--color-primary) 48%, white);
+  --color-blue-400: color-mix(in srgb, var(--color-primary) 72%, white);
+  --color-blue-500: var(--color-primary);
+  --color-blue-600: color-mix(in srgb, var(--color-primary) 92%, black);
+  --color-blue-700: color-mix(in srgb, var(--color-primary) 80%, black);
+  --color-blue-800: color-mix(in srgb, var(--color-primary) 62%, black);
+  --color-blue-900: color-mix(in srgb, var(--color-primary) 30%, var(--color-dark-background));
+  --color-blue-950: color-mix(in srgb, var(--color-primary) 20%, var(--color-dark-background));
+  --color-indigo-50: color-mix(in srgb, var(--color-primary) 8%, white);
+  --color-indigo-100: color-mix(in srgb, var(--color-primary) 14%, white);
+  --color-indigo-200: color-mix(in srgb, var(--color-primary) 28%, white);
+  --color-indigo-300: color-mix(in srgb, var(--color-primary) 48%, white);
+  --color-indigo-400: color-mix(in srgb, var(--color-primary) 72%, white);
+  --color-indigo-500: var(--color-primary);
+  --color-indigo-600: color-mix(in srgb, var(--color-primary) 92%, black);
+  --color-indigo-700: color-mix(in srgb, var(--color-primary) 80%, black);
+  --color-indigo-800: color-mix(in srgb, var(--color-primary) 62%, black);
+  --color-indigo-900: color-mix(in srgb, var(--color-primary) 30%, var(--color-dark-background));
+  --color-indigo-950: color-mix(in srgb, var(--color-primary) 20%, var(--color-dark-background));
+  --color-sky-50: color-mix(in srgb, var(--color-primary) 8%, white);
+  --color-sky-100: color-mix(in srgb, var(--color-primary) 14%, white);
+  --color-sky-200: color-mix(in srgb, var(--color-primary) 28%, white);
+  --color-sky-300: color-mix(in srgb, var(--color-primary) 48%, white);
+  --color-sky-400: color-mix(in srgb, var(--color-primary) 72%, white);
+  --color-sky-500: var(--color-primary);
+  --color-sky-600: color-mix(in srgb, var(--color-primary) 92%, black);
+  --color-sky-700: color-mix(in srgb, var(--color-primary) 80%, black);
+  --color-sky-800: color-mix(in srgb, var(--color-primary) 62%, black);
+  --color-sky-900: color-mix(in srgb, var(--color-primary) 30%, var(--color-dark-background));
+  --color-sky-950: color-mix(in srgb, var(--color-primary) 20%, var(--color-dark-background));
+  --color-emerald-50: color-mix(in srgb, var(--score-1) 8%, white);
+  --color-emerald-100: color-mix(in srgb, var(--score-1) 14%, white);
+  --color-emerald-200: color-mix(in srgb, var(--score-1) 28%, white);
+  --color-emerald-300: color-mix(in srgb, var(--score-1) 48%, white);
+  --color-emerald-400: color-mix(in srgb, var(--score-1) 72%, white);
+  --color-emerald-500: var(--score-1);
+  --color-emerald-600: color-mix(in srgb, var(--score-1) 92%, black);
+  --color-emerald-700: color-mix(in srgb, var(--score-1) 80%, black);
+  --color-emerald-800: color-mix(in srgb, var(--score-1) 62%, black);
+  --color-emerald-900: color-mix(in srgb, var(--score-1) 30%, var(--color-dark-background));
+  --color-emerald-950: color-mix(in srgb, var(--score-1) 20%, var(--color-dark-background));
+  --color-green-50: color-mix(in srgb, var(--score-1) 8%, white);
+  --color-green-100: color-mix(in srgb, var(--score-1) 14%, white);
+  --color-green-200: color-mix(in srgb, var(--score-1) 28%, white);
+  --color-green-300: color-mix(in srgb, var(--score-1) 48%, white);
+  --color-green-400: color-mix(in srgb, var(--score-1) 72%, white);
+  --color-green-500: var(--score-1);
+  --color-green-600: color-mix(in srgb, var(--score-1) 92%, black);
+  --color-green-700: color-mix(in srgb, var(--score-1) 80%, black);
+  --color-green-800: color-mix(in srgb, var(--score-1) 62%, black);
+  --color-green-900: color-mix(in srgb, var(--score-1) 30%, var(--color-dark-background));
+  --color-green-950: color-mix(in srgb, var(--score-1) 20%, var(--color-dark-background));
+  --color-teal-50: color-mix(in srgb, var(--chart-6) 8%, white);
+  --color-teal-100: color-mix(in srgb, var(--chart-6) 14%, white);
+  --color-teal-200: color-mix(in srgb, var(--chart-6) 28%, white);
+  --color-teal-300: color-mix(in srgb, var(--chart-6) 48%, white);
+  --color-teal-400: color-mix(in srgb, var(--chart-6) 72%, white);
+  --color-teal-500: var(--chart-6);
+  --color-teal-600: color-mix(in srgb, var(--chart-6) 92%, black);
+  --color-teal-700: color-mix(in srgb, var(--chart-6) 80%, black);
+  --color-teal-800: color-mix(in srgb, var(--chart-6) 62%, black);
+  --color-teal-900: color-mix(in srgb, var(--chart-6) 30%, var(--color-dark-background));
+  --color-teal-950: color-mix(in srgb, var(--chart-6) 20%, var(--color-dark-background));
+  --color-violet-50: color-mix(in srgb, var(--chart-4) 8%, white);
+  --color-violet-100: color-mix(in srgb, var(--chart-4) 14%, white);
+  --color-violet-200: color-mix(in srgb, var(--chart-4) 28%, white);
+  --color-violet-300: color-mix(in srgb, var(--chart-4) 48%, white);
+  --color-violet-400: color-mix(in srgb, var(--chart-4) 72%, white);
+  --color-violet-500: var(--chart-4);
+  --color-violet-600: color-mix(in srgb, var(--chart-4) 92%, black);
+  --color-violet-700: color-mix(in srgb, var(--chart-4) 80%, black);
+  --color-violet-800: color-mix(in srgb, var(--chart-4) 62%, black);
+  --color-violet-900: color-mix(in srgb, var(--chart-4) 30%, var(--color-dark-background));
+  --color-violet-950: color-mix(in srgb, var(--chart-4) 20%, var(--color-dark-background));
+  --color-purple-50: color-mix(in srgb, var(--chart-4) 8%, white);
+  --color-purple-100: color-mix(in srgb, var(--chart-4) 14%, white);
+  --color-purple-200: color-mix(in srgb, var(--chart-4) 28%, white);
+  --color-purple-300: color-mix(in srgb, var(--chart-4) 48%, white);
+  --color-purple-400: color-mix(in srgb, var(--chart-4) 72%, white);
+  --color-purple-500: var(--chart-4);
+  --color-purple-600: color-mix(in srgb, var(--chart-4) 92%, black);
+  --color-purple-700: color-mix(in srgb, var(--chart-4) 80%, black);
+  --color-purple-800: color-mix(in srgb, var(--chart-4) 62%, black);
+  --color-purple-900: color-mix(in srgb, var(--chart-4) 30%, var(--color-dark-background));
+  --color-purple-950: color-mix(in srgb, var(--chart-4) 20%, var(--color-dark-background));
+  --color-pink-50: color-mix(in srgb, var(--chart-8) 8%, white);
+  --color-pink-100: color-mix(in srgb, var(--chart-8) 14%, white);
+  --color-pink-200: color-mix(in srgb, var(--chart-8) 28%, white);
+  --color-pink-300: color-mix(in srgb, var(--chart-8) 48%, white);
+  --color-pink-400: color-mix(in srgb, var(--chart-8) 72%, white);
+  --color-pink-500: var(--chart-8);
+  --color-pink-600: color-mix(in srgb, var(--chart-8) 92%, black);
+  --color-pink-700: color-mix(in srgb, var(--chart-8) 80%, black);
+  --color-pink-800: color-mix(in srgb, var(--chart-8) 62%, black);
+  --color-pink-900: color-mix(in srgb, var(--chart-8) 30%, var(--color-dark-background));
+  --color-pink-950: color-mix(in srgb, var(--chart-8) 20%, var(--color-dark-background));
+  --color-fuchsia-50: color-mix(in srgb, var(--chart-8) 8%, white);
+  --color-fuchsia-100: color-mix(in srgb, var(--chart-8) 14%, white);
+  --color-fuchsia-200: color-mix(in srgb, var(--chart-8) 28%, white);
+  --color-fuchsia-300: color-mix(in srgb, var(--chart-8) 48%, white);
+  --color-fuchsia-400: color-mix(in srgb, var(--chart-8) 72%, white);
+  --color-fuchsia-500: var(--chart-8);
+  --color-fuchsia-600: color-mix(in srgb, var(--chart-8) 92%, black);
+  --color-fuchsia-700: color-mix(in srgb, var(--chart-8) 80%, black);
+  --color-fuchsia-800: color-mix(in srgb, var(--chart-8) 62%, black);
+  --color-fuchsia-900: color-mix(in srgb, var(--chart-8) 30%, var(--color-dark-background));
+  --color-fuchsia-950: color-mix(in srgb, var(--chart-8) 20%, var(--color-dark-background));
+  --color-rose-50: color-mix(in srgb, var(--color-danger) 8%, white);
+  --color-rose-100: color-mix(in srgb, var(--color-danger) 14%, white);
+  --color-rose-200: color-mix(in srgb, var(--color-danger) 28%, white);
+  --color-rose-300: color-mix(in srgb, var(--color-danger) 48%, white);
+  --color-rose-400: color-mix(in srgb, var(--color-danger) 72%, white);
+  --color-rose-500: var(--color-danger);
+  --color-rose-600: color-mix(in srgb, var(--color-danger) 92%, black);
+  --color-rose-700: color-mix(in srgb, var(--color-danger) 80%, black);
+  --color-rose-800: color-mix(in srgb, var(--color-danger) 62%, black);
+  --color-rose-900: color-mix(in srgb, var(--color-danger) 30%, var(--color-dark-background));
+  --color-rose-950: color-mix(in srgb, var(--color-danger) 20%, var(--color-dark-background));
+  --color-red-50: color-mix(in srgb, var(--color-danger) 8%, white);
+  --color-red-100: color-mix(in srgb, var(--color-danger) 14%, white);
+  --color-red-200: color-mix(in srgb, var(--color-danger) 28%, white);
+  --color-red-300: color-mix(in srgb, var(--color-danger) 48%, white);
+  --color-red-400: color-mix(in srgb, var(--color-danger) 72%, white);
+  --color-red-500: var(--color-danger);
+  --color-red-600: color-mix(in srgb, var(--color-danger) 92%, black);
+  --color-red-700: color-mix(in srgb, var(--color-danger) 80%, black);
+  --color-red-800: color-mix(in srgb, var(--color-danger) 62%, black);
+  --color-red-900: color-mix(in srgb, var(--color-danger) 30%, var(--color-dark-background));
+  --color-red-950: color-mix(in srgb, var(--color-danger) 20%, var(--color-dark-background));
+  --color-amber-50: color-mix(in srgb, var(--color-warning) 8%, white);
+  --color-amber-100: color-mix(in srgb, var(--color-warning) 14%, white);
+  --color-amber-200: color-mix(in srgb, var(--color-warning) 28%, white);
+  --color-amber-300: color-mix(in srgb, var(--color-warning) 48%, white);
+  --color-amber-400: color-mix(in srgb, var(--color-warning) 72%, white);
+  --color-amber-500: var(--color-warning);
+  --color-amber-600: color-mix(in srgb, var(--color-warning) 92%, black);
+  --color-amber-700: color-mix(in srgb, var(--color-warning) 80%, black);
+  --color-amber-800: color-mix(in srgb, var(--color-warning) 62%, black);
+  --color-amber-900: color-mix(in srgb, var(--color-warning) 30%, var(--color-dark-background));
+  --color-amber-950: color-mix(in srgb, var(--color-warning) 20%, var(--color-dark-background));
+  --color-yellow-50: color-mix(in srgb, var(--color-warning) 8%, white);
+  --color-yellow-100: color-mix(in srgb, var(--color-warning) 14%, white);
+  --color-yellow-200: color-mix(in srgb, var(--color-warning) 28%, white);
+  --color-yellow-300: color-mix(in srgb, var(--color-warning) 48%, white);
+  --color-yellow-400: color-mix(in srgb, var(--color-warning) 72%, white);
+  --color-yellow-500: var(--color-warning);
+  --color-yellow-600: color-mix(in srgb, var(--color-warning) 92%, black);
+  --color-yellow-700: color-mix(in srgb, var(--color-warning) 80%, black);
+  --color-yellow-800: color-mix(in srgb, var(--color-warning) 62%, black);
+  --color-yellow-900: color-mix(in srgb, var(--color-warning) 30%, var(--color-dark-background));
+  --color-yellow-950: color-mix(in srgb, var(--color-warning) 20%, var(--color-dark-background));
+  --color-orange-50: color-mix(in srgb, var(--score-4) 8%, white);
+  --color-orange-100: color-mix(in srgb, var(--score-4) 14%, white);
+  --color-orange-200: color-mix(in srgb, var(--score-4) 28%, white);
+  --color-orange-300: color-mix(in srgb, var(--score-4) 48%, white);
+  --color-orange-400: color-mix(in srgb, var(--score-4) 72%, white);
+  --color-orange-500: var(--score-4);
+  --color-orange-600: color-mix(in srgb, var(--score-4) 92%, black);
+  --color-orange-700: color-mix(in srgb, var(--score-4) 80%, black);
+  --color-orange-800: color-mix(in srgb, var(--score-4) 62%, black);
+  --color-orange-900: color-mix(in srgb, var(--score-4) 30%, var(--color-dark-background));
+  --color-orange-950: color-mix(in srgb, var(--score-4) 20%, var(--color-dark-background));
+  --color-lime-50: color-mix(in srgb, var(--chart-7) 8%, white);
+  --color-lime-100: color-mix(in srgb, var(--chart-7) 14%, white);
+  --color-lime-200: color-mix(in srgb, var(--chart-7) 28%, white);
+  --color-lime-300: color-mix(in srgb, var(--chart-7) 48%, white);
+  --color-lime-400: color-mix(in srgb, var(--chart-7) 72%, white);
+  --color-lime-500: var(--chart-7);
+  --color-lime-600: color-mix(in srgb, var(--chart-7) 92%, black);
+  --color-lime-700: color-mix(in srgb, var(--chart-7) 80%, black);
+  --color-lime-800: color-mix(in srgb, var(--chart-7) 62%, black);
+  --color-lime-900: color-mix(in srgb, var(--chart-7) 30%, var(--color-dark-background));
+  --color-lime-950: color-mix(in srgb, var(--chart-7) 20%, var(--color-dark-background));
+
+  /* Override eksak ke token semantik */
+  --color-cyan-50: var(--color-primary-soft);
+  --color-cyan-100: var(--color-primary-soft);
+  --color-cyan-400: var(--color-dark-primary);
+  --color-cyan-600: var(--color-primary);
+  --color-cyan-700: var(--color-primary-hover);
+  --color-cyan-800: var(--color-primary-pressed);
+  --color-blue-50: var(--color-info-bg);
+  --color-blue-100: var(--color-info-bg);
+  --color-blue-400: var(--color-dark-primary);
+  --color-blue-600: var(--color-primary-hover);
+  --color-blue-700: var(--color-info-text);
+  --color-indigo-50: var(--color-primary-soft);
+  --color-indigo-100: var(--color-primary-soft);
+  --color-indigo-400: var(--color-dark-primary);
+  --color-indigo-600: var(--color-primary-hover);
+  --color-emerald-50: var(--color-success-bg);
+  --color-emerald-100: var(--color-success-bg);
+  --color-emerald-200: var(--color-success-border);
+  --color-emerald-600: var(--color-success-text);
+  --color-emerald-700: var(--color-success-text);
+  --color-emerald-300: var(--score-2);
+  --color-emerald-400: var(--score-2);
+  --color-rose-50: var(--color-danger-bg);
+  --color-rose-100: var(--color-danger-bg);
+  --color-rose-200: var(--color-danger-border);
+  --color-rose-300: var(--color-danger-border);
+  --color-rose-600: var(--color-danger);
+  --color-rose-700: var(--color-danger-text);
+  --color-amber-50: var(--color-warning-bg);
+  --color-amber-100: var(--color-warning-bg);
+  --color-amber-200: var(--color-warning-border);
+  --color-amber-300: var(--color-warning-border);
+  --color-amber-700: var(--color-warning-text);
 }
 
 :root {
-  --color-primary-start: #0b8043; /* emerald-600 */
-  --color-primary-end: #0b8043; /* emerald-600 */
+  --color-primary-start: var(--color-primary);
+  --color-primary-end: var(--color-primary);
+}
+
+body {
+  background-color: var(--bg-base);
+  color: var(--text-primary);
+  font-family: var(--font-sans);
 }
 
 /* Custom styles for Kokonut-inspired components */
 .glassmorphic {
-  background: rgba(255, 255, 255, 0.45);
+  background: color-mix(in srgb, var(--bg-surface) 70%, transparent);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.2);
+  border: 1px solid var(--border-color);
 }
 
 .dark .glassmorphic {
-  background: rgba(15, 23, 42, 0.55);
+  background: color-mix(in srgb, var(--bg-surface) 75%, transparent);
   backdrop-filter: blur(16px) saturate(180%);
   -webkit-backdrop-filter: blur(16px) saturate(180%);
-  border: 1px solid rgba(255, 255, 255, 0.05);
+  border: 1px solid var(--border-subtle);
 }
 
 .glow-card {
@@ -71,11 +363,11 @@
   background: transparent;
 }
 ::-webkit-scrollbar-thumb {
-  background: rgba(100, 116, 139, 0.2);
+  background: var(--border-color);
   border-radius: 9999px;
 }
 ::-webkit-scrollbar-thumb:hover {
-  background: rgba(100, 116, 139, 0.4);
+  background: var(--border-strong);
 }
 
 /* Hide scrollbar utility */

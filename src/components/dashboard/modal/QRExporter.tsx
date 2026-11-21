@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from 'react';
+import { Button, Input, Switch } from '@pradnyakuswara/ui';
 import QRCode from 'qrcode';
 import {
   Download,
@@ -113,27 +114,27 @@ export default function QRExporter({
           bg: 'bg-emerald-50/50',
           qrDark: '#059669',
           neonGlow: 'shadow-[0_0_20px_rgba(16,185,129,0.5)] border-emerald-500',
-          neonText: 'text-emerald-400',
+          neonText: 'text-[var(--color-success-text)]',
         };
       case 'amber':
         return {
           gradient: 'from-amber-500 to-orange-600',
-          text: 'text-amber-600',
+          text: 'text-[var(--color-warning)]',
           border: 'border-amber-500',
           bg: 'bg-amber-50/50',
           qrDark: '#d97706',
           neonGlow: 'shadow-[0_0_20px_rgba(245,158,11,0.5)] border-amber-500',
-          neonText: 'text-amber-400',
+          neonText: 'text-[var(--color-warning)]',
         };
       case 'rose':
         return {
           gradient: 'from-rose-500 to-pink-600',
-          text: 'text-rose-600',
+          text: 'text-[var(--color-danger)]',
           border: 'border-rose-500',
           bg: 'bg-rose-50/50',
           qrDark: '#e11d48',
           neonGlow: 'shadow-[0_0_20px_rgba(244,63,94,0.5)] border-rose-500',
-          neonText: 'text-rose-400',
+          neonText: 'text-[var(--color-danger)]',
         };
       case 'violet':
         return {
@@ -163,17 +164,17 @@ export default function QRExporter({
           bg: 'bg-slate-50/50',
           qrDark: '#475569',
           neonGlow: 'shadow-[0_0_20px_rgba(100,116,139,0.5)] border-slate-500',
-          neonText: 'text-slate-400',
+          neonText: 'text-[var(--text-muted)]',
         };
       default: // cyan
         return {
           gradient: 'from-cyan-500 to-blue-600',
-          text: 'text-cyan-600',
+          text: 'text-[var(--primary-accent)]',
           border: 'border-cyan-500',
           bg: 'bg-cyan-50/50',
           qrDark: '#0891b2',
           neonGlow: 'shadow-[0_0_20px_rgba(6,182,212,0.5)] border-cyan-500',
-          neonText: 'text-cyan-400',
+          neonText: 'text-[var(--primary-accent)]',
         };
     }
   };
@@ -309,13 +310,13 @@ export default function QRExporter({
               <h4 className="font-extrabold text-[12px] uppercase tracking-wider text-slate-600 truncate max-w-60 mb-0.5">
                 {customTitle}
               </h4>
-              <p className="text-[10px] font-bold text-slate-400">
+              <p className="text-[10px] font-bold text-[var(--text-muted)]">
                 {customInstruction}
               </p>
               {showLogo ? (
                 <div className="flex items-center gap-1 justify-center opacity-70 mt-1">
                   <img src="/logo.png" alt="Logo" className="h-3.5 w-3.5 object-contain rounded-md" />
-                  <span className="text-[8px] font-black uppercase tracking-widest text-slate-500">kamomi.id</span>
+                  <span className="text-[8px] font-black uppercase tracking-widest text-[var(--text-secondary)]">kamomi.id</span>
                 </div>
               ) : (
                 <p className="text-[7px] opacity-0 select-none">Spacer</p>
@@ -413,7 +414,7 @@ export default function QRExporter({
                   <div className="flex items-center gap-1 justify-center opacity-85">
                     <span className={`text-[8px] font-black uppercase tracking-widest ${colors.neonText}`}>kamomi.id</span>
                   </div>
-                  <p className="text-[7px] tracking-wide font-medium text-slate-500">
+                  <p className="text-[7px] tracking-wide font-medium text-[var(--text-secondary)]">
                     Powered by kamomi.id
                   </p>
                 </div>
@@ -457,7 +458,7 @@ export default function QRExporter({
                 <div className="flex items-center gap-1.5 mt-1.5 opacity-80">
                   <img src="/logo.png" alt="Logo" className="h-3.5 w-3.5 object-contain rounded-md" />
                   <span className={`text-[8px] font-black uppercase tracking-widest ${colors.text}`}>kamomi.id</span>
-                  <span className="text-[7px] text-slate-400 font-medium">• Powered by Kamomi</span>
+                  <span className="text-[7px] text-[var(--text-muted)] font-medium">• Powered by Kamomi</span>
                 </div>
               ) : (
                 <p className="text-[7px] opacity-0 select-none">Spacer</p>
@@ -471,7 +472,7 @@ export default function QRExporter({
           <div className="w-full h-full flex flex-col justify-between items-center text-white">
             {/* Top Brand Info inside elegant gold frame */}
             <div className="text-center mt-3 w-full border-b border-amber-500/20 pb-2">
-              <span className="text-[12px] font-black uppercase tracking-widest text-amber-400">
+              <span className="text-[12px] font-black uppercase tracking-widest text-[var(--color-warning)]">
                 {customTitle}
               </span>
             </div>
@@ -479,7 +480,7 @@ export default function QRExporter({
             {/* Center Room Number Badge */}
             {labelRoom || roomNumber ? (
               <div className="text-center my-1">
-                <div className="text-[9px] uppercase font-bold tracking-widest text-amber-500/70">{labelRoom}</div>
+                <div className="text-[9px] uppercase font-bold tracking-widest text-[var(--color-warning)]/70">{labelRoom}</div>
                 <div className="text-6xl font-black tracking-tighter mt-0.5 text-transparent bg-clip-text bg-linear-to-r from-amber-300 via-yellow-400 to-amber-500">
                   {roomNumber}
                 </div>
@@ -506,9 +507,9 @@ export default function QRExporter({
                 <div className="flex flex-col items-center gap-0.5 justify-center mt-1">
                   <div className="flex items-center gap-1 justify-center opacity-85">
                     <img src="/logo.png" alt="Logo" className="h-3.5 w-3.5 object-contain rounded-md" />
-                    <span className="text-[8px] font-black uppercase tracking-widest text-amber-400">kamomi.id</span>
+                    <span className="text-[8px] font-black uppercase tracking-widest text-[var(--color-warning)]">kamomi.id</span>
                   </div>
-                  <p className="text-[7px] tracking-wide font-medium text-slate-500">
+                  <p className="text-[7px] tracking-wide font-medium text-[var(--text-secondary)]">
                     Powered by kamomi.id
                   </p>
                 </div>
@@ -533,7 +534,7 @@ export default function QRExporter({
             {/* Center Room Number Badge */}
             {labelRoom || roomNumber ? (
               <div className="text-center my-2">
-                <div className="text-[9px] uppercase font-bold tracking-widest text-slate-400">{labelRoom}</div>
+                <div className="text-[9px] uppercase font-bold tracking-widest text-[var(--text-muted)]">{labelRoom}</div>
                 <div className="text-6xl font-black tracking-tighter mt-0.5 text-slate-900">
                   {roomNumber}
                 </div>
@@ -560,9 +561,9 @@ export default function QRExporter({
                 <div className="flex flex-col items-center gap-0.5 justify-center mt-1">
                   <div className="flex items-center gap-1 justify-center opacity-85">
                     <img src="/logo.png" alt="Logo" className="h-3.5 w-3.5 object-contain rounded-md" />
-                    <span className="text-[8px] font-black uppercase tracking-widest text-cyan-600">kamomi.id</span>
+                    <span className="text-[8px] font-black uppercase tracking-widest text-[var(--primary-accent)]">kamomi.id</span>
                   </div>
-                  <p className="text-[7px] tracking-wide font-medium text-slate-400">
+                  <p className="text-[7px] tracking-wide font-medium text-[var(--text-muted)]">
                     Powered by kamomi.id
                   </p>
                 </div>
@@ -578,12 +579,12 @@ export default function QRExporter({
   return (
     <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-start">
       {/* Editor & Customizer Controls */}
-      <div className="glassmorphic rounded-2xl p-6 border border-slate-200/50 dark:border-slate-800/50 space-y-6">
+      <div className="glassmorphic rounded-2xl p-6 border border-[var(--border-color)] space-y-6">
         <div>
-          <h3 className="font-bold text-slate-800 dark:text-white text-lg">
+          <h3 className="font-bold text-[var(--text-primary)] text-lg">
             Sesuaikan Desain Papan Pintu
           </h3>
-          <p className="text-xs text-slate-400 dark:text-slate-500">
+          <p className="text-xs text-[var(--text-muted)]">
             Atur tampilan kartu fisik untuk dicetak dan ditempel di kamar.
           </p>
         </div>
@@ -591,7 +592,7 @@ export default function QRExporter({
         {/* Free Plan Restriction Banner */}
         {isFreePlan && (
           <div className="p-3.5 rounded-xl bg-amber-500/10 border border-amber-500/30 text-amber-700 dark:text-amber-300 text-xs flex items-start gap-2.5">
-            <Lock className="h-4 w-4 shrink-0 mt-0.5 text-amber-500" />
+            <Lock className="h-4 w-4 shrink-0 mt-0.5 text-[var(--color-warning)]" />
             <div>
               <span className="font-extrabold block">Paket FREE — 1 Templat Standar Sederhana</span>
               <p className="text-[11px] opacity-90 mt-0.5 leading-relaxed">
@@ -604,12 +605,12 @@ export default function QRExporter({
         {/* Template Selector */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+            <label className="text-xs font-bold text-[var(--text-secondary)] flex items-center gap-1.5">
               <Layout className="h-4 w-4" />
               Pilih Gaya / Templat Kartu
             </label>
             {isFreePlan && (
-              <span className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+              <span className="text-[10px] font-extrabold text-[var(--color-warning)] dark:text-amber-400 flex items-center gap-1">
                 <Lock className="h-3 w-3" /> Starter & Pro
               </span>
             )}
@@ -637,14 +638,14 @@ export default function QRExporter({
                     setTemplate(t.id as any);
                   }}
                   className={`py-2 px-1 rounded-xl border text-[11px] font-bold transition-all cursor-pointer relative flex items-center justify-center gap-1 ${template === t.id
-                    ? 'bg-cyan-600 text-white border-cyan-600 shadow-md shadow-cyan-600/10'
+                    ? 'bg-[var(--color-primary)] text-white border-cyan-600 shadow-md '
                     : isLocked
-                      ? 'bg-slate-100/70 dark:bg-slate-900/40 border-slate-200/60 dark:border-slate-800/60 text-slate-400 opacity-70 hover:opacity-100'
-                      : 'bg-white dark:bg-slate-900 border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800/60'
+                      ? 'bg-[var(--bg-subtle)] border-[var(--border-color)] text-[var(--text-muted)] opacity-70 hover:opacity-100'
+                      : 'bg-[var(--bg-surface)] border-[var(--border-color)] text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-slate-800/60'
                     }`}
                 >
                   {t.label}
-                  {isLocked && <Lock className="h-3 w-3 text-amber-500 shrink-0" />}
+                  {isLocked && <Lock className="h-3 w-3 text-[var(--color-warning)] shrink-0" />}
                 </button>
               );
             })}
@@ -655,12 +656,12 @@ export default function QRExporter({
         {template !== 'luxury' && template !== 'retro' && (
           <div className="space-y-3">
             <div className="flex items-center justify-between">
-              <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+              <label className="text-xs font-bold text-[var(--text-secondary)] flex items-center gap-1.5">
                 <Palette className="h-4 w-4" />
                 Tema Warna Kartu
               </label>
               {isFreePlan && (
-                <span className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+                <span className="text-[10px] font-extrabold text-[var(--color-warning)] dark:text-amber-400 flex items-center gap-1">
                   <Lock className="h-3 w-3" /> Starter & Pro
                 </span>
               )}
@@ -668,7 +669,7 @@ export default function QRExporter({
 
             <div className="flex flex-wrap gap-3">
               {[
-                { id: 'cyan', color: 'bg-cyan-500' },
+                { id: 'cyan', color: 'bg-[var(--color-primary)]' },
                 { id: 'indigo', color: 'bg-indigo-500' },
                 { id: 'emerald', color: 'bg-emerald-500' },
                 { id: 'amber', color: 'bg-amber-500' },
@@ -704,14 +705,14 @@ export default function QRExporter({
         )}
 
         {/* Text Customization Inputs */}
-        <div className="space-y-4 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
+        <div className="space-y-4 pt-4 border-t border-[var(--border-color)]">
           <div className="flex items-center justify-between">
-            <label className="text-xs font-bold text-slate-500 dark:text-slate-400 flex items-center gap-1.5">
+            <label className="text-xs font-bold text-[var(--text-secondary)] flex items-center gap-1.5">
               <Type className="h-4 w-4" />
               Sesuaikan Tulisan Kartu
             </label>
             {isFreePlan && (
-              <span className="text-[10px] font-extrabold text-amber-600 dark:text-amber-400 flex items-center gap-1">
+              <span className="text-[10px] font-extrabold text-[var(--color-warning)] dark:text-amber-400 flex items-center gap-1">
                 <Lock className="h-3 w-3" /> Starter & Pro
               </span>
             )}
@@ -719,57 +720,27 @@ export default function QRExporter({
 
           <div className="space-y-3">
             <div>
-              <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase block mb-1">
-                Tagline Atas
-              </label>
-              <input
-                type="text"
-                value={customTitle}
-                disabled={isFreePlan}
-                onChange={(e) => setCustomTitle(e.target.value)}
-                placeholder="Contoh: KAMOMI GUESTBOOK"
-                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 disabled:opacity-60 disabled:cursor-not-allowed"
-              />
+              <Input size="sm" label="Tagline Atas" value={customTitle} disabled={isFreePlan} onChange={(e) => setCustomTitle(e.target.value)} placeholder="Contoh: KAMOMI GUESTBOOK" />
             </div>
 
             <div>
-              <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase block mb-1">
-                Label Nomor Kamar
-              </label>
-              <input
-                type="text"
-                value={labelRoom}
-                disabled={isFreePlan}
-                onChange={(e) => setLabelRoom(e.target.value)}
-                placeholder="Contoh: NOMOR KAMAR atau MEJA"
-                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 disabled:opacity-60 disabled:cursor-not-allowed"
-              />
+              <Input size="sm" label="Label Nomor Kamar" value={labelRoom} disabled={isFreePlan} onChange={(e) => setLabelRoom(e.target.value)} placeholder="Contoh: NOMOR KAMAR atau MEJA" />
             </div>
 
             <div className='mt-2'>
-              <label className="text-[10px] font-bold text-slate-400 dark:text-slate-500 uppercase block mb-1">
-                Petunjuk Aksi Bawah
-              </label>
-              <input
-                type="text"
-                value={customInstruction}
-                disabled={isFreePlan}
-                onChange={(e) => setCustomInstruction(e.target.value)}
-                placeholder="Contoh: Scan QR Code untuk info Wi-Fi & Fasilitas"
-                className="w-full px-3 py-2 text-xs rounded-xl border bg-slate-50/50 dark:bg-slate-950/50 text-slate-800 dark:text-white border-slate-200 dark:border-slate-800 focus:outline-hidden focus:ring-2 focus:ring-cyan-500 disabled:opacity-60 disabled:cursor-not-allowed"
-              />
+              <Input size="sm" label="Petunjuk Aksi Bawah" value={customInstruction} disabled={isFreePlan} onChange={(e) => setCustomInstruction(e.target.value)} placeholder="Contoh: Scan QR Code untuk info Wi-Fi & Fasilitas" />
             </div>
           </div>
         </div>
 
         {/* Watermark Selector */}
-        <div className="space-y-3 pt-4 border-t border-slate-200/50 dark:border-slate-800/50">
+        <div className="space-y-3 pt-4 border-t border-[var(--border-color)]">
           <div className="flex items-center justify-between">
             <div className="space-y-0.5">
-              <label className="text-xs font-bold text-slate-500 dark:text-slate-400">
+              <label className="text-xs font-bold text-[var(--text-secondary)]">
                 Watermark Kamomi.id
               </label>
-              <p className="text-[10px] text-slate-400">
+              <p className="text-[10px] text-[var(--text-muted)]">
                 {isFreePlan
                   ? "Watermark wajib untuk paket FREE"
                   : "Aktifkan/nonaktifkan branding Kamomi di kartu"}
@@ -777,39 +748,28 @@ export default function QRExporter({
             </div>
 
             {isFreePlan ? (
-              <span className="px-2.5 py-1 bg-slate-100 dark:bg-slate-800/50 text-slate-400 dark:text-slate-500 text-[10px] font-bold rounded-lg border border-slate-200 dark:border-slate-800 select-none">
+              <span className="px-2.5 py-1 bg-[var(--bg-subtle)] text-[var(--text-muted)] text-[10px] font-bold rounded-lg border border-[var(--border-color)] select-none">
                 Selalu Aktif (FREE)
               </span>
             ) : (
-              <button
-                type="button"
-                onClick={() => setShowLogo(!showLogo)}
-                className={`relative inline-flex h-6 w-11 shrink-0 cursor-pointer rounded-full border-2 border-transparent transition-colors duration-200 ease-in-out focus:outline-hidden ${showLogo ? 'bg-cyan-600' : 'bg-slate-200 dark:bg-slate-800'
-                  }`}
-              >
-                <span
-                  className={`pointer-events-none inline-block h-5 w-5 transform rounded-full bg-white shadow-sm ring-0 transition duration-200 ease-in-out ${showLogo ? 'translate-x-5' : 'translate-x-0'
-                    }`}
-                />
-              </button>
+<Switch checked={showLogo} onChange={setShowLogo} aria-label="Tampilkan watermark Kamomi.id" />
             )}
           </div>
         </div>
 
         {/* Exporter Actions */}
-        <div className="pt-4 border-t border-slate-200/50 dark:border-slate-800/50 flex flex-col sm:flex-row gap-3">
-          <button
+        <div className="pt-4 border-t border-[var(--border-color)] flex flex-col sm:flex-row gap-3">
+          <Button variant="primary" size="sm" className="flex-1"
             onClick={handlePrint}
-            className="flex-1 py-3 px-4 rounded-xl font-bold text-xs bg-slate-900 text-white dark:bg-white dark:text-slate-950 hover:opacity-90 flex items-center justify-center gap-2 transition-all shadow-md"
           >
             <Printer className="h-4 w-4" />
             Cetak Kartu (Print)
-          </button>
+          </Button>
 
           <a
             href={qrCodeDataUrl}
             download={`QR-Card-Kamar-${roomNumber}.png`}
-            className="flex-1 py-3 px-4 rounded-xl font-bold text-xs border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-900 flex items-center justify-center gap-2 transition-all"
+            className="flex-1 py-3 px-4 rounded-xl font-bold text-xs border border-[var(--border-color)] text-[var(--text-primary)] hover:bg-slate-50 dark:hover:bg-slate-900 flex items-center justify-center gap-2 transition-all"
           >
             <Download className="h-4 w-4" />
             Unduh QR Saja
@@ -817,7 +777,7 @@ export default function QRExporter({
         </div>
 
         {/* Info */}
-        <div className="p-4 rounded-xl bg-cyan-500/5 border border-cyan-500/20 text-xs text-cyan-600 dark:text-cyan-400 space-y-1">
+        <div className="p-4 rounded-xl bg-cyan-500/5 border border-[var(--color-primary)]/20 text-xs text-[var(--primary-accent)] space-y-1">
           <span className="font-bold block">💡 Rekomendasi Ukuran Cetak:</span>
           <p>
             Cetaklah di kertas tebal (Art Paper 260gsm) dengan ukuran A6 (10.5 x
@@ -829,7 +789,7 @@ export default function QRExporter({
 
       {/* Preview Card Design */}
       <div className="flex flex-col items-center">
-        <div className="text-xs font-bold text-slate-400 dark:text-slate-500 mb-3 flex items-center gap-1.5 uppercase tracking-wider">
+        <div className="text-xs font-bold text-[var(--text-muted)] mb-3 flex items-center gap-1.5 uppercase tracking-wider">
           <Eye className="h-3.5 w-3.5" />
           Preview Desain Cetak (A6 Hang Card)
         </div>

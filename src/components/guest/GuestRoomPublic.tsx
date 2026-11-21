@@ -1,4 +1,7 @@
 import { useState } from 'react';
+import { LogoMark } from '../brand/Logo';
+import { QueryClientProvider } from '@tanstack/react-query';
+import { queryClient } from '../../rest/queryClient';
 import WiFiCard from './WiFiCard.tsx';
 import HouseRules from './HouseRules.tsx';
 import FacilityGuides from './FacilityGuides.tsx';
@@ -11,7 +14,7 @@ interface GuestRoomPublicProps {
   code: string;
 }
 
-export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
+function GuestRoomPublicInner({ code }: GuestRoomPublicProps) {
   const [reportOpen, setReportOpen] = useState(false);
 
   const { data: response, isLoading: loading, isError, error: queryError } = usePublicRoomQuery(code);
@@ -22,8 +25,8 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
   if (loading) {
     return (
       <div className="flex flex-col items-center justify-center min-h-75 space-y-4">
-        <RefreshCw className="h-8 w-8 text-cyan-500 animate-spin" />
-        <p className="text-sm text-slate-400">Memuat info kamar...</p>
+        <RefreshCw className="h-8 w-8 text-[var(--primary-accent)] animate-spin" />
+        <p className="text-sm text-[var(--text-muted)]">Memuat info kamar...</p>
       </div>
     );
   }
@@ -35,7 +38,7 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
           <AlertCircle className="h-6 w-6" />
         </div>
         <h3 className="text-lg font-bold text-white">Oops! Gagal Memuat Halaman</h3>
-        <p className="text-xs text-slate-400 leading-relaxed">
+        <p className="text-xs text-[var(--text-muted)] leading-relaxed">
           {error || 'Data kamar tidak dapat ditemukan atau link tidak valid.'}
         </p>
       </div>
@@ -46,23 +49,23 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
     return (
       <div className="glassmorphic rounded-3xl p-8 border border-amber-500/30 text-center max-w-md mx-auto space-y-6 relative overflow-hidden shadow-2xl">
         <div className="absolute -top-12 -right-12 h-24 w-24 bg-amber-500/10 rounded-full blur-2xl pointer-events-none"></div>
-        <div className="mx-auto w-16 h-16 rounded-full bg-amber-500/15 flex items-center justify-center text-amber-500 animate-pulse">
+        <div className="mx-auto w-16 h-16 rounded-full bg-amber-500/15 flex items-center justify-center text-[var(--color-warning)] animate-pulse">
           <Lock className="h-8 w-8" />
         </div>
         <div className="space-y-2">
-          <span className="text-[10px] uppercase font-bold tracking-widest text-amber-500 bg-amber-500/10 px-3 py-1 rounded-full">
+          <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--color-warning)] bg-amber-500/10 px-3 py-1 rounded-full">
             Layanan Ditangguhkan
           </span>
           <h2 className="text-xl font-black text-white tracking-tight pt-2">
             Akses Kamar {data.roomNumber} Terkunci
           </h2>
-          <p className="text-xs text-slate-400 leading-relaxed pt-1">
+          <p className="text-xs text-[var(--text-muted)] leading-relaxed pt-1">
             Layanan guestbook digital untuk properti **{data.propertyName}** saat ini sedang dinonaktifkan sementara karena masa berlangganan pemilik properti telah berakhir (H+7 Grace Period).
           </p>
         </div>
-        <div className="p-4 rounded-2xl bg-slate-900/60 border border-slate-800 text-left space-y-2">
-          <p className="text-[11px] text-slate-300 font-semibold">Bagi Tamu / Penghuni:</p>
-          <p className="text-[10px] text-slate-400 leading-relaxed">
+        <div className="p-4 rounded-2xl bg-[var(--bg-subtle)] border border-[var(--border-color)] text-left space-y-2">
+          <p className="text-[11px] text-[var(--text-secondary)] font-semibold">Bagi Tamu / Penghuni:</p>
+          <p className="text-[10px] text-[var(--text-muted)] leading-relaxed">
             Silakan hubungi pengelola kost/penginapan Anda secara langsung untuk menanyakan informasi Wi-Fi atau tata tertib kamar.
           </p>
         </div>
@@ -80,32 +83,28 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
   return (
     <div className="w-full space-y-6">
       {/* Header Banner */}
-      <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-emerald-600 to-teal-700 p-6 sm:p-7 text-white shadow-md">
+      <div className="relative overflow-hidden rounded-2xl bg-linear-to-r from-cyan-600 to-cyan-700 p-6 sm:p-7 text-white shadow-md">
         <div className="absolute -right-6 -bottom-6 w-40 h-40 bg-white/10 rounded-full blur-2xl pointer-events-none"></div>
         <div className="flex items-center justify-between gap-4">
           <div className="space-y-1">
             {/* Kamomi Logo / Branding header if showLogo is true */}
             {(data.qrDesign?.showLogo ?? true) && (
               <div className="flex items-center gap-1.5 mb-1.5">
-                <img
-                  src="/logo.png"
-                  alt="Kamomi Logo"
-                  className="h-5 w-5 object-contain bg-white/20 p-0.5 rounded-md backdrop-blur-xs"
-                />
+                <LogoMark tone="inverse" className="h-5 w-5" />
                 <span className="text-xs font-bold text-white tracking-wide">
                   Kamomi.id
                 </span>
               </div>
             )}
 
-            <span className="text-xs font-semibold uppercase tracking-wider text-emerald-100/90">
+            <span className="text-xs font-semibold uppercase tracking-wider text-cyan-100/90">
               {data.qrDesign?.customTitle || 'Selamat Datang'}
             </span>
             <h2 className="text-2xl sm:text-3xl font-bold tracking-tight text-white leading-tight">
               {data.propertyName}
             </h2>
             {data.qrDesign?.customInstruction && (
-              <p className="text-xs sm:text-sm text-emerald-100/90 italic pt-0.5">
+              <p className="text-xs sm:text-sm text-cyan-100/90 italic pt-0.5">
                 "{data.qrDesign?.customInstruction}"
               </p>
             )}
@@ -137,8 +136,8 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
 
       {/* Powered by Footer when logo is hidden or subtle footer */}
       <div className="pt-2 text-center">
-        <p className="text-xs text-slate-400 dark:text-slate-500 font-medium">
-          Powered by <a href="https://kamomi.id" target="_blank" rel="noreferrer" className="font-semibold text-cyan-600 dark:text-cyan-400 hover:underline">Kamomi.id</a>
+        <p className="text-xs text-[var(--text-muted)] font-medium">
+          Powered by <a href="https://kamomi.id" target="_blank" rel="noreferrer" className="font-semibold text-[var(--primary-accent)] hover:underline">Kamomi.id</a>
         </p>
       </div>
 
@@ -150,5 +149,13 @@ export default function GuestRoomPublic({ code }: GuestRoomPublicProps) {
         roomCode={code}
       />
     </div>
+  );
+}
+
+export default function GuestRoomPublic(props: GuestRoomPublicProps) {
+  return (
+    <QueryClientProvider client={queryClient}>
+      <GuestRoomPublicInner {...props} />
+    </QueryClientProvider>
   );
 }

@@ -38,7 +38,7 @@ const planStyles = [
     keywords="harga kamomi, paket berlangganan kost, biaya aplikasi kost, langganan kelola kost"
   />
   <body
-    class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
+    class="bg-[var(--bg-subtle)] text-[var(--text-primary)] min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
   >
     <Navbar client:load />
 
@@ -51,11 +51,11 @@ const planStyles = [
           <svg class="h-3.5 w-3.5" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
           Paket & Harga
         </span>
-        <h1 class="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white tracking-tight leading-[1.1]">
+        <h1 class="text-4xl sm:text-5xl font-black text-[var(--text-primary)] tracking-tight leading-[1.1]">
           Pilih Paket yang Tepat<br />
           <span class="text-cyan-600 dark:text-cyan-400">untuk Bisnis Anda</span>
         </h1>
-        <p class="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed">
+        <p class="text-sm sm:text-base text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed">
           Mulai gratis selamanya, lalu tingkatkan kapan saja. Semua paket sudah termasuk fitur inti Kamomi.
         </p>
       </div>
@@ -79,7 +79,7 @@ const planStyles = [
                 <div class="relative rounded-3xl overflow-hidden shadow-2xl shadow-cyan-600/10 lg:scale-[1.04] z-10">
                   {/* Glow border effect */}
                   <div class="absolute inset-0 rounded-3xl bg-linear-to-b from-cyan-500 to-cyan-700 p-[1.5px]">
-                    <div class="h-full w-full rounded-3xl bg-slate-50 dark:bg-slate-950" />
+                    <div class="h-full w-full rounded-3xl bg-[var(--bg-surface)]" />
                   </div>
 
                   <div class="relative p-6 flex flex-col justify-between h-full">
@@ -91,14 +91,14 @@ const planStyles = [
                     <div class="space-y-5">
                       <div>
                         <span class="text-[10px] font-black text-cyan-600 dark:text-cyan-400 uppercase tracking-widest">{plan.name}</span>
-                        <h3 class="text-2xl font-black text-slate-800 dark:text-white mt-1">{plan.name}</h3>
-                        <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1 min-h-7 leading-relaxed">
+                        <h3 class="text-2xl font-black text-[var(--text-primary)] mt-1">{plan.name}</h3>
+                        <p class="text-[11px] text-[var(--text-muted)] mt-1 min-h-7 leading-relaxed">
                           {plan.description || `Paket berlangganan ${plan.name}`}
                         </p>
                       </div>
 
                       <div class="flex items-baseline gap-1">
-                        <span class="text-3xl font-black text-slate-800 dark:text-white">{formatCurrency(plan.price)}</span>
+                        <span class="text-3xl font-black text-[var(--text-primary)]">{formatCurrency(plan.price)}</span>
                         {plan.price > 0 && (
                           <span class="text-xs text-slate-400 font-semibold">
                             /{plan.billingCycle?.toLowerCase() === "monthly" ? "bulan" : plan.billingCycle?.toLowerCase()}
@@ -106,9 +106,9 @@ const planStyles = [
                         )}
                       </div>
 
-                      <ul class="space-y-2.5 pt-5 border-t border-slate-200/60 dark:border-slate-800/60">
+                      <ul class="space-y-2.5 pt-5 border-t border-[var(--border-color)]">
                         {featureList.map((feat) => (
-                          <li class="flex items-start gap-2.5 text-xs text-slate-600 dark:text-slate-300">
+                          <li class="flex items-start gap-2.5 text-xs text-[var(--text-secondary)]">
                             <div class="h-4.5 w-4.5 rounded-full bg-cyan-100 dark:bg-cyan-950/40 flex items-center justify-center shrink-0 mt-0.5">
                               <svg class="h-3 w-3 text-cyan-600 dark:text-cyan-400" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
                             </div>
@@ -128,18 +128,18 @@ const planStyles = [
                 </div>
               ) : (
                 /* ============= NORMAL CARD ============= */
-                <div class="rounded-3xl p-6 bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
+                <div class="rounded-3xl p-6 bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:shadow-lg transition-all duration-300 flex flex-col justify-between">
                   <div class="space-y-5">
                     <div>
-                      <span class="text-[10px] font-black text-slate-400 dark:text-slate-500 uppercase tracking-widest">{plan.name}</span>
-                      <h3 class="text-2xl font-black text-slate-800 dark:text-white mt-1">{plan.name}</h3>
-                      <p class="text-[11px] text-slate-400 dark:text-slate-500 mt-1 min-h-7 leading-relaxed">
+                      <span class="text-[10px] font-black text-[var(--text-muted)] uppercase tracking-widest">{plan.name}</span>
+                      <h3 class="text-2xl font-black text-[var(--text-primary)] mt-1">{plan.name}</h3>
+                      <p class="text-[11px] text-[var(--text-muted)] mt-1 min-h-7 leading-relaxed">
                         {plan.description || `Paket berlangganan ${plan.name}`}
                       </p>
                     </div>
 
                     <div class="flex items-baseline gap-1">
-                      <span class="text-3xl font-black text-slate-800 dark:text-white">{formatCurrency(plan.price)}</span>
+                      <span class="text-3xl font-black text-[var(--text-primary)]">{formatCurrency(plan.price)}</span>
                       {plan.price > 0 && (
                         <span class="text-xs text-slate-400 font-semibold">
                           /{plan.billingCycle?.toLowerCase() === "monthly" ? "bulan" : plan.billingCycle?.toLowerCase()}
@@ -147,10 +147,10 @@ const planStyles = [
                       )}
                     </div>
 
-                    <ul class="space-y-2.5 pt-5 border-t border-slate-100 dark:border-slate-800/50">
+                    <ul class="space-y-2.5 pt-5 border-t border-[var(--border-subtle)]">
                       {featureList.map((feat) => (
-                        <li class="flex items-start gap-2.5 text-xs text-slate-500 dark:text-slate-400">
-                          <div class="h-4.5 w-4.5 rounded-full bg-slate-100 dark:bg-slate-800/60 flex items-center justify-center shrink-0 mt-0.5">
+                        <li class="flex items-start gap-2.5 text-xs text-[var(--text-secondary)]">
+                          <div class="h-4.5 w-4.5 rounded-full bg-[var(--bg-subtle)] flex items-center justify-center shrink-0 mt-0.5">
                             <svg class="h-3 w-3 text-cyan-500" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg>
                           </div>
                           <span class="font-medium">{feat}</span>
@@ -164,7 +164,7 @@ const planStyles = [
                     class={`w-full mt-8 py-3.5 text-center rounded-xl font-bold text-sm transition-all block active:scale-[0.98] ${
                       plan.price === 0
                         ? "bg-slate-800 dark:bg-white text-white dark:text-slate-900 hover:bg-slate-700 dark:hover:bg-slate-100"
-                        : "border-2 border-slate-200 dark:border-slate-700 text-slate-700 dark:text-slate-300 hover:border-cyan-500 hover:text-cyan-600 dark:hover:border-cyan-500 dark:hover:text-cyan-400"
+                        : "border-2 border-[var(--border-color)] text-[var(--text-primary)] hover:border-cyan-500 hover:text-cyan-600 dark:hover:border-cyan-500 dark:hover:text-cyan-400"
                     }`}
                   >
                     {plan.price === 0 ? "Mulai Gratis" : "Pilih Paket"}
@@ -178,14 +178,14 @@ const planStyles = [
 
       <!-- FAQ Teaser Section -->
       <div class="max-w-3xl mx-auto mt-20 text-center space-y-4">
-        <h2 class="text-xl font-black text-slate-800 dark:text-white">Masih punya pertanyaan?</h2>
+        <h2 class="text-xl font-black text-[var(--text-primary)]">Masih punya pertanyaan?</h2>
         <p class="text-sm text-slate-400">
           Baca halaman FAQ atau langsung hubungi tim kami untuk konsultasi gratis.
         </p>
         <div class="flex justify-center gap-3 pt-2">
           <a
             href="/features"
-            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-cyan-500 hover:text-cyan-600 transition-all"
+            class="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl text-xs font-bold border border-[var(--border-color)] text-[var(--text-secondary)] hover:border-cyan-500 hover:text-cyan-600 transition-all"
           >
             Lihat Semua Fitur
           </a>

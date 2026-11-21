@@ -1,4 +1,5 @@
 import React from 'react';
+import { Button } from '@pradnyakuswara/ui';
 import { 
   MessageCircle, 
   Shield, 
@@ -41,9 +42,9 @@ export default function QuickContact({
   const activeContacts = contacts || [];
 
   return (
-    <div className="rounded-2xl p-5 bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 shadow-xs">
-      <h3 className="font-semibold text-slate-800 dark:text-white text-base mb-0.5">Kontak Bantuan</h3>
-      <p className="text-xs text-slate-400 dark:text-slate-500 mb-4">Hubungi pengelola atau minta bantuan kamar</p>
+    <div className="rounded-2xl p-5 bg-[var(--bg-subtle)] border border-[var(--border-color)] shadow-xs">
+      <h3 className="font-semibold text-[var(--text-primary)] text-base mb-0.5">Kontak Bantuan</h3>
+      <p className="text-xs text-[var(--text-muted)] mb-4">Hubungi pengelola atau minta bantuan kamar</p>
 
       <div className="space-y-2.5">
         {activeContacts.map((contact, idx) => {
@@ -61,13 +62,13 @@ export default function QuickContact({
           return (
             <div 
               key={idx} 
-              className="flex items-center justify-between p-3 rounded-xl border border-slate-200/60 dark:border-slate-800/50 bg-white dark:bg-slate-950"
+              className="flex items-center justify-between p-3 rounded-xl border border-[var(--border-color)] bg-[var(--bg-surface)]"
             >
               <div>
-                <span className="text-[10px] uppercase font-bold tracking-wider text-slate-400 dark:text-slate-500 block">
+                <span className="text-[10px] uppercase font-bold tracking-wider text-[var(--text-muted)] block">
                   {contact.role}
                 </span>
-                <span className="font-medium text-xs sm:text-sm text-slate-800 dark:text-slate-200 block">
+                <span className="font-medium text-xs sm:text-sm text-[var(--text-primary)] block">
                   {contact.name}
                 </span>
               </div>
@@ -86,13 +87,12 @@ export default function QuickContact({
         })}
 
         {onOpenReport && (
-          <button
+          <Button variant="outline" size="sm" fullWidth
             onClick={onOpenReport}
-            className="w-full mt-2 py-3 px-4 rounded-xl border border-dashed border-emerald-500/50 text-emerald-600 dark:text-emerald-400 hover:bg-emerald-500/10 font-semibold text-xs sm:text-sm transition-all flex items-center justify-center gap-2 cursor-pointer bg-emerald-50/50 dark:bg-emerald-950/20"
           >
             <MessageSquarePlus className="h-4.5 w-4.5" />
             Laporkan Kerusakan / Keluhan Kamar
-          </button>
+          </Button>
         )}
       </div>
     </div>

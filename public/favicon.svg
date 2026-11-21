@@ -1,32 +1,9 @@
-<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 500 500" width="100%" height="100%">
-  <!-- Outer glowing stars and key ring -->
-  <g stroke="#1e522f" stroke-width="16" stroke-linecap="round" stroke-linejoin="round" fill="none">
-    <!-- House Contour -->
-    <path d="M 180,245 L 180,225 C 180,215 185,210 190,210 L 250,210 L 250,150 L 320,210" stroke-width="14" />
-    <path d="M 292,150 L 325,150 L 325,190" stroke-width="14" />
-    <!-- Main House Body Outline -->
-    <path d="M 320,210 L 332,225 C 337,230 342,230 342,215 L 342,195 L 265,130 C 257,123 243,123 235,130 L 158,195 C 150,202 150,212 158,218 L 178,235 M 191,280 L 310,280 C 322,280 322,280 322,265 L 322,195" stroke-width="14" />
-    
-    <!-- Key Ring/Loop -->
-    <path d="M 292,150 C 315,100 375,100 365,150 C 355,200 320,185 305,170" stroke-width="14" />
-    <circle cx="289" cy="165" r="9" fill="#1e522f" />
-    
-    <!-- Key Shaft & Teeth -->
-    <path d="M 289,165 L 158,272" stroke-width="15" />
-    <path d="M 158,272 L 180,280 M 172,252 L 185,263 M 185,237 L 202,250 M 205,218 C 220,200 240,212 250,222 L 290,222" stroke-width="12" />
-  </g>
-
-  <!-- Stars (Gold accents) -->
-  <g fill="#d9991e">
-    <!-- Star 1 (Top Middle) -->
-    <path d="M 292,112 Q 292,120 300,120 Q 292,120 292,128 Q 292,120 284,120 Q 292,120 292,112 Z" />
-    <!-- Star 2 (Top Left) -->
-    <path d="M 272,128 Q 272,134 278,134 Q 272,134 272,140 Q 272,134 266,134 Q 272,134 272,128 Z" />
-    <!-- Star 3 (Inside Right) -->
-    <path d="M 322,192 Q 322,198 328,198 Q 322,198 322,204 Q 322,198 316,198 Q 322,198 322,192 Z" />
-    <!-- Star 4 (Inside Center) -->
-    <path d="M 266,182 Q 266,190 274,190 Q 266,190 266,198 Q 266,190 258,190 Q 266,190 266,182 Z" />
-    <!-- Star 5 (Right Outer) -->
-    <path d="M 358,158 Q 358,164 364,164 Q 358,164 358,170 Q 358,164 352,164 Q 358,164 358,158 Z" />
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="3 9 58 56" role="img" aria-label="Kamomi.id">
+  <style>.k{color:#2c5a8c}@media (prefers-color-scheme: dark){.k{color:#6096d0}}</style>
+  <g class="k">
+  <path d="M4 20 L32 36 L20 42Z" fill="currentColor"/>
+  <path d="M60 20 L32 36 L44 42Z" fill="currentColor"/>
+  <path d="M20 42 L32 36 L32 54Z" fill="currentColor" fill-opacity=".42"/>
+  <path d="M44 42 L32 36 L32 54Z" fill="currentColor" fill-opacity=".7"/>
   </g>
 </svg>

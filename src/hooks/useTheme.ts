@@ -1,5 +1,12 @@
 import { useState, useEffect } from 'react';
 
+/** Sinkronkan class `dark` (Tailwind) dan `data-theme` (token @pradnyakuswara/ui). */
+function applyTheme(isDark: boolean) {
+  const root = document.documentElement;
+  root.classList.toggle('dark', isDark);
+  root.setAttribute('data-theme', isDark ? 'dark' : 'light');
+}
+
 export function useTheme() {
   const [darkMode, setDarkMode] = useState(false);
 
@@ -8,23 +15,14 @@ export function useTheme() {
       document.documentElement.classList.contains('dark') ||
       localStorage.getItem('theme') === 'dark';
     setDarkMode(isDark);
-    if (isDark) {
-      document.documentElement.classList.add('dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-    }
+    applyTheme(isDark);
   }, []);
 
   const toggleTheme = () => {
     const nextDark = !darkMode;
     setDarkMode(nextDark);
-    if (nextDark) {
-      document.documentElement.classList.add('dark');
-      localStorage.setItem('theme', 'dark');
-    } else {
-      document.documentElement.classList.remove('dark');
-      localStorage.setItem('theme', 'light');
-    }
+    applyTheme(nextDark);
+    localStorage.setItem('theme', nextDark ? 'dark' : 'light');
   };
 
   return { darkMode, toggleTheme };

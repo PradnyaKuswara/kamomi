@@ -37,25 +37,25 @@ export default function FacilityGuides({ guides = null }: FacilityGuidesProps) {
   const currentGuide = activeGuides.find(g => g.id === activeTab);
 
   return (
-    <div className="rounded-2xl p-4 sm:p-5 bg-slate-50/80 dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 shadow-xs">
+    <div className="rounded-2xl p-4 sm:p-5 bg-[var(--bg-subtle)] border border-[var(--border-color)] shadow-xs">
       <div className="flex items-center gap-2.5 mb-3">
-        <div className="p-2 bg-emerald-100 dark:bg-emerald-950/60 rounded-lg text-emerald-600 dark:text-emerald-400 shrink-0">
+        <div className="p-2 bg-cyan-100 dark:bg-cyan-950/60 rounded-lg text-cyan-600 shrink-0">
           <BookOpen className="h-4.5 w-4.5" />
         </div>
         <div>
-          <h3 className="font-semibold text-slate-800 dark:text-white text-sm">Panduan Fasilitas</h3>
-          <p className="text-[11px] text-slate-400 dark:text-slate-500">Petunjuk penggunaan perangkat kamar</p>
+          <h3 className="font-semibold text-[var(--text-primary)] text-sm">Panduan Fasilitas</h3>
+          <p className="text-[11px] text-[var(--text-muted)]">Petunjuk penggunaan perangkat kamar</p>
         </div>
       </div>
 
       {activeGuides.length === 0 ? (
-        <div className="text-center py-6 text-slate-400 dark:text-slate-500 text-xs font-medium border border-dashed border-slate-200 dark:border-slate-800 rounded-xl">
+        <div className="text-center py-6 text-[var(--text-muted)] text-xs font-medium border border-dashed border-[var(--border-color)] rounded-xl">
           Tidak ada panduan fasilitas
         </div>
       ) : (
         <>
           {/* Tab Selector */}
-          <div className="flex gap-1.5 p-1 bg-white dark:bg-slate-950 rounded-xl mb-3 border border-slate-200/60 dark:border-slate-800/50 overflow-x-auto">
+          <div className="flex gap-1.5 p-1 bg-[var(--bg-surface)] rounded-xl mb-3 border border-[var(--border-color)] overflow-x-auto">
             {activeGuides.map((guide) => {
               const Icon = getIconComponent(guide.icon);
               const isActive = activeTab === guide.id;
@@ -65,8 +65,8 @@ export default function FacilityGuides({ guides = null }: FacilityGuidesProps) {
                   onClick={() => setActiveTab(guide.id)}
                   className={`flex items-center gap-1.5 px-3 py-1.5 text-xs font-medium rounded-lg transition-all shrink-0 cursor-pointer ${
                     isActive 
-                      ? 'bg-emerald-600 text-white shadow-xs' 
-                      : 'text-slate-600 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white'
+                      ? 'bg-cyan-600 text-white shadow-xs' 
+                      : 'text-[var(--text-secondary)] dark:hover:text-white'
                   }`}
                 >
                   <Icon className="h-3.5 w-3.5" />
@@ -78,9 +78,9 @@ export default function FacilityGuides({ guides = null }: FacilityGuidesProps) {
 
           {/* Steps Content */}
           {currentGuide && (
-            <div className="space-y-2.5 bg-white/70 dark:bg-slate-950/40 p-3 rounded-xl border border-slate-200/60 dark:border-slate-800/50">
-              <h4 className="font-semibold text-slate-800 dark:text-slate-200 text-xs flex items-center gap-1.5">
-                <span className="h-1.5 w-1.5 rounded-full bg-emerald-500"></span>
+            <div className="space-y-2.5 bg-[var(--bg-surface)] p-3 rounded-xl border border-[var(--border-color)]">
+              <h4 className="font-semibold text-[var(--text-primary)] text-xs flex items-center gap-1.5">
+                <span className="h-1.5 w-1.5 rounded-full bg-cyan-500"></span>
                 {currentGuide.title}
               </h4>
 
@@ -88,12 +88,12 @@ export default function FacilityGuides({ guides = null }: FacilityGuidesProps) {
                 {currentGuide.steps.map((step, idx) => (
                   <div 
                     key={idx} 
-                    className="flex items-start gap-2.5 p-2 rounded-lg bg-slate-50 dark:bg-slate-900/60 border border-slate-100 dark:border-slate-800/40"
+                    className="flex items-start gap-2.5 p-2 rounded-lg bg-[var(--bg-subtle)] border border-[var(--border-subtle)]"
                   >
-                    <div className="h-4.5 w-4.5 rounded-full bg-emerald-100 dark:bg-emerald-950/80 text-emerald-700 dark:text-emerald-400 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
+                    <div className="h-4.5 w-4.5 rounded-full bg-cyan-100 dark:bg-cyan-950/80 text-cyan-700 flex items-center justify-center font-bold text-[10px] shrink-0 mt-0.5">
                       {idx + 1}
                     </div>
-                    <p className="text-[11px] leading-relaxed text-slate-600 dark:text-slate-300">
+                    <p className="text-[11px] leading-relaxed text-[var(--text-secondary)]">
                       {step}
                     </p>
                   </div>

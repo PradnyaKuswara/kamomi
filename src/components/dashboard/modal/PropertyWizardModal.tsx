@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
-import { Home, Building2, Briefcase, MapPin, CheckCircle2, ChevronRight, ChevronLeft, Sparkles, Loader2, Hotel } from 'lucide-react';
+import { Alert, Button, Modal, Progress, Spinner } from '@pradnyakuswara/ui';
+import { Home, Building2, Briefcase, MapPin, CheckCircle2, ChevronRight, ChevronLeft, Hotel } from 'lucide-react';
 import { useCreatePropertyMutation } from '../../../rest/useProperty';
 import { useUserData } from '../../../hooks/useUserData';
 import { toast } from '../../../hooks/useToast';
@@ -110,53 +111,62 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
   };
 
   return (
-    <div className="fixed inset-0 z-10000 flex items-center justify-center bg-slate-950/85 backdrop-blur-md p-4">
-      <div className="w-full max-w-xl p-8 rounded-3xl bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 shadow-2xl relative overflow-hidden flex flex-col">
-        {/* Glow Decor */}
-        <div className="absolute -top-16 -left-16 h-36 w-36 bg-cyan-500/20 rounded-full blur-3xl pointer-events-none"></div>
-        <div className="absolute -bottom-16 -right-16 h-36 w-36 bg-blue-500/20 rounded-full blur-3xl pointer-events-none"></div>
+    <Modal
+      open
+      onClose={() => {}}
+      closeOnOverlayClick={false}
+      closeOnEsc={false}
+      showCloseButton={false}
+      size="lg"
+      title="Setup Properti Baru"
+      description={`Langkah ${step} dari 3`}
+      footer={
+        <div className="flex w-full justify-between items-center">
+          {step > 1 ? (
+            <Button
+              type="button"
+              variant="outline"
+              onClick={handlePrevStep}
+              disabled={isPending}
+              leftIcon={<ChevronLeft className="h-4 w-4" />}
+            >
+              Kembali
+            </Button>
+          ) : (
+            <div />
+          )}
 
-        {/* Loading Overlay saat Submit Properti */}
-        {isPending && (
-          <div className="absolute inset-0 z-50 flex flex-col items-center justify-center bg-white/90 dark:bg-slate-900/90 backdrop-blur-xs">
-            <Loader2 className="h-10 w-10 text-cyan-500 animate-spin mb-3" />
-            <p className="text-sm font-extrabold text-slate-800 dark:text-white">Menyimpan Properti Baru...</p>
-            <p className="text-xs text-slate-400 mt-1">Harap tunggu sebentar, menyiapkan dashboard Anda ✨</p>
-          </div>
-        )}
-
-        {/* Header & Step Indicator */}
-        <div className="space-y-4 mb-6">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-2">
-              <Sparkles className="h-5 w-5 text-cyan-500 animate-pulse" />
-              <span className="text-xs font-black uppercase text-cyan-500 tracking-wider">
-                Setup Properti Baru
-              </span>
-            </div>
-            <span className="text-xs font-bold text-slate-400">Langkah {step} dari 3</span>
-          </div>
-
-          <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden flex">
-            <div
-              className="h-full bg-cyan-600 transition-all duration-300 rounded-full"
-              style={{ width: `${(step / 3) * 100}%` }}
-            />
-          </div>
+          {step < 3 ? (
+            <Button type="button" onClick={handleNextStep} rightIcon={<ChevronRight className="h-4 w-4" />}>
+              Lanjutkan
+            </Button>
+          ) : (
+            <Button type="button" onClick={handleSubmit} isLoading={isPending}>
+              {isPending ? 'Menyimpan Properti...' : 'Simpan Properti & Buka Dashboard'}
+            </Button>
+          )}
         </div>
-
-        {errorMsg && (
-          <div className="mb-4 p-3 rounded-xl bg-rose-500/10 border border-rose-500/20 text-rose-500 text-xs font-semibold">
-            ⚠️ {errorMsg}
+      }
+    >
+      <div className="relative space-y-5">
+        {isPending && (
+          <div className="absolute inset-0 z-50 flex flex-col items-center justify-center gap-2 bg-[var(--bg-surface)]/90">
+            <Spinner size="lg" />
+            <p className="text-sm font-semibold text-[var(--text-primary)]">Menyimpan Properti Baru...</p>
+            <p className="text-xs text-[var(--text-muted)]">Harap tunggu sebentar, menyiapkan dashboard Anda</p>
           </div>
         )}
+
+        <Progress value={step} max={3} size="sm" />
+
+        {errorMsg && <Alert variant="danger">{errorMsg}</Alert>}
 
         {/* STEP 1: Pilih Tipe Properti */}
         {step === 1 && (
           <div className="space-y-4">
             <div>
-              <h3 className="text-xl font-black text-slate-800 dark:text-white">Pilih Jenis Properti</h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <h3 className="text-lg font-bold text-[var(--text-primary)]">Pilih Jenis Properti</h3>
+              <p className="text-sm text-[var(--text-muted)] mt-1">
                 Pilih kategori hunian yang paling sesuai untuk properti Anda.
               </p>
             </div>
@@ -170,21 +180,21 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
                     key={item.id}
                     type="button"
                     onClick={() => setPropertyType(item.id)}
-                    className={`p-4 rounded-2xl border text-left flex items-center justify-between transition-all cursor-pointer ${isSelected
-                        ? 'bg-cyan-500/10 border-cyan-500 text-cyan-600 dark:text-cyan-400 ring-2 ring-cyan-500/20'
-                        : 'bg-slate-50/50 dark:bg-slate-950/40 border-slate-200 dark:border-slate-800 hover:border-slate-300 dark:hover:border-slate-700'
+                    className={`p-4 rounded-[var(--radius-lg)] border text-left flex items-center justify-between transition-all cursor-pointer ${isSelected
+                        ? 'bg-[var(--color-primary-soft)] border-[var(--color-primary)] text-[var(--color-on-primary-soft)]'
+                        : 'bg-[var(--bg-surface)] border-[var(--border-color)] hover:border-[var(--border-strong)]'
                       }`}
                   >
                     <div className="flex items-center gap-3.5">
-                      <div className={`p-3 rounded-xl ${isSelected ? 'bg-cyan-500 text-white' : 'bg-slate-200/60 dark:bg-slate-800 text-slate-600 dark:text-slate-300'}`}>
+                      <div className={`p-3 rounded-[var(--radius-md)] ${isSelected ? 'bg-[var(--color-primary)] text-[var(--color-on-primary)]' : 'bg-[var(--bg-subtle)] text-[var(--text-secondary)]'}`}>
                         <Icon className="h-5 w-5" />
                       </div>
                       <div>
-                        <h4 className="font-extrabold text-sm text-slate-800 dark:text-white">{item.title}</h4>
-                        <p className="text-xs text-slate-400">{item.desc}</p>
+                        <h4 className="font-semibold text-sm text-[var(--text-primary)]">{item.title}</h4>
+                        <p className="text-xs text-[var(--text-muted)]">{item.desc}</p>
                       </div>
                     </div>
-                    {isSelected && <CheckCircle2 className="h-5 w-5 text-cyan-500" />}
+                    {isSelected && <CheckCircle2 className="h-5 w-5 text-[var(--color-primary)]" />}
                   </button>
                 );
               })}
@@ -196,8 +206,8 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
         {step === 2 && (
           <div className="space-y-4">
             <div>
-              <h3 className="text-xl font-black text-slate-800 dark:text-white">Identitas Properti</h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <h3 className="text-lg font-bold text-[var(--text-primary)]">Identitas Properti</h3>
+              <p className="text-sm text-[var(--text-muted)] mt-1">
                 Masukkan nama properti dan deskripsi singkat yang akan tampil bagi penghuni.
               </p>
             </div>
@@ -226,8 +236,8 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
         {step === 3 && (
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <h3 className="text-xl font-black text-slate-800 dark:text-white">Alamat Properti</h3>
-              <p className="text-xs text-slate-400 mt-1">
+              <h3 className="text-lg font-bold text-[var(--text-primary)]">Alamat Properti</h3>
+              <p className="text-sm text-[var(--text-muted)] mt-1">
                 Lengkapi alamat lokasi hunian untuk pencetakan kartu QR & rekaman sistem.
               </p>
             </div>
@@ -266,51 +276,7 @@ export default function PropertyWizardModal({ onComplete }: PropertyWizardModalP
             </div>
           </form>
         )}
-
-        {/* Wizard Navigation Footer */}
-        <div className="mt-8 pt-4 border-t border-slate-100 dark:border-slate-800 flex justify-between items-center">
-          {step > 1 ? (
-            <button
-              type="button"
-              onClick={handlePrevStep}
-              disabled={isPending}
-              className="inline-flex items-center gap-1 px-4 py-2.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 font-bold text-xs hover:bg-slate-50 dark:hover:bg-slate-800 transition-all cursor-pointer"
-            >
-              <ChevronLeft className="h-4 w-4" />
-              Kembali
-            </button>
-          ) : (
-            <div></div>
-          )}
-
-          {step < 3 ? (
-            <button
-              type="button"
-              onClick={handleNextStep}
-              className="inline-flex items-center gap-1.5 px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-bold text-xs shadow-lg shadow-cyan-500/20 transition-all cursor-pointer"
-            >
-              Lanjutkan
-              <ChevronRight className="h-4 w-4" />
-            </button>
-          ) : (
-            <button
-              type="button"
-              onClick={handleSubmit}
-              disabled={isPending}
-              className="inline-flex items-center gap-2 px-6 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow-lg shadow-cyan-500/25 transition-all cursor-pointer"
-            >
-              {isPending ? (
-                <>
-                  <Loader2 className="h-4 w-4 animate-spin" />
-                  Menyimpan Properti...
-                </>
-              ) : (
-                'Simpan Properti & Buka Dashboard ✨'
-              )}
-            </button>
-          )}
-        </div>
       </div>
-    </div>
+    </Modal>
   );
 }

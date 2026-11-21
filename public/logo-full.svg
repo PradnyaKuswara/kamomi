@@ -1,0 +1,9 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 262 64" role="img" aria-label="Kamomi.id">
+  <svg x="0" y="2" width="62" height="60" viewBox="3 9 58 56">
+  <path d="M4 20 L32 36 L20 42Z" fill="#2c5a8c"/>
+  <path d="M60 20 L32 36 L44 42Z" fill="#2c5a8c"/>
+  <path d="M20 42 L32 36 L32 54Z" fill="#2c5a8c" fill-opacity=".42"/>
+  <path d="M44 42 L32 36 L32 54Z" fill="#2c5a8c" fill-opacity=".7"/>
+  </svg>
+  <text x="72" y="43" font-family="'Host Grotesk','Segoe UI',system-ui,sans-serif" font-size="32" font-weight="800" letter-spacing="-1" fill="#0e1a2b">Kamomi<tspan fill="#2c5a8c">.id</tspan></text>
+</svg>

@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { Button, Tabs, TabsList, TabsTrigger } from '@pradnyakuswara/ui';
 import { User, Mail, Lock, Building, MapPin, Save, ShieldCheck, CheckCircle2 } from 'lucide-react';
 import { useUserData } from '../../../hooks/useUserData';
 import DashboardLayout from '../layout/DashboardLayout';
@@ -93,61 +94,31 @@ function AccountSettingsContent() {
   return (
     <div className="space-y-6 max-w-4xl">
       <div>
-        <h1 className="text-2xl font-black text-slate-800 dark:text-white">Pengaturan Akun & Properti</h1>
-        <p className="text-xs text-slate-400 mt-1">
+        <h1 className="text-2xl font-black text-[var(--text-primary)]">Pengaturan Akun & Properti</h1>
+        <p className="text-xs text-[var(--text-muted)] mt-1">
           Kelola profil pribadi, kata sandi keamanan, dan data properti utama Anda.
         </p>
       </div>
 
-      <div className="flex border-b border-slate-200 dark:border-slate-800 gap-6 text-xs font-bold">
-        <button
-          onClick={() => setActiveTab('profile')}
-          className={`pb-3 transition-all flex items-center gap-2 cursor-pointer ${
-            activeTab === 'profile'
-              ? 'border-b-2 border-cyan-600 text-cyan-600 dark:text-cyan-400 font-extrabold'
-              : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-          }`}
-        >
-          <User className="h-4 w-4" />
-          Profil Saya
-        </button>
-
-        <button
-          onClick={() => setActiveTab('security')}
-          className={`pb-3 transition-all flex items-center gap-2 cursor-pointer ${
-            activeTab === 'security'
-              ? 'border-b-2 border-cyan-600 text-cyan-600 dark:text-cyan-400 font-extrabold'
-              : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-          }`}
-        >
-          <Lock className="h-4 w-4" />
-          Keamanan & Password
-        </button>
-
-        <button
-          onClick={() => setActiveTab('property')}
-          className={`pb-3 transition-all flex items-center gap-2 cursor-pointer ${
-            activeTab === 'property'
-              ? 'border-b-2 border-cyan-600 text-cyan-600 dark:text-cyan-400 font-extrabold'
-              : 'text-slate-400 hover:text-slate-600 dark:hover:text-slate-200'
-          }`}
-        >
-          <Building className="h-4 w-4" />
-          Data Properti Utama
-        </button>
-      </div>
+      <Tabs value={activeTab} onValueChange={(v) => setActiveTab(v as typeof activeTab)} variant="underline">
+        <TabsList>
+          <TabsTrigger value="profile"><User className="h-4 w-4 mr-2" />Profil Saya</TabsTrigger>
+          <TabsTrigger value="security"><Lock className="h-4 w-4 mr-2" />Keamanan &amp; Password</TabsTrigger>
+          <TabsTrigger value="property"><Building className="h-4 w-4 mr-2" />Data Properti Utama</TabsTrigger>
+        </TabsList>
+      </Tabs>
 
       {/* TAB 1: PROFIL SAYA */}
       {activeTab === 'profile' && (
-        <form onSubmit={handleSaveProfile} className="bg-white dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 shadow-xs space-y-5">
-          <div className="flex items-center gap-4 pb-4 border-b border-slate-100 dark:border-slate-800">
-            <div className="h-16 w-16 rounded-full bg-cyan-600 flex items-center justify-center text-white text-2xl font-black shadow-md">
+        <form onSubmit={handleSaveProfile} className="bg-[var(--bg-surface)] p-6 rounded-2xl border border-[var(--border-color)] shadow-xs space-y-5">
+          <div className="flex items-center gap-4 pb-4 border-b border-[var(--border-subtle)]">
+            <div className="h-16 w-16 rounded-full bg-[var(--color-primary)] flex items-center justify-center text-white text-2xl font-black shadow-md">
               {name.charAt(0) || 'U'}
             </div>
             <div>
-              <h3 className="font-extrabold text-slate-800 dark:text-white text-base">{name || 'Nama Pengguna'}</h3>
-              <p className="text-xs text-slate-400">{email}</p>
-              <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1.5 border ${user.isEmailVerified ? 'text-emerald-500 bg-emerald-500/10 border-emerald-500/20' : 'text-red-500 bg-red-500/10 border-red-500/20'}`}>
+              <h3 className="font-extrabold text-[var(--text-primary)] text-base">{name || 'Nama Pengguna'}</h3>
+              <p className="text-xs text-[var(--text-muted)]">{email}</p>
+              <span className={`inline-flex items-center gap-1 text-[10px] font-bold px-2 py-0.5 rounded-full mt-1.5 border ${user.isEmailVerified ? 'text-[var(--color-success-text)] bg-emerald-500/10 border-emerald-500/20' : 'text-red-500 bg-red-500/10 border-red-500/20'}`}>
                 <CheckCircle2 className="h-3 w-3" /> {user.isEmailVerified ? 'Akun Terverifikasi' : 'Akun Tidak Terverifikasi'}
               </span>
             </div>
@@ -173,23 +144,22 @@ function AccountSettingsContent() {
           </div>
 
           <div className="pt-2 flex justify-end">
-            <button
+            <Button variant="primary" size="sm"
               type="submit"
               disabled={isSaving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow-md shadow-cyan-600/20 transition-all cursor-pointer"
             >
               <Save className="h-4 w-4" />
               {isSaving ? 'Menyimpan...' : 'Simpan Perubahan Profil'}
-            </button>
+            </Button>
           </div>
         </form>
       )}
 
       {/* TAB 2: KEAMANAN & PASSWORD */}
       {activeTab === 'security' && (
-        <form onSubmit={handleSavePassword} className="bg-white dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 text-slate-800 dark:text-white font-extrabold text-sm pb-2 border-b border-slate-100 dark:border-slate-800">
-            <ShieldCheck className="h-4 w-4 text-cyan-500" /> Ubah Kata Sandi Akun
+        <form onSubmit={handleSavePassword} className="bg-[var(--bg-surface)] p-6 rounded-2xl border border-[var(--border-color)] shadow-xs space-y-4">
+          <div className="flex items-center gap-2 text-[var(--text-primary)] font-extrabold text-sm pb-2 border-b border-[var(--border-subtle)]">
+            <ShieldCheck className="h-4 w-4 text-[var(--primary-accent)]" /> Ubah Kata Sandi Akun
           </div>
 
           <FormInput
@@ -225,23 +195,22 @@ function AccountSettingsContent() {
           </div>
 
           <div className="pt-2 flex justify-end">
-            <button
+            <Button variant="primary" size="sm"
               type="submit"
               disabled={isSaving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow-md shadow-cyan-600/20 transition-all cursor-pointer"
             >
               <Save className="h-4 w-4" />
               {isSaving ? 'Memperbarui...' : 'Perbarui Kata Sandi'}
-            </button>
+            </Button>
           </div>
         </form>
       )}
 
       {/* TAB 3: DATA PROPERTI UTAMA */}
       {activeTab === 'property' && (
-        <form onSubmit={handleSaveProperty} className="bg-white dark:bg-slate-900/50 p-6 rounded-2xl border border-slate-200/60 dark:border-slate-800/80 shadow-xs space-y-4">
-          <div className="flex items-center gap-2 text-slate-800 dark:text-white font-extrabold text-sm pb-2 border-b border-slate-100 dark:border-slate-800">
-            <Building className="h-4 w-4 text-cyan-500" /> Edit Detail Properti Utama
+        <form onSubmit={handleSaveProperty} className="bg-[var(--bg-surface)] p-6 rounded-2xl border border-[var(--border-color)] shadow-xs space-y-4">
+          <div className="flex items-center gap-2 text-[var(--text-primary)] font-extrabold text-sm pb-2 border-b border-[var(--border-subtle)]">
+            <Building className="h-4 w-4 text-[var(--primary-accent)]" /> Edit Detail Properti Utama
           </div>
 
           <FormInput
@@ -292,14 +261,13 @@ function AccountSettingsContent() {
           </div>
 
           <div className="pt-2 flex justify-end">
-            <button
+            <Button variant="primary" size="sm"
               type="submit"
               disabled={isSaving}
-              className="inline-flex items-center gap-2 px-5 py-2.5 rounded-xl bg-cyan-600 hover:bg-cyan-500 text-white font-extrabold text-xs shadow-md shadow-cyan-600/20 transition-all cursor-pointer"
             >
               <Save className="h-4 w-4" />
               {isSaving ? 'Menyimpan Properti...' : 'Simpan Data Properti'}
-            </button>
+            </Button>
           </div>
         </form>
       )}

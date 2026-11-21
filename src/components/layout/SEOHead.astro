@@ -42,8 +42,8 @@ const siteName = "Kamomi.id";
   <!-- Sitemap & Webmanifest -->
   <link rel="sitemap" href="/sitemap.xml" />
   <link rel="manifest" href="/site.webmanifest" />
-  <meta name="theme-color" content="#1e522f" />
-  <meta name="msapplication-TileColor" content="#1e522f" />
+  <meta name="theme-color" content="#2c5a8c" />
+  <meta name="msapplication-TileColor" content="#2c5a8c" />
   <link rel="preload" href="/logo.png" as="image" />
 
   <!-- Open Graph / Facebook -->
@@ -67,8 +67,10 @@ const siteName = "Kamomi.id";
       (!theme && window.matchMedia("(prefers-color-scheme: dark)").matches)
     ) {
       document.documentElement.classList.add("dark");
+      document.documentElement.setAttribute("data-theme", "dark");
     } else {
       document.documentElement.classList.remove("dark");
+      document.documentElement.setAttribute("data-theme", "light");
     }
   </script>
 </head>

@@ -1,6 +1,6 @@
 ---
-import { InputEmail } from "../components/input/InputEmail";
-import { InputPassword } from "../components/input/InputPassword";
+import Logo from "../components/brand/Logo";
+import LoginForm from "../components/auth/LoginForm";
 import SEOHead from "../components/layout/SEOHead.astro";
 import "../styles/global.css";
 ---
@@ -11,7 +11,7 @@ import "../styles/global.css";
     description="Masuk ke akun Kamomi.id Anda untuk mengelola kamar, melihat keluhan penghuni, dan memantau aktivitas hunian secara realtime."
     keywords="login kamomi, masuk akun kamomi, dashboard pengelola kost"
   />
-  <body class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen font-sans transition-colors duration-300">
+  <body class="bg-[var(--bg-subtle)] text-[var(--text-primary)] min-h-screen font-sans transition-colors duration-300">
 
     <div class="min-h-screen flex">
       <!-- Left Brand Panel -->
@@ -28,10 +28,7 @@ import "../styles/global.css";
         <!-- Content -->
         <div class="relative z-10 flex flex-col justify-between p-12 xl:p-16 w-full">
           <!-- Top: Logo -->
-          <div class="flex items-center gap-3">
-            <img src="/logo.png" alt="Kamomi" class="h-10 w-10 rounded-xl shadow-lg" />
-            <span class="text-white font-black text-xl tracking-tight">Kamomi<span class="text-cyan-300">.id</span></span>
-          </div>
+          <Logo tone="light" markClassName="h-10 w-10" textClassName="text-xl" />
 
           <!-- Center: Hero content -->
           <div class="flex-1 flex flex-col justify-center max-w-lg">
@@ -83,78 +80,21 @@ import "../styles/global.css";
         <div class="absolute bottom-12 left-12 h-32 w-32 bg-slate-500/5 rounded-full blur-3xl pointer-events-none"></div>
 
         <!-- Mobile logo (shown on small screens only) -->
-        <div class="flex lg:hidden items-center gap-3 mb-10">
-          <img src="/logo.png" alt="Kamomi" class="h-9 w-9 rounded-xl shadow-md" />
-          <span class="font-black text-lg text-slate-800 dark:text-white tracking-tight">Kamomi<span class="text-cyan-600 dark:text-cyan-400">.id</span></span>
-        </div>
+        <div class="flex lg:hidden mb-10"><Logo markClassName="h-9 w-9" textClassName="text-lg" /></div>
 
         <div class="w-full max-w-sm relative">
           <div class="mb-8">
-            <h1 class="text-2xl font-black text-slate-800 dark:text-white tracking-tight">
+            <h1 class="text-2xl font-black text-[var(--text-primary)] tracking-tight">
               Selamat Datang Kembali
             </h1>
-            <p class="text-sm text-slate-500 dark:text-slate-400 mt-2 font-medium">
+            <p class="text-sm text-[var(--text-secondary)] mt-2 font-medium">
               Masuk untuk mengelola dashboard & cetak QR kamar Anda
             </p>
           </div>
 
-          <!-- Google Login -->
-          <button
-            id="google-login-btn"
-            type="button"
-            class="w-full flex items-center justify-center gap-3 py-3 px-4 rounded-xl font-bold text-sm bg-white dark:bg-slate-900 border border-slate-200 dark:border-slate-800 text-slate-700 dark:text-slate-200 hover:bg-slate-50 dark:hover:bg-slate-800/80 transition-all cursor-pointer shadow-sm active:scale-[0.98]"
-          >
-            <svg class="h-5 w-5 shrink-0" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
-              <path d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z" fill="#4285F4"></path>
-              <path d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z" fill="#34A853"></path>
-              <path d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z" fill="#FBBC05"></path>
-              <path d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z" fill="#EA4335"></path>
-            </svg>
-            Masuk dengan Google
-          </button>
+          <LoginForm client:load />
 
-          <!-- Divider -->
-          <div class="relative my-6">
-            <div class="absolute inset-0 flex items-center">
-              <span class="w-full border-t border-slate-200/60 dark:border-slate-800/60"></span>
-            </div>
-            <div class="relative flex justify-center text-[10px] uppercase">
-              <span class="bg-slate-50 dark:bg-slate-950 px-3 text-slate-400 font-bold tracking-widest">atau</span>
-            </div>
-          </div>
-
-          <!-- Login Form -->
-          <form id="login-form" class="space-y-4">
-            <InputEmail
-              client:load
-              label="Email"
-              id="email"
-              required
-              placeholder="nama@email.com"
-            />
-
-            <div class="space-y-1">
-              <div class="flex justify-between items-center">
-                <span class="text-[10px] font-bold text-slate-400 uppercase tracking-wider block">Password <span class="text-rose-500">*</span></span>
-                <a href="#" class="text-[10px] text-cyan-600 dark:text-cyan-400 hover:underline font-bold">Lupa Password?</a>
-              </div>
-              <InputPassword
-                client:load
-                id="password"
-                required
-                placeholder="••••••••"
-              />
-            </div>
-
-            <button
-              type="submit"
-              class="w-full py-3 px-4 rounded-xl font-bold text-sm bg-cyan-600 text-white hover:bg-cyan-500 transition-all shadow-lg shadow-cyan-600/15 cursor-pointer active:scale-[0.98]"
-            >
-              Masuk Akun
-            </button>
-          </form>
-
-          <p class="mt-8 text-center text-xs text-slate-500 dark:text-slate-400">
+          <p class="mt-8 text-center text-xs text-[var(--text-secondary)]">
             Belum punya akun?
             <a href="/register" class="text-cyan-600 dark:text-cyan-400 font-bold hover:underline ml-1">Daftar Sekarang</a>
           </p>
@@ -167,56 +107,5 @@ import "../styles/global.css";
       </div>
     </div>
 
-    <script>
-      import ApiService, { type ApiResponse } from "../services/api";
-      import { toast } from "../hooks/useToast";
-
-      interface LoginResponseData {
-        token: string;
-        name: string;
-      }
-
-      const form = document.getElementById("login-form") as HTMLFormElement;
-      form.addEventListener("submit", async (e) => {
-        e.preventDefault();
-        const emailInput = document.getElementById("email") as HTMLInputElement;
-        const passwordInput = document.getElementById(
-          "password",
-        ) as HTMLInputElement;
-
-        try {
-          const res = await ApiService.post<ApiResponse<LoginResponseData>>(
-            "/api/auth/login",
-            {
-              email: emailInput.value,
-              password: passwordInput.value,
-            },
-          );
-
-          if (res.success && res.data?.token) {
-            localStorage.setItem("AUTH_TOKEN", res.data.token);
-            localStorage.setItem("user_logged_in", "true");
-            toast.success("Login berhasil! Mengalihkan...");
-            setTimeout(() => {
-              window.location.href = "/dashboard";
-            }, 1000);
-          } else {
-            toast.error(res.message || "Login gagal");
-          }
-        } catch (error) {
-          const err = error as Error;
-          toast.error(err.message || "Terjadi kesalahan saat login");
-        }
-      });
-
-      const googleBtn = document.getElementById(
-        "google-login-btn",
-      ) as HTMLButtonElement;
-      googleBtn.addEventListener("click", () => {
-        const backendUrl =
-          import.meta.env.PUBLIC_API_URL || "http://localhost:8080";
-        window.location.href = `${backendUrl}/oauth2/authorization/google`;
-      });
-    </script>
   </body>
 </html>

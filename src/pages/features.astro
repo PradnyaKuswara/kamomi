@@ -13,7 +13,7 @@ import "../styles/global.css";
     keywords="fitur kamomi, buku tamu digital, qr kamar kost, manajemen keluhan kost, tata tertib kost digital"
   />
   <body
-    class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
+    class="bg-[var(--bg-subtle)] text-[var(--text-primary)] min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
   >
     <Navbar client:load />
 
@@ -33,7 +33,7 @@ import "../styles/global.css";
           Fitur Utama
         </span>
         <h1
-          class="text-4xl sm:text-5xl font-black text-slate-800 dark:text-white tracking-tight leading-[1.1]"
+          class="text-4xl sm:text-5xl font-black text-[var(--text-primary)] tracking-tight leading-[1.1]"
         >
           Semua yang Anda Butuhkan<br />
           <span class="text-cyan-600 dark:text-cyan-400"
@@ -41,7 +41,7 @@ import "../styles/global.css";
           >
         </h1>
         <p
-          class="text-sm sm:text-base text-slate-500 dark:text-slate-400 max-w-xl mx-auto leading-relaxed"
+          class="text-sm sm:text-base text-[var(--text-secondary)] max-w-xl mx-auto leading-relaxed"
         >
           Dari pembuatan QR Card premium hingga manajemen keluhan tamu — Kamomi
           dirancang untuk menyederhanakan operasional hunian Anda.
@@ -54,7 +54,7 @@ import "../styles/global.css";
       >
         <!-- Feature 1: QR Code -->
         <div
-          class="group relative rounded-3xl p-7 bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+          class="group relative rounded-3xl p-7 bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
         >
           <div
             class="absolute top-0 right-0 h-28 w-28 bg-cyan-500/4 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-cyan-500/8 transition-all"
@@ -83,11 +83,11 @@ import "../styles/global.css";
             </svg>
           </div>
           <h3
-            class="font-extrabold text-slate-800 dark:text-white text-lg mb-2 tracking-tight"
+            class="font-extrabold text-[var(--text-primary)] text-lg mb-2 tracking-tight"
           >
             QR Card Pintu Kamar
           </h3>
-          <p class="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">
             Buat dan ekspor kartu desain QR code unik untuk setiap kamar. Cetak
             dalam bentuk stiker atau papan akrilik premium A6 untuk ditempel di
             pintu kamar.
@@ -108,7 +108,7 @@ import "../styles/global.css";
 
         <!-- Feature 2: Wi-Fi Instan -->
         <div
-          class="group relative rounded-3xl p-7 bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+          class="group relative rounded-3xl p-7 bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
         >
           <div
             class="absolute top-0 right-0 h-28 w-28 bg-emerald-500/4 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-emerald-500/8 transition-all"
@@ -132,11 +132,11 @@ import "../styles/global.css";
             </svg>
           </div>
           <h3
-            class="font-extrabold text-slate-800 dark:text-white text-lg mb-2 tracking-tight"
+            class="font-extrabold text-[var(--text-primary)] text-lg mb-2 tracking-tight"
           >
             Koneksi Wi-Fi Instan
           </h3>
-          <p class="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">
             Tamu tidak perlu repot mengetik password WiFi yang panjang. Cukup
             tekan tombol salin atau scan QR untuk terhubung otomatis ke internet
             hunian.
@@ -157,7 +157,7 @@ import "../styles/global.css";
 
         <!-- Feature 3: Tata Tertib -->
         <div
-          class="group relative rounded-3xl p-7 bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+          class="group relative rounded-3xl p-7 bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
         >
           <div
             class="absolute top-0 right-0 h-28 w-28 bg-indigo-500/4 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-indigo-500/8 transition-all"
@@ -181,11 +181,11 @@ import "../styles/global.css";
             </svg>
           </div>
           <h3
-            class="font-extrabold text-slate-800 dark:text-white text-lg mb-2 tracking-tight"
+            class="font-extrabold text-[var(--text-primary)] text-lg mb-2 tracking-tight"
           >
             Tata Tertib Interaktif
           </h3>
-          <p class="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">
             Hadirkan aturan kamar secara digital. Ubah kapan saja lewat
             dashboard tanpa mencetak ulang kertas — tamu selalu melihat versi
             terbaru.
@@ -206,7 +206,7 @@ import "../styles/global.css";
 
         <!-- Feature 4: Dashboard Pengelola -->
         <div
-          class="group relative rounded-3xl p-7 bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+          class="group relative rounded-3xl p-7 bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
         >
           <div
             class="absolute top-0 right-0 h-28 w-28 bg-violet-500/4 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-violet-500/8 transition-all"
@@ -230,11 +230,11 @@ import "../styles/global.css";
             </svg>
           </div>
           <h3
-            class="font-extrabold text-slate-800 dark:text-white text-lg mb-2 tracking-tight"
+            class="font-extrabold text-[var(--text-primary)] text-lg mb-2 tracking-tight"
           >
             Dashboard Pengelola
           </h3>
-          <p class="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">
             Pantau seluruh kamar, kelola staff, dan atur tata tertib dari satu
             dashboard yang intuitif. Statistik penting langsung terlihat di
             halaman utama.
@@ -255,7 +255,7 @@ import "../styles/global.css";
 
         <!-- Feature 5: Keluhan Tamu -->
         <div
-          class="group relative rounded-3xl p-7 bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+          class="group relative rounded-3xl p-7 bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
         >
           <div
             class="absolute top-0 right-0 h-28 w-28 bg-rose-500/4 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-rose-500/8 transition-all"
@@ -279,11 +279,11 @@ import "../styles/global.css";
             </svg>
           </div>
           <h3
-            class="font-extrabold text-slate-800 dark:text-white text-lg mb-2 tracking-tight"
+            class="font-extrabold text-[var(--text-primary)] text-lg mb-2 tracking-tight"
           >
             Lapor Keluhan Tamu
           </h3>
-          <p class="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">
             Tamu dapat langsung melaporkan kendala (AC rusak, air mati) melalui
             portal digital. Notifikasi masuk ke dashboard pengelola secara
             instan.
@@ -304,7 +304,7 @@ import "../styles/global.css";
 
         <!-- Feature 6: Manajemen Staff -->
         <div
-          class="group relative rounded-3xl p-7 bg-white dark:bg-slate-900/40 border border-slate-200/60 dark:border-slate-800/60 shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
+          class="group relative rounded-3xl p-7 bg-[var(--bg-surface)] border border-[var(--border-color)] shadow-sm hover:shadow-xl transition-all duration-300 overflow-hidden"
         >
           <div
             class="absolute top-0 right-0 h-28 w-28 bg-amber-500/4 rounded-full -translate-y-1/2 translate-x-1/2 blur-2xl group-hover:bg-amber-500/8 transition-all"
@@ -328,11 +328,11 @@ import "../styles/global.css";
             </svg>
           </div>
           <h3
-            class="font-extrabold text-slate-800 dark:text-white text-lg mb-2 tracking-tight"
+            class="font-extrabold text-[var(--text-primary)] text-lg mb-2 tracking-tight"
           >
             Manajemen Staff
           </h3>
-          <p class="text-xs text-slate-400 dark:text-slate-500 leading-relaxed">
+          <p class="text-xs text-[var(--text-muted)] leading-relaxed">
             Tambahkan staff dengan peran berbeda (Admin / User). Tugaskan kamar
             spesifik ke setiap staff untuk pembagian kerja yang jelas.
           </p>
@@ -357,8 +357,8 @@ import "../styles/global.css";
       <!-- CTA Section -->
       <!-- <div class="max-w-3xl mx-auto mt-20 relative">
         <div class="absolute inset-0 bg-cyan-600/[0.03] rounded-3xl blur-2xl"></div>
-        <div class="relative rounded-3xl bg-white dark:bg-slate-900/60 border border-slate-200/60 dark:border-slate-800/60 p-10 sm:p-14 text-center space-y-5 shadow-sm">
-          <h2 class="text-2xl sm:text-3xl font-black text-slate-800 dark:text-white tracking-tight">
+        <div class="relative rounded-3xl bg-[var(--bg-surface)] border border-[var(--border-color)] p-10 sm:p-14 text-center space-y-5 shadow-sm">
+          <h2 class="text-2xl sm:text-3xl font-black text-[var(--text-primary)] tracking-tight">
             Siap Digitalisasi Hunian Anda?
           </h2>
           <p class="text-sm text-slate-400 max-w-md mx-auto leading-relaxed">
@@ -367,7 +367,7 @@ import "../styles/global.css";
           <div class="flex flex-col sm:flex-row justify-center gap-3 pt-2">
             <a
               href="/pricing"
-              class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold border border-slate-200 dark:border-slate-800 text-slate-600 dark:text-slate-300 hover:border-cyan-500 hover:text-cyan-600 transition-all"
+              class="inline-flex items-center justify-center gap-2 px-6 py-3 rounded-xl text-sm font-bold border border-[var(--border-color)] text-[var(--text-secondary)] hover:border-cyan-500 hover:text-cyan-600 transition-all"
             >
               Lihat Harga Paket
             </a>

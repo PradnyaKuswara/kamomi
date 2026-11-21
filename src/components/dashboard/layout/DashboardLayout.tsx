@@ -94,35 +94,7 @@ function DashboardLayoutContent({
   const [showLogoutModal, setShowLogoutModal] = useState(false);
   const [isLoggingOut, setIsLoggingOut] = useState(false);
 
-  const [searchQuery, setSearchQuery] = useState("");
   const [isCommandPaletteOpen, setIsCommandPaletteOpen] = useState(false);
-  const [selectedIndex, setSelectedIndex] = useState(0);
-  const searchInputRef = useRef<HTMLInputElement>(null);
-
-  useEffect(() => {
-    const handleKeyDown = (e: KeyboardEvent) => {
-      if ((e.ctrlKey || e.metaKey) && e.key === "k") {
-        e.preventDefault();
-        setIsCommandPaletteOpen((prev) => !prev);
-      }
-      if (e.key === "Escape") {
-        setIsCommandPaletteOpen(false);
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-    return () => window.removeEventListener("keydown", handleKeyDown);
-  }, []);
-
-  useEffect(() => {
-    if (isCommandPaletteOpen) {
-      setTimeout(() => {
-        searchInputRef.current?.focus();
-      }, 50);
-      setSelectedIndex(0);
-    } else {
-      setSearchQuery("");
-    }
-  }, [isCommandPaletteOpen]);
 
   useEffect(() => {
     async function verifyAuth() {
@@ -253,9 +225,6 @@ function DashboardLayoutContent({
   }));
 
   const allMenuItems = menuSections.flatMap((section) => section.items);
-  const filteredMenuItems = allMenuItems.filter((item) =>
-    item.label.toLowerCase().includes(searchQuery.toLowerCase())
-  );
 
   const activePageItem = allMenuItems.find((item) => item.id === activeMenu);
   const pageTitle = activePageItem ? activePageItem.label : "Dashboard";
@@ -319,13 +288,8 @@ function DashboardLayoutContent({
       {/* COMMAND PALETTE MODAL (Blur Backdrop & Centered) */}
       <CommandPaletteModal
         isOpen={isCommandPaletteOpen}
-        onClose={() => setIsCommandPaletteOpen(false)}
-        searchQuery={searchQuery}
-        setSearchQuery={setSearchQuery}
-        filteredMenuItems={filteredMenuItems}
-        selectedIndex={selectedIndex}
-        setSelectedIndex={setSelectedIndex}
-        searchInputRef={searchInputRef}
+        onOpenChange={setIsCommandPaletteOpen}
+        menuItems={allMenuItems}
       />
 
       {/* LOGOUT CONFIRMATION MODAL */}

@@ -13,7 +13,7 @@ import { posts } from "../data/posts.js";
     keywords="blog kamomi, tips bisnis kost, panduan pengelola kost, edukasi properti sewa"
   />
   <body
-    class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
+    class="bg-[var(--bg-subtle)] text-[var(--text-primary)] min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
   >
     <Navbar client:load />
 
@@ -26,11 +26,11 @@ import { posts } from "../data/posts.js";
             📰 Blog & Edukasi
           </span>
           <h1
-            class="text-4xl font-black text-slate-800 dark:text-white tracking-tight"
+            class="text-4xl font-black text-[var(--text-primary)] tracking-tight"
           >
             Tips & Trik Mengelola Kost dan Homestay
           </h1>
-          <p class="text-sm text-slate-400 dark:text-slate-500">
+          <p class="text-sm text-[var(--text-muted)]">
             Temukan panduan praktis meningkatkan okupansi dan digitalisasi
             operasional penginapan Anda
           </p>
@@ -39,7 +39,7 @@ import { posts } from "../data/posts.js";
         <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
           {
             posts.map((post) => (
-              <div class="glassmorphic rounded-3xl overflow-hidden border border-slate-200/50 dark:border-slate-800/50 shadow-md group hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
+              <div class="glassmorphic rounded-3xl overflow-hidden border border-[var(--border-color)] shadow-md group hover:-translate-y-1 transition-all duration-300 flex flex-col justify-between">
                 <div>
                   <div class="h-48 overflow-hidden">
                     <img
@@ -52,10 +52,10 @@ import { posts } from "../data/posts.js";
                     <span class="text-[10px] font-black uppercase text-cyan-600 dark:text-cyan-400 tracking-wider">
                       {post.category}
                     </span>
-                    <h3 class="font-extrabold text-slate-800 dark:text-white text-base leading-snug">
+                    <h3 class="font-extrabold text-[var(--text-primary)] text-base leading-snug">
                       {post.title}
                     </h3>
-                    <p class="text-xs text-slate-400 dark:text-slate-500 line-clamp-3 leading-relaxed">
+                    <p class="text-xs text-[var(--text-muted)] line-clamp-3 leading-relaxed">
                       {post.excerpt}
                     </p>
                   </div>

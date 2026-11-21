@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { Button, SegmentedControl } from '@pradnyakuswara/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useUserData } from '../../../hooks/useUserData';
 import { useRoomQuery, useUpdateRoomMutation } from '../../../rest/useRoom';
@@ -130,9 +131,9 @@ function RoomEditorContent() {
   if (!propertyId) {
     return (
       <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
-        <HelpCircle className="h-12 w-12 text-slate-400" />
-        <h3 className="text-lg font-bold text-slate-800 dark:text-white">Hunian Tidak Ditemukan</h3>
-        <p className="text-xs text-slate-400 max-w-sm">
+        <HelpCircle className="h-12 w-12 text-[var(--text-muted)]" />
+        <h3 className="text-lg font-bold text-[var(--text-primary)]">Hunian Tidak Ditemukan</h3>
+        <p className="text-xs text-[var(--text-muted)] max-w-sm">
           Silakan konfigurasikan hunian Anda terlebih dahulu.
         </p>
       </div>
@@ -142,8 +143,8 @@ function RoomEditorContent() {
   if (isLoadingRoom || roomId === null) {
     return (
       <div className="flex flex-col items-center justify-center min-h-100 text-center space-y-4">
-        <Loader2 className="h-8 w-8 text-cyan-500 animate-spin" />
-        <p className="text-xs text-slate-400">Memuat data kamar...</p>
+        <Loader2 className="h-8 w-8 text-[var(--primary-accent)] animate-spin" />
+        <p className="text-xs text-[var(--text-muted)]">Memuat data kamar...</p>
       </div>
     );
   }
@@ -315,19 +316,19 @@ function RoomEditorContent() {
   return (
     <div className="space-y-6">
       {/* Editor Top Navigation */}
-      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-slate-200/50 dark:border-slate-800/50">
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 pb-4 border-b border-[var(--border-color)]">
         <div className="flex items-center gap-3">
           <a
             href="/dashboard/rooms"
-            className="p-2 rounded-xl border border-slate-200/60 dark:border-slate-800/80 bg-white/50 dark:bg-slate-900/50 hover:bg-slate-100 dark:hover:bg-slate-800 text-slate-600 dark:text-slate-300 transition-all cursor-pointer"
+            className="p-2 rounded-xl border border-[var(--border-color)] bg-[var(--bg-surface)] hover:bg-slate-100 dark:hover:bg-slate-800 text-[var(--text-secondary)] transition-all cursor-pointer"
           >
             <ArrowLeft className="h-4.5 w-4.5" />
           </a>
           <div>
-            <h1 className="text-2xl font-extrabold text-slate-800 dark:text-white tracking-tight">
+            <h1 className="text-2xl font-extrabold text-[var(--text-primary)] tracking-tight">
               Edit Kamar & Desain QR
             </h1>
-            <p className="text-xs text-slate-400 dark:text-slate-500">
+            <p className="text-xs text-[var(--text-muted)]">
               Mengedit {propertyName} • Kamar {roomNumber}
             </p>
           </div>
@@ -335,43 +336,21 @@ function RoomEditorContent() {
 
         {/* Tab Buttons & Save */}
         <div className="flex flex-wrap items-center gap-3">
-          <div className="flex p-1 bg-slate-100 dark:bg-slate-900/60 rounded-xl border border-slate-200/10">
-            <button
-              onClick={() => setActivePane('editor')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activePane === 'editor'
-                ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
-                }`}
-            >
-              <Edit className="h-4 w-4" />
-              Edit Info
-            </button>
-            <button
-              onClick={() => setActivePane('exporter')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activePane === 'exporter'
-                ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
-                }`}
-            >
-              <FileText className="h-4 w-4" />
-              Cetak QR Card
-            </button>
-            <button
-              onClick={() => setActivePane('guest-preview')}
-              className={`flex items-center gap-1.5 px-4 py-2 text-xs font-semibold rounded-lg transition-all cursor-pointer ${activePane === 'guest-preview'
-                ? 'bg-white dark:bg-slate-800 text-cyan-600 dark:text-cyan-400 shadow-xs'
-                : 'text-slate-500 hover:text-slate-800 dark:text-slate-400 dark:hover:text-slate-200'
-                }`}
-            >
-              <Eye className="h-4 w-4" />
-              Preview Tamu
-            </button>
-          </div>
+          <SegmentedControl
+            size="sm"
+            aria-label="Mode editor"
+            value={activePane}
+            onValueChange={(v) => setActivePane(v as typeof activePane)}
+            options={[
+              { value: 'editor', label: 'Edit Info', icon: <Edit className="h-4 w-4" /> },
+              { value: 'exporter', label: 'Cetak QR Card', icon: <FileText className="h-4 w-4" /> },
+              { value: 'guest-preview', label: 'Preview Tamu', icon: <Eye className="h-4 w-4" /> },
+            ]}
+          />
 
-          <button
+          <Button variant="primary" size="sm"
             onClick={handleSaveInfo}
             disabled={updateRoomMutation.isPending}
-            className="inline-flex items-center gap-1.5 px-4.5 py-2.5 bg-cyan-600 text-white font-bold text-xs rounded-xl shadow-lg shadow-cyan-500/10 hover:opacity-90 transition-all cursor-pointer disabled:opacity-50"
           >
             {updateRoomMutation.isPending ? (
               <Loader2 className="h-4 w-4 animate-spin" />
@@ -379,7 +358,7 @@ function RoomEditorContent() {
               <Save className="h-4 w-4" />
             )}
             Simpan Info Kamar
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -389,8 +368,8 @@ function RoomEditorContent() {
           {/* Inputs Section */}
           <div className="lg:col-span-2 space-y-6">
             {/* General Property & Room Info */}
-            <div className="glassmorphic rounded-2xl p-6 border border-slate-200/50 dark:border-slate-800/50 space-y-4">
-              <h3 className="font-bold text-slate-800 dark:text-white text-base">
+            <div className="glassmorphic rounded-2xl p-6 border border-[var(--border-color)] space-y-4">
+              <h3 className="font-bold text-[var(--text-primary)] text-base">
                 Informasi Kamar & Properti
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -408,9 +387,9 @@ function RoomEditorContent() {
             </div>
 
             {/* Wifi Edit Info */}
-            <div className="glassmorphic rounded-2xl p-6 border border-slate-200/50 dark:border-slate-800/50 space-y-4">
-              <h3 className="font-bold text-slate-800 dark:text-white text-base flex items-center gap-2">
-                <Wifi className="h-5 w-5 text-cyan-500" />
+            <div className="glassmorphic rounded-2xl p-6 border border-[var(--border-color)] space-y-4">
+              <h3 className="font-bold text-[var(--text-primary)] text-base flex items-center gap-2">
+                <Wifi className="h-5 w-5 text-[var(--primary-accent)]" />
                 Pengaturan Wi-Fi Kamar
               </h3>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
@@ -428,33 +407,31 @@ function RoomEditorContent() {
             </div>
 
             {/* Edit House Rules */}
-            <div className="glassmorphic rounded-2xl p-6 border border-slate-200/50 dark:border-slate-800/50 space-y-4">
+            <div className="glassmorphic rounded-2xl p-6 border border-[var(--border-color)] space-y-4">
               <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2">
-                <h3 className="font-bold text-slate-800 dark:text-white text-base flex items-center gap-2">
+                <h3 className="font-bold text-[var(--text-primary)] text-base flex items-center gap-2">
                   <HeartHandshake className="h-5 w-5 text-indigo-500" />
                   Kelola Tata Tertib (Aturan)
                 </h3>
                 <div className="flex items-center gap-2">
-                  <button
+                  <Button variant="secondary" size="sm"
                     type="button"
                     onClick={applyMasterTemplate}
-                    className="px-3 py-1.5 bg-cyan-600/10 hover:bg-cyan-600/20 text-cyan-600 dark:text-cyan-400 rounded-lg text-[10px] font-bold transition-all cursor-pointer"
                   >
                     Terapkan Master Template
-                  </button>
-                  <button
+                  </Button>
+                  <Button variant="secondary" size="sm"
                     type="button"
                     onClick={resetToOriginalRules}
-                    className="px-3 py-1.5 bg-rose-600/10 hover:bg-rose-600/20 text-rose-600 dark:text-rose-400 rounded-lg text-[10px] font-bold transition-all cursor-pointer"
                   >
                     Batalkan Perubahan
-                  </button>
+                  </Button>
                 </div>
               </div>
 
               <div className="space-y-3 max-h-87.5 overflow-y-auto pr-2 scrollbar-thin scrollbar-thumb-slate-200 dark:scrollbar-thumb-slate-800">
                 {rules.length === 0 ? (
-                  <p className="text-xs text-slate-400 text-center py-4">
+                  <p className="text-xs text-[var(--text-muted)] text-center py-4">
                     Belum ada tata tertib khusus untuk kamar ini. Klik "Terapkan Master Template" atau tambahkan aturan di bawah.
                   </p>
                 ) : (
@@ -464,7 +441,7 @@ function RoomEditorContent() {
                     return (
                       <div
                         key={rule.id}
-                        className="flex flex-col gap-3 p-3 bg-white/45 dark:bg-slate-900/40 rounded-xl border border-slate-200/20"
+                        className="flex flex-col gap-3 p-3 bg-[var(--bg-surface)] rounded-xl border border-slate-200/20"
                       >
                         {isEditing ? (
                           <div className="space-y-3 w-full">
@@ -493,47 +470,40 @@ function RoomEditorContent() {
                               placeholder="Deskripsi Aturan"
                             />
                             <div className="flex items-center justify-end gap-1.5">
-                              <button
-                                onClick={cancelEditRule}
-                                className="p-1 rounded-lg border border-slate-200 dark:border-slate-850 hover:bg-slate-100 text-slate-500 cursor-pointer"
-                              >
-                                <X className="h-4.5 w-4.5" />
-                              </button>
-                              <button
+                              <Button variant="outline" size="sm"
+                                onClick={cancelEditRule} leftIcon={<X className="h-4.5 w-4.5" />} />
+                              <Button variant="primary" size="sm"
                                 onClick={() => saveEditRule(rule.id)}
-                                className="p-1 rounded-lg bg-cyan-600 text-white hover:bg-cyan-500 cursor-pointer"
                               >
                                 <Check className="h-4.5 w-4.5" />
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         ) : (
                           <div className="flex justify-between items-start w-full">
                             <div className="max-w-[80%]">
-                              <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400">
+                              <span className="text-[9px] font-extrabold uppercase px-1.5 py-0.5 rounded bg-[var(--bg-subtle)] text-[var(--text-secondary)]">
                                 {rule.category}
                               </span>
-                              <h5 className="font-bold text-xs text-slate-800 dark:text-slate-200 mt-1">
+                              <h5 className="font-bold text-xs text-[var(--text-primary)] mt-1">
                                 {rule.title}
                               </h5>
-                              <p className="text-[11px] text-slate-400 dark:text-slate-500 mt-0.5 leading-relaxed">
+                              <p className="text-[11px] text-[var(--text-muted)] mt-0.5 leading-relaxed">
                                 {rule.desc}
                               </p>
                             </div>
                             <div className="flex items-center gap-2">
-                              <button
+                              <Button variant="ghost" size="sm"
                                 onClick={() => startEditRule(rule)}
-                                className="text-[10px] text-cyan-600 hover:text-cyan-500 font-bold cursor-pointer"
                               >
                                 Edit
-                              </button>
-                              <button
+                              </Button>
+                              <Button variant="ghost" size="sm"
                                 onClick={() => removeRule(rule.id)}
-                                className="text-[10px] text-rose-500 hover:text-rose-600 font-bold cursor-pointer flex items-center gap-0.5"
                               >
                                 <Trash2 className="h-3 w-3" />
                                 Hapus
-                              </button>
+                              </Button>
                             </div>
                           </div>
                         )}
@@ -544,12 +514,12 @@ function RoomEditorContent() {
               </div>
 
               {/* Add New Rule Form */}
-              <div className="p-4 rounded-xl border border-dashed border-slate-200 dark:border-slate-800 space-y-3 bg-slate-50/10">
+              <div className="p-4 rounded-xl border border-dashed border-[var(--border-color)] space-y-3 bg-slate-50/10">
                 <div className="flex items-center gap-1">
-                  <span className="text-xs font-bold text-slate-500 dark:text-slate-400 block">
+                  <span className="text-xs font-bold text-[var(--text-secondary)] block">
                     Tambahkan Tata Tertib Kustom Ke Kamar
                   </span>
-                  <span className="text-[9px] text-slate-400">
+                  <span className="text-[9px] text-[var(--text-muted)]">
                     (Tip: Simpan rule baru ini di Master Template agar bisa dipakai di kamar lain)
                   </span>
                 </div>
@@ -577,14 +547,13 @@ function RoomEditorContent() {
                   value={newRuleDesc}
                   onChange={(e) => setNewRuleDesc(e.target.value)}
                 />
-                <button
+                <Button variant="primary" size="sm"
                   type="button"
                   onClick={addRule}
-                  className="px-3 py-1.5 rounded-lg bg-indigo-500 text-white font-bold text-[10px] hover:opacity-90 transition-all flex items-center gap-1 cursor-pointer"
                 >
                   <Sparkles className="h-3 w-3" />
                   Tambahkan Aturan
-                </button>
+                </Button>
               </div>
             </div>
           </div>
@@ -592,15 +561,15 @@ function RoomEditorContent() {
           {/* Quick Realtime Preview Section */}
           <div className="space-y-6">
             <div className="sticky top-24 space-y-4">
-              <div className="text-xs font-bold text-slate-400 uppercase tracking-widest flex items-center gap-1">
+              <div className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-widest flex items-center gap-1">
                 <Eye className="h-4 w-4" /> Realtime Preview
               </div>
               <WiFiCard ssid={wifiSsid} password={wifiPass} />
-              <div className="p-4 bg-slate-900/20 dark:bg-slate-900/40 rounded-2xl border border-slate-200/20 dark:border-slate-800/40 text-center">
-                <span className="text-xs text-slate-400 dark:text-slate-500 block">
+              <div className="p-4 bg-slate-900/20 dark:bg-slate-900/40 rounded-2xl border border-[var(--border-color)] text-center">
+                <span className="text-xs text-[var(--text-muted)] block">
                   Link QR mengarah ke:
                 </span>
-                <span className="text-[10px] text-cyan-600 dark:text-cyan-400 font-mono block select-all mt-1 truncate">
+                <span className="text-[10px] text-[var(--primary-accent)] font-mono block select-all mt-1 truncate">
                   {simulatedGuestUrl}
                 </span>
               </div>
@@ -635,7 +604,7 @@ function RoomEditorContent() {
           {/* Header Mobile Bar */}
           <div className="bg-slate-900 px-6 py-4 flex items-center justify-between border-b border-slate-800">
             <span className="text-xs font-bold">Kamar {roomNumber}</span>
-            <span className="text-[10px] uppercase font-bold tracking-widest text-cyan-400">
+            <span className="text-[10px] uppercase font-bold tracking-widest text-[var(--primary-accent)]">
               {propertyName}
             </span>
           </div>
@@ -649,7 +618,7 @@ function RoomEditorContent() {
           </div>
 
           {/* Guest Footer */}
-          <div className="bg-slate-900/50 p-4 border-t border-slate-800 text-center text-[10px] text-slate-500">
+          <div className="bg-slate-900/50 p-4 border-t border-slate-800 text-center text-[10px] text-[var(--text-secondary)]">
             © {propertyName} • Powered by Kamomi.id
           </div>
         </div>

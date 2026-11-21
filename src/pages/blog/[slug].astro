@@ -25,7 +25,7 @@ const otherPosts = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
     type="article"
   />
   <body
-    class="bg-slate-50 dark:bg-slate-950 text-slate-900 dark:text-white min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
+    class="bg-[var(--bg-subtle)] text-[var(--text-primary)] min-h-screen flex flex-col font-sans transition-colors duration-300 antialiased scroll-smooth"
   >
     <Navbar client:load />
 
@@ -33,13 +33,13 @@ const otherPosts = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
       <div class="max-w-4xl mx-auto space-y-8">
         {/* Breadcrumb */}
         <nav
-          class="flex items-center gap-2 text-xs font-semibold text-slate-400 dark:text-slate-500"
+          class="flex items-center gap-2 text-xs font-semibold text-[var(--text-muted)]"
         >
           <a href="/" class="hover:text-cyan-500 transition-colors">Beranda</a>
           <span>/</span>
           <a href="/blog" class="hover:text-cyan-500 transition-colors">Blog</a>
           <span>/</span>
-          <span class="text-slate-600 dark:text-slate-300 truncate max-w-xs"
+          <span class="text-[var(--text-secondary)] truncate max-w-xs"
             >{post.title}</span
           >
         </nav>
@@ -52,15 +52,15 @@ const otherPosts = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
             {post.category}
           </span>
           <h1
-            class="text-3xl sm:text-5xl font-black tracking-tight text-slate-800 dark:text-white leading-tight"
+            class="text-3xl sm:text-5xl font-black tracking-tight text-[var(--text-primary)] leading-tight"
           >
             {post.title}
           </h1>
           <div
-            class="flex items-center gap-3 text-xs text-slate-400 dark:text-slate-500 pt-2"
+            class="flex items-center gap-3 text-xs text-[var(--text-muted)] pt-2"
           >
             <span
-              >Oleh <strong class="text-slate-600 dark:text-slate-300"
+              >Oleh <strong class="text-[var(--text-secondary)]"
                 >{post.author}</strong
               ></span
             >
@@ -71,7 +71,7 @@ const otherPosts = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
 
         {/* Featured Image */}
         <div
-          class="h-64 sm:h-110 w-full overflow-hidden rounded-3xl border border-slate-200/50 dark:border-slate-800/50 shadow-lg"
+          class="h-64 sm:h-110 w-full overflow-hidden rounded-3xl border border-[var(--border-color)] shadow-lg"
         >
           <img
             src={post.image}
@@ -84,7 +84,7 @@ const otherPosts = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
         <div class="grid grid-cols-1 lg:grid-cols-3 gap-8 pt-4">
           {/* Main Article Content */}
           <article
-            class="lg:col-span-2 space-y-6 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed dark:prose-invert"
+            class="lg:col-span-2 space-y-6 text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed dark:prose-invert"
           >
             <div set:html={post.content} />
           </article>
@@ -123,10 +123,10 @@ const otherPosts = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
 
             {/* Read Next Widget */}
             <div
-              class="p-6 rounded-3xl glassmorphic border border-slate-200/50 dark:border-slate-800/50 space-y-4"
+              class="p-6 rounded-3xl glassmorphic border border-[var(--border-color)] space-y-4"
             >
               <h4
-                class="font-bold text-xs text-slate-800 dark:text-white uppercase tracking-wider"
+                class="font-bold text-xs text-[var(--text-primary)] uppercase tracking-wider"
               >
                 Artikel Lainnya
               </h4>
@@ -141,7 +141,7 @@ const otherPosts = posts.filter((p) => p.slug !== post.slug).slice(0, 2);
                       </span>
                       <a
                         href={`/blog/${other.slug}`}
-                        class="block font-bold text-xs text-slate-800 dark:text-white hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors leading-snug"
+                        class="block font-bold text-xs text-[var(--text-primary)] hover:text-cyan-500 dark:hover:text-cyan-400 transition-colors leading-snug"
                       >
                         {other.title}
                       </a>

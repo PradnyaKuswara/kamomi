@@ -1,4 +1,5 @@
 import { useState, useMemo } from 'react';
+import { Button, Input } from '@pradnyakuswara/ui';
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { useFaqsQuery } from '../../rest/useFaq';
 import type { Faq } from '../../types/faq';
@@ -115,30 +116,22 @@ function PublicFaqContent() {
   return (
     <div className="max-w-5xl mx-auto space-y-12">
       {/* Search & Category Filter Bar */}
-      <div className="bg-white/80 dark:bg-slate-900/80 backdrop-blur-xl border border-slate-200/80 dark:border-slate-800/80 rounded-2xl p-4 sm:p-6 shadow-xl space-y-5">
+      <div className="bg-[var(--bg-surface)] backdrop-blur-xl border border-[var(--border-color)] rounded-2xl p-4 sm:p-6 shadow-xl space-y-5">
         {/* Search Bar */}
         <div className="relative">
-          <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-slate-400" />
-          <input
-            type="text"
-            value={search}
-            onChange={(e) => setSearch(e.target.value)}
-            placeholder="Cari pertanyaan atau kata kunci (contoh: Wi-Fi, QR Code, Harga)..."
-            className="w-full pl-12 pr-4 py-3.5 rounded-xl bg-slate-50 dark:bg-slate-950 border border-slate-200 dark:border-slate-800 text-slate-900 dark:text-white placeholder:text-slate-400 text-sm sm:text-base focus:outline-hidden focus:ring-2 focus:ring-emerald-500/40 transition-all"
-          />
+          <Input size="sm" leftIcon={<Search className="h-4 w-4" />} value={search} onChange={(e) => setSearch(e.target.value)} placeholder="Cari pertanyaan atau kata kunci (contoh: Wi-Fi, QR Code, Harga)..." />
           {search && (
-            <button
+            <Button variant="ghost" size="sm"
               onClick={() => setSearch('')}
-              className="absolute right-4 top-1/2 -translate-y-1/2 text-xs font-bold text-slate-400 hover:text-slate-600 dark:hover:text-slate-200"
             >
               Hapus
-            </button>
+            </Button>
           )}
         </div>
 
         {/* Categories Pills */}
         <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          <span className="text-xs font-bold text-slate-400 uppercase tracking-wider mr-1 shrink-0">
+          <span className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider mr-1 shrink-0">
             Kategori:
           </span>
           {categories.map((cat) => {
@@ -149,8 +142,8 @@ function PublicFaqContent() {
                 onClick={() => setActiveCategory(cat)}
                 className={`px-4 py-2 rounded-xl text-xs font-bold transition-all shrink-0 cursor-pointer ${
                   isActive
-                    ? 'bg-emerald-600 text-white shadow-md shadow-emerald-600/20 scale-105'
-                    : 'bg-slate-100 dark:bg-slate-800 text-slate-600 dark:text-slate-300 hover:bg-slate-200 dark:hover:bg-slate-700'
+                    ? 'bg-cyan-600 text-white shadow-md shadow-cyan-600/20 scale-105'
+                    : 'bg-[var(--bg-subtle)] text-[var(--text-secondary)] hover:bg-slate-200 dark:hover:bg-slate-700'
                 }`}
               >
                 {cat}
@@ -163,8 +156,8 @@ function PublicFaqContent() {
       {/* Loading State */}
       {isLoading && (
         <div className="flex flex-col items-center justify-center py-16 text-center space-y-3">
-          <Loader2 className="h-8 w-8 text-emerald-500 animate-spin" />
-          <p className="text-xs font-bold text-slate-400 uppercase tracking-wider">
+          <Loader2 className="h-8 w-8 text-[var(--primary-accent)] animate-spin" />
+          <p className="text-xs font-bold text-[var(--text-muted)] uppercase tracking-wider">
             Memuat data FAQ dari database...
           </p>
         </div>
@@ -174,12 +167,12 @@ function PublicFaqContent() {
       {!isLoading && (
         <div className="space-y-4">
           {filteredFaqs.length === 0 ? (
-            <div className="text-center py-16 px-4 bg-white/60 dark:bg-slate-900/60 rounded-2xl border border-slate-200 dark:border-slate-800">
-              <AlertCircle className="h-10 w-10 text-amber-500 mx-auto mb-3" />
-              <h3 className="text-lg font-bold text-slate-900 dark:text-white">
+            <div className="text-center py-16 px-4 bg-[var(--bg-surface)] rounded-2xl border border-[var(--border-color)]">
+              <AlertCircle className="h-10 w-10 text-[var(--color-warning)] mx-auto mb-3" />
+              <h3 className="text-lg font-bold text-[var(--text-primary)]">
                 Pertanyaan tidak ditemukan
               </h3>
-              <p className="text-xs text-slate-500 mt-1 max-w-md mx-auto">
+              <p className="text-xs text-[var(--text-secondary)] mt-1 max-w-md mx-auto">
                 Coba gunakan kata kunci pencarian lain atau pilih kategori "Semua".
               </p>
             </div>
@@ -191,36 +184,35 @@ function PublicFaqContent() {
                   key={faq.id}
                   className={`rounded-2xl border transition-all duration-300 overflow-hidden ${
                     isOpen
-                      ? 'bg-white dark:bg-slate-900 border-emerald-500/50 shadow-xl shadow-emerald-500/5'
-                      : 'bg-white/80 dark:bg-slate-900/80 border-slate-200/80 dark:border-slate-800/80 hover:border-slate-300 dark:hover:border-slate-700 shadow-sm'
+                      ? 'bg-[var(--bg-surface)] border-cyan-500/50 shadow-xl shadow-cyan-500/5'
+                      : 'bg-[var(--bg-surface)] border-[var(--border-color)] hover:border-slate-300 dark:hover:border-slate-700 shadow-sm'
                   }`}
                 >
-                  <button
+                  <button type="button" className="w-full flex items-center justify-between gap-3 px-4 py-3 text-left cursor-pointer"
                     onClick={() => toggleAccordion(faq.id)}
-                    className="w-full p-5 sm:p-6 text-left flex items-start justify-between gap-4 cursor-pointer select-none"
                   >
                     <div className="flex items-start gap-3.5">
                       <div
                         className={`w-8 h-8 rounded-xl flex items-center justify-center shrink-0 mt-0.5 transition-colors ${
                           isOpen
-                            ? 'bg-emerald-100 dark:bg-emerald-950/80 text-emerald-600 dark:text-emerald-400'
-                            : 'bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400'
+                            ? 'bg-cyan-100 dark:bg-cyan-950/80 text-cyan-600 '
+                            : 'bg-[var(--bg-subtle)] text-[var(--text-secondary)]'
                         }`}
                       >
                         <HelpCircle className="h-4 w-4" />
                       </div>
                       <div>
-                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-slate-100 dark:bg-slate-800 text-slate-500 dark:text-slate-400 mb-2">
+                        <span className="inline-block px-2.5 py-0.5 rounded-full text-[10px] font-bold uppercase tracking-wider bg-[var(--bg-subtle)] text-[var(--text-secondary)] mb-2">
                           {faq.category}
                         </span>
-                        <h3 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white leading-snug">
+                        <h3 className="text-base sm:text-lg font-bold text-[var(--text-primary)] leading-snug">
                           {faq.question}
                         </h3>
                       </div>
                     </div>
                     <div
-                      className={`p-1.5 rounded-xl border border-slate-200 dark:border-slate-800 text-slate-400 transition-transform duration-300 shrink-0 ${
-                        isOpen ? 'rotate-180 bg-emerald-50 dark:bg-emerald-950/40 text-emerald-500 border-emerald-200 dark:border-emerald-800' : ''
+                      className={`p-1.5 rounded-xl border border-[var(--border-color)] text-[var(--text-muted)] transition-transform duration-300 shrink-0 ${
+                        isOpen ? 'rotate-180 bg-cyan-50 dark:bg-cyan-950/40 text-[var(--primary-accent)] border-cyan-200 dark:border-cyan-800' : ''
                       }`}
                     >
                       <ChevronDown className="h-4 w-4" />
@@ -228,7 +220,7 @@ function PublicFaqContent() {
                   </button>
 
                   {isOpen && (
-                    <div className="px-5 pb-6 sm:px-6 sm:pb-6 pt-0 text-slate-600 dark:text-slate-300 text-sm sm:text-base leading-relaxed border-t border-slate-100 dark:border-slate-800/60 mt-2">
+                    <div className="px-5 pb-6 sm:px-6 sm:pb-6 pt-0 text-[var(--text-secondary)] text-sm sm:text-base leading-relaxed border-t border-[var(--border-subtle)] mt-2">
                       <p className="pt-4">{faq.answer}</p>
                     </div>
                   )}
@@ -240,16 +232,16 @@ function PublicFaqContent() {
       )}
 
       {/* Support Banner Card */}
-      <div className="rounded-3xl bg-linear-to-br from-slate-900 via-slate-950 to-emerald-950 p-8 sm:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8">
+      <div className="rounded-3xl bg-linear-to-br from-slate-900 via-slate-950 to-cyan-950 p-8 sm:p-12 text-white border border-slate-800 shadow-2xl relative overflow-hidden flex flex-col sm:flex-row items-center justify-between gap-8">
         <div className="relative z-10 space-y-3 text-center sm:text-left">
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-emerald-500/20 text-emerald-400 border border-emerald-500/30">
+          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-bold uppercase tracking-widest bg-cyan-500/20 text-[var(--primary-accent)] border border-cyan-500/30">
             <MessageSquare className="h-3.5 w-3.5" />
             Dukungan Pelanggan 24/7
           </div>
           <h3 className="text-2xl sm:text-3xl font-black tracking-tight">
             Belum Menemukan Jawaban Anda?
           </h3>
-          <p className="text-xs sm:text-sm text-slate-400 max-w-md font-medium">
+          <p className="text-xs sm:text-sm text-[var(--text-muted)] max-w-md font-medium">
             Tim layanan dukungan pelanggan Kamomi.id siap membantu pertanyaan operasional dan konsultasi hunian Anda.
           </p>
         </div>
@@ -259,7 +251,7 @@ function PublicFaqContent() {
             href="https://wa.me/6281234567890?text=Halo%20Kamomi.id,%20saya%20ingin%20bertanya%20mengenai%20layanan%20guestbook%20digital"
             target="_blank"
             rel="noopener noreferrer"
-            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-emerald-600 hover:bg-emerald-500 text-white shadow-lg shadow-emerald-600/30 transition-all transform hover:scale-102 active:scale-98"
+            className="inline-flex items-center justify-center gap-2 px-6 py-3.5 rounded-xl text-xs font-bold uppercase tracking-wider bg-[var(--color-primary)] hover:bg-[var(--color-primary-hover)] text-white shadow-lg shadow-cyan-600/30 transition-all transform hover:scale-102 active:scale-98"
           >
             <span>Chat Whatsapp Kami</span>
             <ArrowRight className="h-4 w-4" />
